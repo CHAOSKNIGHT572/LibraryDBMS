@@ -1,0 +1,2 @@
+----说明----
+ConferenceProceeding类名字较长，命名其对象的时候请统一使用proceeding或其简写以方便阅读。
