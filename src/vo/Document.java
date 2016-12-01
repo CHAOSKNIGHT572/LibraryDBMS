@@ -4,24 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Document {
-	protected String docId;
+	protected String id;
 	protected String title;
 	protected String pubDate;
 	protected int copyNum;
 	protected List<String> descriptorList;
 	protected Publisher publisher;
-	protected Author author;
-	
+	protected List<Author> authorList;
+
 	public Document() {
 		descriptorList = new ArrayList<>();
+		authorList = new ArrayList<>();
 	}
 
-	public String getDocId() {
-		return docId;
+	public String getId() {
+		return id;
 	}
 
-	public void setDocId(String docId) {
-		this.docId = docId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -53,7 +54,7 @@ public class Document {
 	}
 
 	public void addDescriptor(String descriptor) {
-		this.descriptorList.add(descriptor);
+		descriptorList.add(descriptor);
 	}
 
 	public Publisher getPublisher() {
@@ -64,11 +65,11 @@ public class Document {
 		this.publisher = publisher;
 	}
 
-	public Author getAuthor() {
-		return author;
+	public List<Author> getAuthorList() {
+		return authorList;
 	}
 
-	public void setAuthor(Author author) {
-		this.author = author;
+	public void addAuthor(Author author) {
+		authorList.add(author);
 	}
 }
