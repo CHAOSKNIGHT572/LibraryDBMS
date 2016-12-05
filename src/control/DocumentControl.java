@@ -47,7 +47,7 @@ public class DocumentControl {
 		Book book = null;
 		
 		return book;
-	}
+	}  
 	
 	public static List<JournalIssue> getIssueListByVolumeId(int volumeId) {
 		List<JournalIssue> issueList = new ArrayList<>();
