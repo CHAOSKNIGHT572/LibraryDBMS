@@ -13,7 +13,7 @@ import vo.Book;
 
 //[Query] regard to document
 
-public class DocumentInfo {
+public class QueryDocument {
 
 	//get docid by type in isbn
 	public static ResultSet getBookInfo(Book book) {

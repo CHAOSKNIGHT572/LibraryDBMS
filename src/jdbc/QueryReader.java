@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import vo.Reader;
 
-public class ReaderInfo {
+public class QueryReader {
 	public static ResultSet readerFullInfo(Reader reader) {
 		Connection conn;
 		if ((conn = ConnectionBuilder.getConnection()) == null) {

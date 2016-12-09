@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import vo.Reader;
 
 
-public class updateReader {
+public class UpdateReader {
 	//delete reader
 	public static ResultSet deletereader(Reader reader) {
 		Connection conn;

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import vo.Copy;
 import vo.Document;
 
-public class updatedoc {
+public class UpdateDocument {
 	//delete copy
 			public static ResultSet deletecopy(Copy copy) {
 				Connection conn;
