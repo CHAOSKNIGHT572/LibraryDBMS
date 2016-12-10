@@ -43,11 +43,4 @@ public class UpdateAuthor {
 		ConnectionOperation.close(ps);
 		return result;
 	}
-
-	public static void main(String[] args) {
-		Author author = new Author();
-		author.setAuName("2832");
-		System.out.println(newAuthor(author));
-		System.out.println(author.getAuId());
-	}
 }

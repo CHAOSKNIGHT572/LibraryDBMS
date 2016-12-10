@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import jdbc.tool.ConnectionOperation;
-import jdbc.tool.ResultSetOperation;
 
 public class QueryAuthor {
 	private static final String GET_AUTHOR_BY_NAME = "SELECT * FROM author WHERE author_name=?";
@@ -58,10 +56,5 @@ public class QueryAuthor {
 			ConnectionOperation.close(ps);
 			return null;
 		}
-	}
-
-	public static void main(String[] args) {
-		ResultSetOperation.display(getAuthorByName("2232"), 2);
-		ResultSetOperation.display(getAuthorByPartialName("2"), 2);
 	}
 }

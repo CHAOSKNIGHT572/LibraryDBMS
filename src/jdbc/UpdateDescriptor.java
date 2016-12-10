@@ -3,9 +3,7 @@ package jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
 import jdbc.tool.ConnectionOperation;
 
 public class UpdateDescriptor {
@@ -41,12 +39,5 @@ public class UpdateDescriptor {
 		}
 		ConnectionOperation.close(ps);
 		return result;
-	}
-	
-	public static void main(String[] args) {
-		List<String> descriptorList = new ArrayList<>();
-		descriptorList.add("Des1");
-		descriptorList.add("Des2");
-		newDescriptorForDoc("1", descriptorList);
 	}
 }

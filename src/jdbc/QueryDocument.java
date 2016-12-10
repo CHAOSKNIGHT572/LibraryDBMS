@@ -109,29 +109,4 @@ public class QueryDocument {
 		}
 		return rs;
 	}
-
-	// This is a test
-	public static void main(String[] args) {
-		// Publisher publisher = new Publisher();
-		// publisher.setPubName("RS");
-		// Author author = new Author();
-		// author.setAuName("");
-		// Document document = new Document();
-		// document.setPublisher(publisher);
-		// document.addAuthor(author);
-		// ResultSet rs = getDocInfo(document);
-		ResultSet rs = getBookByISBN("123456789");
-
-		try {
-			while (rs.next()) {
-				for (int i = 1; i < 1; ++i) {
-					System.out.print(rs.getString(i));
-					System.out.print(',');
-				}
-				System.out.println();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 }

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import control.Constant;
 import jdbc.tool.ConnectionOperation;
-import vo.Author;
 import vo.Book;
 import vo.Document;
 import vo.Publisher;
@@ -84,30 +83,5 @@ public class UpdateDocument {
 			return false;
 		}
 		return true;
-	}
-
-	public static void main(String[] args) {
-		Publisher publisher = new Publisher();
-		publisher.setPubName("123");
-
-		Book book = new Book();
-		book.setTitle("book1");
-		book.setPublisher(publisher);
-		book.setPubDate("2012-2-2");
-		book.setIsbn("12123");
-
-		Author author = new Author();
-		author.setAuName("Author1");
-		book.addAuthor(author);
-		author = new Author();
-		author.setAuName("Author2");
-		book.addAuthor(author);
-
-		book.addDescriptor("Des1");
-		book.addDescriptor("Des2");
-
-		System.out.println(newBook(book));
-		System.out.println(book.getId());
-		System.out.println(book.getPublisher().getPubId());
 	}
 }

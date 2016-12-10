@@ -47,8 +47,4 @@ public class UpdatePublisher {
 		}
 		return result;
 	}
-
-	public static void main(String[] argv) {
-		
-	}
 }
