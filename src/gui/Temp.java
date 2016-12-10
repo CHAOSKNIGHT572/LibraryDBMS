@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Insets;
 
 public class Temp extends JFrame {
 	private static final long serialVersionUID = -8086892358193012069L;
@@ -80,6 +81,7 @@ public class Temp extends JFrame {
 		contentPane.setLayout(null);
 
 		JButton btnBorRev = new JButton("Borrow/Reserve");
+		btnBorRev.setMargin(new Insets(0, 0, 0, 0));
 		btnBorRev.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -91,6 +93,7 @@ public class Temp extends JFrame {
 		contentPane.add(btnBorRev);
 
 		JButton btnNew = new JButton("New");
+		btnNew.setMargin(new Insets(0, 0, 0, 0));
 		btnNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -102,6 +105,7 @@ public class Temp extends JFrame {
 		contentPane.add(btnNew);
 
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setMargin(new Insets(0, 0, 0, 0));
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -113,6 +117,7 @@ public class Temp extends JFrame {
 		contentPane.add(btnUpdate);
 
 		JButton btnQuit = new JButton("Quit");
+		btnQuit.setMargin(new Insets(0, 0, 0, 0));
 		btnQuit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
