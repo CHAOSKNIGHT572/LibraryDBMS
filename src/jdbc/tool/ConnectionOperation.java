@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 public class ConnectionOperation {
 	private static final String GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
+
 	public static Connection getConnection() {
 		try {
 			Class.forName(DBConstant.DRIVER_NAME);
@@ -25,7 +26,7 @@ public class ConnectionOperation {
 		try {
 			PreparedStatement ps = conn.prepareStatement(GET_LAST_INSERT_ID);
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				String lastInsertId = rs.getString(1);
 				return lastInsertId;
 			}
@@ -36,6 +37,9 @@ public class ConnectionOperation {
 	}
 
 	public static void close(ResultSet rs) {
+		if (rs == null) {
+			return;
+		}
 		try {
 			rs.close();
 		} catch (SQLException e) {
@@ -44,6 +48,9 @@ public class ConnectionOperation {
 	}
 
 	public static void close(PreparedStatement ps) {
+		if (ps == null) {
+			return;
+		}
 		try {
 			ps.close();
 		} catch (SQLException e) {
@@ -52,6 +59,9 @@ public class ConnectionOperation {
 	}
 
 	public static void close(Connection conn) {
+		if (conn == null) {
+			return;
+		}
 		try {
 			conn.close();
 		} catch (SQLException e) {

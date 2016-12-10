@@ -32,13 +32,15 @@ public class UpdatePublisher {
 			} else {
 				ps.setString(2, publisher.getAddress());
 			}
-			if(result = ps.executeUpdate() == 1) {
+			if (result = ps.executeUpdate() == 1) {
 				String id = ConnectionOperation.getLastInsertIdForConnection(conn);
-				if(id == null){
+				if (id == null) {
 					result = false;
 				} else {
 					publisher.setPubId(id);
 				}
+			} else {
+				result = false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
