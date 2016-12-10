@@ -1,122 +1,113 @@
 package jdbc;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import vo.Copy;
+import control.Constant;
+import jdbc.tool.ConnectionOperation;
+import vo.Author;
+import vo.Book;
 import vo.Document;
+import vo.Publisher;
 
 public class UpdateDocument {
-	//delete copy
-			public static ResultSet deletecopy(Copy copy) {
-				Connection conn;
-				if ((conn = ConnectionBuilder.getConnection()) == null) {
-					return null;
-				}
-				PreparedStatement ps = null;
-				
-				String sqlString = "DELETE FROM copy WHERE CopyNo = " + copy.getCpId();
-				ResultSet rs = null;
-				try {
-					ps = conn.prepareStatement(sqlString);
-					rs = ps.executeQuery();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					return null;
-				}
-				return rs;
-			}
-	//delete doc
-		public static ResultSet deletedoc(Document doc) {
-			Connection conn;
-			if ((conn = ConnectionBuilder.getConnection()) == null) {
-				return null;
-			}
-			PreparedStatement ps = null;
-			
-			String sqlString = "DELETE FROM document WHERE DocId = " + doc.getId();
-			ResultSet rs = null;
-			try {
-				ps = conn.prepareStatement(sqlString);
-				rs = ps.executeQuery();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
-			return rs;
-		}
-	
-	//add new copy
-	public static ResultSet newcopy(Copy copy) {
-		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
-			return null;
-		}
-		PreparedStatement ps = null;
-		String sqlString = "INSERT INTO copy VALUES(?, ?, ?, ?)";
-		
-		System.out.println(sqlString);
-		try {
-			ps = conn.prepareStatement(sqlString);
-			ps.setString(0, copy.getCpId());
-			ps.setString(1, copy.getDocument().getId());
-			ps.setString(2, copy.getBranch().getId());
-			//can't find getposition function in copy
+	private static final String NEW_DOCUMENT = "INSERT INTO `document` (`title`, `type`, `pub_id`, `pub_date`) VALUES (?,?,?,?)";
+	private static final String NEW_BOOK = "INSERT INTO book (doc_id, isbn) VALUES (?,?)";
 
-			
-		} catch (SQLException e) {
-			if (ps != null) {
-				System.out.println(ps);
-				System.out.println();
-			}
+	public static boolean newBook(Book book) {
+		Connection conn;
+		if ((conn = ConnectionOperation.getConnection()) == null) {
+			return false;
 		}
-		ResultSet rs = null;
+		if (!newDocument(conn, book, Constant.BOOK_TYPE_NO)) {
+			ConnectionOperation.close(conn);
+			return false;
+		}
+
+		PreparedStatement ps;
 		try {
-			ps = conn.prepareStatement(sqlString);
-			rs = ps.executeQuery();
+			ps = conn.prepareStatement(NEW_BOOK);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			ConnectionOperation.close(conn);
+			return false;
 		}
-		return rs;
+		boolean result = true;
+		try {
+			ps.setString(1, book.getId());
+			ps.setString(2, book.getIsbn());
+			if (ps.executeUpdate() != 1) {
+				result = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ConnectionOperation.close(ps);
+			return false;
+		}
+		return result;
 	}
-		
-	
-	
-	//add new doc
-	public static ResultSet newdoc(Document doc) {
-		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
-			return null;
-		}
-		PreparedStatement ps = null;
-		
-		String sqlString = "INSERT INTO document VALUES(?, ?, ?, ?, ?)";
-		
-		System.out.println(sqlString);
-		try {
-			ps = conn.prepareStatement(sqlString);
-			ps.setString(0, doc.getId());
-			ps.setString(1, doc.getTitle());
-			ps.setString(3, doc.getPublisher().getPubId());
-			ps.setString(4, doc.getPubDate());
 
-			
-		} catch (SQLException e) {
-			if (ps != null) {
-				System.out.println(ps);
-				System.out.println();
-			}
-		}
-		ResultSet rs = null;
+	private static boolean newDocument(Connection conn, Document doc, int typeNo) {
 		try {
-			ps = conn.prepareStatement(sqlString);
-			rs = ps.executeQuery();
+			Publisher publisher = doc.getPublisher();
+			ResultSet rs = QueryPublisher.getPublisherByName(publisher.getPubName());
+			if (rs.next()) {
+				publisher.setPubId(rs.getString(1));
+			} else {
+				UpdatePublisher.newPublisher(publisher);
+			}
+			PreparedStatement ps = conn.prepareStatement(NEW_DOCUMENT);
+			ps.setString(1, doc.getTitle());
+			ps.setInt(2, typeNo);
+			ps.setString(3, publisher.getPubId());
+			ps.setString(4, doc.getPubDate());
+			int result = ps.executeUpdate();
+			if (result == 1) {
+				String id = ConnectionOperation.getLastInsertIdForConnection(conn);
+				if (id == null) {
+					return false;
+				} else {
+					doc.setId(id);
+				}
+			} else {
+				return false;
+			}
+			if (!UpdateWrite.newWriteRelatonship(doc.getId(), doc.getAuthorList())) {
+				return false;
+			}
+			if (!UpdateDescriptor.newDescriptorForDoc(doc.getId(), doc.getDescriptorList())) {
+				return false;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			return false;
 		}
-		return rs;
+		return true;
+	}
+
+	public static void main(String[] args) {
+		Publisher publisher = new Publisher();
+		publisher.setPubName("123");
+
+		Book book = new Book();
+		book.setTitle("book1");
+		book.setPublisher(publisher);
+		book.setPubDate("2012-2-2");
+		book.setIsbn("12123");
+
+		Author author = new Author();
+		author.setAuName("Author1");
+		book.addAuthor(author);
+		author = new Author();
+		author.setAuName("Author2");
+		book.addAuthor(author);
+
+		book.addDescriptor("Des1");
+		book.addDescriptor("Des2");
+
+		System.out.println(newBook(book));
+		System.out.println(book.getId());
+		System.out.println(book.getPublisher().getPubId());
 	}
 }

@@ -1,4 +1,4 @@
-package jdbc;
+package jdbc.tool;
 
 public class DBConstant {
 	public static final String USER = "root";

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import jdbc.tool.ConnectionOperation;
 import vo.Reader;
 
 public class QueryReader {
@@ -14,7 +15,7 @@ public class QueryReader {
 
 	public static ResultSet getReaderById(String readerId) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		ResultSet rs = null;
@@ -30,7 +31,7 @@ public class QueryReader {
 
 	public static ResultSet getReaderByName(String name) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		ResultSet rs = null;
@@ -47,7 +48,7 @@ public class QueryReader {
 
 	public static ResultSet getReaderByPhone(String phone) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		ResultSet rs = null;

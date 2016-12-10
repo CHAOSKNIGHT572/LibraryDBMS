@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+import jdbc.tool.ConnectionOperation;
 import vo.Author;
 import vo.Document;
 
@@ -12,11 +14,12 @@ import vo.Document;
 
 public class QueryDocument {
 	private static final String GET_BOOK_BY_ISBN = "SELECT document.DocId, Title FROM document, book WHERE book.DocId = document.DocId AND ISBN = ?";
-
+	private static final String GET_ISBN = "SELECT isbn FROM book WHERE isbn = ?";
+	
 	// get docid by type in isbn
 	public static ResultSet getBookByISBN(String isbn) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		ResultSet rs = null;
@@ -30,26 +33,16 @@ public class QueryDocument {
 		}
 		return rs;
 	}
-
-	// get where documents are available by type in DocId
-	public static ResultSet getDocWhere(Document doc) {
+	
+	public static ResultSet getISBN(String isbn) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
-		PreparedStatement ps = null;
-
-		String sqlString = "";
-		if (doc.getId() != null) {
-			sqlString = "SELECT Title, copy.DocId, CopyNo, copy. Position, branch.Name, branch.Location"
-					+ " FROM (document JOIN copy ON document.DocId = copy.DocId) JOIN branch ON branch.LibId = copy.LibId WHERE document.DocId = 1"
-					+ " WHERE document.DocId = " + doc.getId();
-		}
-		System.out.println(sqlString);
-
 		ResultSet rs = null;
 		try {
-			ps = conn.prepareStatement(sqlString);
+			PreparedStatement ps = conn.prepareStatement(GET_ISBN);
+			ps.setString(1, isbn);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,7 +54,7 @@ public class QueryDocument {
 	// Get detailed document info
 	public static ResultSet getDocumentByMultiCondition(Document doc) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;

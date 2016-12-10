@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+import jdbc.tool.ConnectionOperation;
 import vo.Reader;
 
 
@@ -12,7 +12,7 @@ public class UpdateReader {
 	//delete reader
 	public static ResultSet deletereader(Reader reader) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;
@@ -32,7 +32,7 @@ public class UpdateReader {
 	//update address
 		public static ResultSet updateReaderPh(Reader reader) {
 			Connection conn;
-			if ((conn = ConnectionBuilder.getConnection()) == null) {
+			if ((conn = ConnectionOperation.getConnection()) == null) {
 				return null;
 			}
 			PreparedStatement ps = null;
@@ -51,7 +51,7 @@ public class UpdateReader {
 	//update address
 	public static ResultSet updateReaderAdr(Reader reader) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;
@@ -71,7 +71,7 @@ public class UpdateReader {
 	//update # of Reserved Books by readerId
 	public static ResultSet updateReaderNRB(Reader reader) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;
@@ -90,7 +90,7 @@ public class UpdateReader {
 	//update # of Borrowed Books by ReaderId
 	public static ResultSet updateReaderNBB(Reader reader) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;
@@ -109,7 +109,7 @@ public class UpdateReader {
 	//update ReaderName by readerId
 	public static ResultSet updateReaderName(Reader reader) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;
@@ -129,7 +129,7 @@ public class UpdateReader {
 	
 	public static ResultSet newreader(Reader reader) {
 		Connection conn;
-		if ((conn = ConnectionBuilder.getConnection()) == null) {
+		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
 		}
 		PreparedStatement ps = null;
