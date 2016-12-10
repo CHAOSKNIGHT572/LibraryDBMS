@@ -93,8 +93,4 @@ public class DocumentControl {
 		}
 		return result;
 	}
-
-	public static void main(String[] argv) {
-
-	}
 }
