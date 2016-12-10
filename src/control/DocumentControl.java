@@ -7,27 +7,31 @@ import java.util.List;
 
 import jdbc.QueryDocument;
 import jdbc.UpdateDocument;
+import vo.Author;
 import vo.Book;
 import vo.ConferenceProceeding;
 import vo.Document;
 import vo.JournalIssue;
 import vo.JournalVolume;
+import vo.Publisher;
 
 public class DocumentControl {
 
-	public static boolean newBook(Book book) {
+	public static int newBook(Book book) {
 		if (repeatedISBN(book.getIsbn())) {
-			return false;
+			return Constant.REPEATED_ISBN;
 		}
-		if(UpdateDocument.newBook(book) == false) {
-			return false;
+		if (UpdateDocument.newBook(book) == false) {
+			return Constant.UPDATE_FAILED;
 		}
-		return true;
+		return Constant.UPDATE_SUCCESSFUL;
 	}
 
-	public static boolean newJournalVolume(JournalVolume volume) {
-
-		return true;
+	public static int newJournalVolume(JournalVolume volume) {
+		if (UpdateDocument.newJournalVolume(volume) == false) {
+			return Constant.UPDATE_FAILED;
+		}
+		return Constant.UPDATE_SUCCESSFUL;
 	}
 
 	public static boolean newConferenceProceeding(ConferenceProceeding proceeding) {
@@ -93,6 +97,27 @@ public class DocumentControl {
 	}
 
 	public static void main(String[] argv) {
-		
+		Publisher publisher = new Publisher();
+		publisher.setPubName("123");
+
+		Book book = new Book();
+		book.setTitle("book1");
+		book.setPublisher(publisher);
+		book.setPubDate("2012-2-2");
+		book.setIsbn("12123");
+
+		Author author = new Author();
+		author.setAuName("Author1");
+		book.addAuthor(author);
+		author = new Author();
+		author.setAuName("Author2");
+		book.addAuthor(author);
+
+		book.addDescriptor("Des1");
+		book.addDescriptor("Des2");
+
+		System.out.println(newBook(book));
+		System.out.println(book.getId());
+		System.out.println(book.getPublisher().getPubId());
 	}
 }

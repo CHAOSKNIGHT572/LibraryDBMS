@@ -8,6 +8,7 @@ import control.Constant;
 import jdbc.tool.ConnectionOperation;
 import vo.Book;
 import vo.Document;
+import vo.JournalVolume;
 import vo.Publisher;
 
 public class UpdateDocument {
@@ -19,7 +20,7 @@ public class UpdateDocument {
 		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return false;
 		}
-		if (!newDocument(conn, book, Constant.BOOK_TYPE_NO)) {
+		if (!newDocument(conn, book, Constant.TYPE_BOOK)) {
 			ConnectionOperation.close(conn);
 			return false;
 		}
@@ -45,6 +46,10 @@ public class UpdateDocument {
 			return false;
 		}
 		return result;
+	}
+
+	public static boolean newJournalVolume(JournalVolume volume) {
+		return true;
 	}
 
 	private static boolean newDocument(Connection conn, Document doc, int typeNo) {

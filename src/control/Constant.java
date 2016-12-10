@@ -1,7 +1,10 @@
 package control;
 
 public class Constant {
-	public static final int BOOK_TYPE_NO = 0;
-	public static final int JOURNAL_VOLUME_NO = 1;
-	public static final int CONFERENCE_PROCEEDING_NO = 2;
+	public static final int TYPE_BOOK = 0;
+	public static final int TYPE_JOURNAL_VOLUME = 1;
+	public static final int TYPE_CONFERENCE_PROCEEDING = 2;
+	public static final int UPDATE_SUCCESSFUL = 0;
+	public static final int UPDATE_FAILED = 1;
+	public static final int REPEATED_ISBN = 2;
 }
