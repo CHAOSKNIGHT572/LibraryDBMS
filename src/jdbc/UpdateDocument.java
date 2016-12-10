@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import control.Constant;
 import jdbc.tool.ConnectionOperation;
 import vo.Book;
+import vo.ChiefEditor;
+import vo.ConferenceProceeding;
 import vo.Document;
 import vo.JournalVolume;
 import vo.Publisher;
@@ -14,6 +16,8 @@ import vo.Publisher;
 public class UpdateDocument {
 	private static final String NEW_DOCUMENT = "INSERT INTO `document` (`title`, `type`, `pub_id`, `pub_date`) VALUES (?,?,?,?)";
 	private static final String NEW_BOOK = "INSERT INTO book (doc_id, isbn) VALUES (?,?)";
+	private static final String NEW_JOURNAL_VOLUME = "INSERT INTO journal_volume (doc_id, jv_editor) VALUES (?,?)";
+	private static final String NEW_CONFERENCE_PROCEEDING = "INSERT INTO proceeding (doc_id, cp_date, cp_location, cp_editor) VALUES (?,?,?,?)";
 
 	public static boolean newBook(Book book) {
 		Connection conn;
@@ -24,17 +28,10 @@ public class UpdateDocument {
 			ConnectionOperation.close(conn);
 			return false;
 		}
-
-		PreparedStatement ps;
+		boolean result = true;
+		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement(NEW_BOOK);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			ConnectionOperation.close(conn);
-			return false;
-		}
-		boolean result = true;
-		try {
 			ps.setString(1, book.getId());
 			ps.setString(2, book.getIsbn());
 			if (ps.executeUpdate() != 1) {
@@ -42,24 +39,83 @@ public class UpdateDocument {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ConnectionOperation.close(ps);
-			return false;
+			result = false;
 		}
+		ConnectionOperation.close(ps);
 		return result;
 	}
 
 	public static boolean newJournalVolume(JournalVolume volume) {
-		return true;
+		Connection conn;
+		if ((conn = ConnectionOperation.getConnection()) == null) {
+			return false;
+		}
+		if (!newDocument(conn, volume, Constant.TYPE_JOURNAL_VOLUME)) {
+			ConnectionOperation.close(conn);
+			return false;
+		}
+		PreparedStatement ps = null;
+		boolean result = true;
+		try {
+			ChiefEditor editor = volume.getEditor();
+			ResultSet rs = QueryChiefEditor.getChiefEditorByName(editor.getCeName());
+			if (rs != null && rs.next()) {
+				editor.setCeId(rs.getString(1));
+			} else {
+				UpdateChiefEditor.newChiefEditor(editor);
+			}
+			ps = conn.prepareStatement(NEW_JOURNAL_VOLUME);
+			ps.setString(1, volume.getId());
+			ps.setString(2, editor.getCeId());
+			if (ps.executeUpdate() != 1) {
+				result = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result = false;
+		}
+		ConnectionOperation.close(ps);
+		return result;
+	}
+
+	public static boolean newConferenceProceeding(ConferenceProceeding proceeding) {
+		Connection conn;
+		if ((conn = ConnectionOperation.getConnection()) == null) {
+			return false;
+		}
+		if (!newDocument(conn, proceeding, Constant.TYPE_CONFERENCE_PROCEEDING)) {
+			ConnectionOperation.close(conn);
+			return false;
+		}
+		PreparedStatement ps = null;
+		boolean result = true;
+		try {
+			ps = conn.prepareStatement(NEW_CONFERENCE_PROCEEDING);
+			ps.setString(1, proceeding.getId());
+			ps.setString(2, proceeding.getConDate());
+			ps.setString(3, proceeding.getConLocation());
+			ps.setString(4, proceeding.getConEditor());
+			if (ps.executeUpdate() != 1) {
+				result = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result = false;
+		}
+		ConnectionOperation.close(ps);
+		return result;
 	}
 
 	private static boolean newDocument(Connection conn, Document doc, int typeNo) {
 		try {
 			Publisher publisher = doc.getPublisher();
 			ResultSet rs = QueryPublisher.getPublisherByName(publisher.getPubName());
-			if (rs.next()) {
+			if (rs != null && rs.next()) {
 				publisher.setPubId(rs.getString(1));
 			} else {
-				UpdatePublisher.newPublisher(publisher);
+				if (!UpdatePublisher.newPublisher(publisher)) {
+					return false;
+				}
 			}
 			PreparedStatement ps = conn.prepareStatement(NEW_DOCUMENT);
 			ps.setString(1, doc.getTitle());

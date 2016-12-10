@@ -4,19 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import jdbc.QueryDocument;
 import jdbc.UpdateDocument;
-import vo.Author;
-import vo.Book;
-import vo.ConferenceProceeding;
 import vo.Document;
-import vo.JournalIssue;
+import vo.Book;
 import vo.JournalVolume;
-import vo.Publisher;
+import vo.ConferenceProceeding;
+import vo.JournalIssue;
 
 public class DocumentControl {
-
 	public static int newBook(Book book) {
 		if (repeatedISBN(book.getIsbn())) {
 			return Constant.REPEATED_ISBN;
@@ -34,9 +30,11 @@ public class DocumentControl {
 		return Constant.UPDATE_SUCCESSFUL;
 	}
 
-	public static boolean newConferenceProceeding(ConferenceProceeding proceeding) {
-
-		return true;
+	public static int newConferenceProceeding(ConferenceProceeding proceeding) {
+		if (UpdateDocument.newConferenceProceeding(proceeding) == false) {
+			return Constant.UPDATE_FAILED;
+		}
+		return Constant.UPDATE_SUCCESSFUL;
 	}
 
 	public static List<Document> getDocumentListByConditions(Document document) {
@@ -97,27 +95,6 @@ public class DocumentControl {
 	}
 
 	public static void main(String[] argv) {
-		Publisher publisher = new Publisher();
-		publisher.setPubName("123");
 
-		Book book = new Book();
-		book.setTitle("book1");
-		book.setPublisher(publisher);
-		book.setPubDate("2012-2-2");
-		book.setIsbn("12123");
-
-		Author author = new Author();
-		author.setAuName("Author1");
-		book.addAuthor(author);
-		author = new Author();
-		author.setAuName("Author2");
-		book.addAuthor(author);
-
-		book.addDescriptor("Des1");
-		book.addDescriptor("Des2");
-
-		System.out.println(newBook(book));
-		System.out.println(book.getId());
-		System.out.println(book.getPublisher().getPubId());
 	}
 }
