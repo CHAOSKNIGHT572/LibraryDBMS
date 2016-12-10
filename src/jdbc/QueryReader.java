@@ -8,7 +8,7 @@ import jdbc.tool.ConnectionOperation;
 
 public class QueryReader {
 	private static final String GET_READER_BY_ID = "SELECT * FROM reader WHERE ReaderId = ?";
-	private static final String GET_READER_BY_NAME = "SELECT ReaderId, Address, Phone FROM reader WHERE ReaderName LIKE ?";
+	private static final String GET_READER_BY_NAME = "SELECT ReaderId, Address, Phone FROM reader WHERE ReaderName = ?";
 	private static final String GET_READER_BY_PHONE = "SELECT ReaderId, Address, Phone FROM reader WHERE ReaderPhone = ?";
 
 	public static ResultSet getReaderById(String readerId) {
@@ -35,7 +35,6 @@ public class QueryReader {
 		ResultSet rs = null;
 		try {
 			PreparedStatement ps = conn.prepareStatement(GET_READER_BY_NAME);
-			name = "%" + name + "%";
 			ps.setString(1, name);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {

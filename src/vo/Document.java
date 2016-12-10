@@ -72,4 +72,9 @@ public class Document {
 	public void addAuthor(Author author) {
 		authorList.add(author);
 	}
+
+	@Override
+	public String toString() {
+		return title;
+	}
 }

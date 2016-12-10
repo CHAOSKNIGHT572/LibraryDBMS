@@ -3,12 +3,12 @@ package control;
 import java.util.ArrayList;
 import java.util.List;
 
+import jdbc.UpdateReader;
 import vo.Reader;
 
 public class ReaderControl {
 	public static boolean newReader(Reader reader) {
-		// TODO: Add a new reader to database.
-		return true;
+		return UpdateReader.newReader(reader);
 	}
 
 	public static Reader getReaderById(int id) {
