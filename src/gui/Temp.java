@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Insets;
+import javax.swing.JRadioButton;
 
 public class Temp extends JFrame {
 	private static final long serialVersionUID = -8086892358193012069L;
@@ -17,6 +18,7 @@ public class Temp extends JFrame {
 	private PNUpdate pnUpdate;
 	private JPanel visiblePanel;
 	private JPanel pnWelcome;
+	private JRadioButton rdbtnNewRadioButton;
 
 	/**
 	 * Launch the application.
@@ -131,5 +133,8 @@ public class Temp extends JFrame {
 		pnWelcome = new JPanel();
 		pnWelcome.setBounds(189, 0, 896, 675);
 		contentPane.add(pnWelcome);
+		
+		rdbtnNewRadioButton = new JRadioButton("New radio button");
+		pnWelcome.add(rdbtnNewRadioButton);
 	}
 }

@@ -1,9 +1,9 @@
 package control;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import jdbc.UpdateBorrow;
 import jdbc.UpdateReader;
+import vo.Branch;
+import vo.Document;
 import vo.Reader;
 
 public class ReaderControl {
@@ -11,20 +11,11 @@ public class ReaderControl {
 		return UpdateReader.newReader(reader);
 	}
 
-	public static Reader getReaderById(int id) {
-		Reader reader = null;
-		// TODO: Return a reader searched by id.
-		return reader;
+	public static int borrow(Document doc, Branch lib, Reader reader) {
+		return UpdateBorrow.borrow(doc.getId(), lib.getId(), reader.getId());
 	}
-	
-	public static List<Reader> getReaderByName(String Name) {
-		List<Reader> readerList = new ArrayList<>();
-		//TODO: Return a list of reader with the Name requested.
-		return readerList;
-	}
-	
-	public static boolean updateInfo(Reader reader) {
-		//TODO: Update the reader Information.
+
+	public static boolean reserve() {
 		return true;
 	}
 }

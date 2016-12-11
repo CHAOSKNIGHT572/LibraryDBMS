@@ -7,4 +7,5 @@ public class Constant {
 	public static final int UPDATE_SUCCESSFUL = 0;
 	public static final int UPDATE_FAILED = 1;
 	public static final int REPEATED_ISBN = 2;
+	public static final int NO_AVAILABLE_DOCUMENT_COPY = 3;
 }

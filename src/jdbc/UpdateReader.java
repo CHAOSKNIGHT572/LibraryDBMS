@@ -23,7 +23,12 @@ public class UpdateReader {
 			ps.setString(3, reader.getAddress());
 			ps.setString(4, reader.getPhoneNum());
 			if (ps.executeUpdate() == 1) {
-
+				String id = ConnectionOperation.getLastInsertIdForConnection(conn);
+				if (id == null) {
+					result = false;
+				} else {
+					reader.setId(id);
+				}
 			} else {
 				result = false;
 			}
