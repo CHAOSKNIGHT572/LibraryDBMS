@@ -19,7 +19,22 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JTable;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.LineBorder;
+
+import control.Constant;
+import vo.Author;
+import vo.Book;
+import vo.Branch;
+import vo.ChiefEditor;
+import vo.ConferenceProceeding;
+import vo.Document;
+import vo.JournalVolume;
+import vo.Publisher;
+import vo.Reader;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JRadioButton;
 
 public class LibraryManagement extends JFrame {
 
@@ -27,36 +42,26 @@ public class LibraryManagement extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtReadername;
 	private JTextField txtReaderid;
-	private JTextField textField;
 	private JTextField txtPublisherName;
 	private JTextField txtAuthorName;
 	private JTextField txtTitle;
 	private JTable table;
-	private JTextField textField_1;
 	private JTextField txtDescriptor;
 	private JTextField txtWelcomeToThe;
-	private JTextField textField_R_ReaderId;
 	private JTextField textField_R_Type;
 	private JTextField textField_R_ReaderName;
-	private JTextField textField_R_NumBorBooks;
-	private JTextField textField_R_NumResBooks;
 	private JTextField textField_R_Address;
 	private JTextField textField_R_PhoneNum;
-	private JTextField textField_D_DocId;
-	private JTextField textField_D_PublisherId;
+	private JTextField textField_D_PublisherName;
 	private JTextField textField_D_Title;
 	private JTextField textField_D_PDate;
-	private JTextField textField_D_BFg;
 	private JTextField textField_D_ISBN;
-	private JTextField textField_D_JFg;
 	private JTextField textField_D_VolumeNo;
-	private JTextField textField_D_EditorId;
-	private JTextField textField_D_PFg;
+	private JTextField textField_D_ChiefEditor;
 	private JTextField textField_C_DocId;
 	private JTextField textField_C_LibId;
 	private JTextField textField_C_CopyNo;
 	private JTextField textField_C_Position;
-	private JTextField textField_LibId;
 	private JTextField textField_Name;
 	private JTextField textField_Location;
 	private JTextField textField_2;
@@ -79,6 +84,16 @@ public class LibraryManagement extends JFrame {
 	private JTextField textField_19;
 	private JTextField textField_20;
 	private JTextField textField_21;
+	private JTextField textField_Descriptor;
+	private JTextField textField_AuthorName;
+	private JTextField textField_CDate;
+	private JTextField textField_CLocation;
+	private JRadioButton rdbtnBook;
+	private JRadioButton rdbtnJournal;
+	private JRadioButton rdbtnCP;
+	private int docType;
+	private JTextField textField_CEditor;
+	private JLabel lblCEditor;
 
 	/**
 	 * Launch the application.
@@ -112,149 +127,14 @@ public class LibraryManagement extends JFrame {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-					.addContainerGap())
+				.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
 		);
-		
-		JLayeredPane layeredPane_Welcome = new JLayeredPane();
-		layeredPane_Welcome.setBounds(148, 0, 780, 586);
-		layeredPane.add(layeredPane_Welcome);
-		
-		txtWelcomeToThe = new JTextField();
-		txtWelcomeToThe.setBackground(SystemColor.window);
-		txtWelcomeToThe.setForeground(new Color(0, 0, 128));
-		txtWelcomeToThe.setEditable(false);
-		txtWelcomeToThe.setHorizontalAlignment(SwingConstants.CENTER);
-		txtWelcomeToThe.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
-		txtWelcomeToThe.setText("Welcome to the library management system!");
-		txtWelcomeToThe.setBounds(62, 110, 665, 216);
-		layeredPane_Welcome.add(txtWelcomeToThe);
-		txtWelcomeToThe.setColumns(10);
-		
-		JLayeredPane layeredPane_BR = new JLayeredPane();
-		layeredPane_BR.setBounds(148, 6, 774, 580);
-		layeredPane.add(layeredPane_BR);
-		layeredPane_BR.setVisible(false);
-		
-		JLabel lblReaderid = new JLabel("READERID");
-		lblReaderid.setBounds(29, 38, 74, 16);
-		layeredPane_BR.add(lblReaderid);
-		
-		txtReaderid = new JTextField();
-		txtReaderid.setForeground(Color.LIGHT_GRAY);
-		txtReaderid.setHorizontalAlignment(SwingConstants.CENTER);
-		txtReaderid.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtReaderid.setBounds(115, 28, 100, 35);
-		layeredPane_BR.add(txtReaderid);
-		txtReaderid.setColumns(10);
-		
-		JLabel lblReadername = new JLabel("READERNAME");
-		lblReadername.setBounds(255, 38, 95, 16);
-		layeredPane_BR.add(lblReadername);
-		
-		txtReadername = new JTextField();
-		txtReadername.setForeground(Color.LIGHT_GRAY);
-		txtReadername.setHorizontalAlignment(SwingConstants.CENTER);
-		txtReadername.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtReadername.setBounds(373, 28, 117, 35);
-		layeredPane_BR.add(txtReadername);
-		txtReadername.setColumns(10);
-		
-		JButton btnNewButton_4 = new JButton("search");
-		btnNewButton_4.setForeground(Color.BLUE);
-		btnNewButton_4.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnNewButton_4.setBounds(579, 26, 141, 41);
-		layeredPane_BR.add(btnNewButton_4);
-		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBackground(SystemColor.window);
-		textField.setBounds(6, 6, 762, 81);
-		layeredPane_BR.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblPublisherName = new JLabel("<html>PUBLISHER<br>NAME<html>");
-		lblPublisherName.setBounds(29, 99, 74, 35);
-		layeredPane_BR.add(lblPublisherName);
-		
-		txtPublisherName = new JTextField();
-		txtPublisherName.setForeground(Color.LIGHT_GRAY);
-		txtPublisherName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtPublisherName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPublisherName.setBounds(115, 99, 100, 35);
-		layeredPane_BR.add(txtPublisherName);
-		txtPublisherName.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("<html>AUTHOR<br>NAME<html>");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(255, 100, 74, 34);
-		layeredPane_BR.add(lblNewLabel);
-		
-		txtAuthorName = new JTextField();
-		txtAuthorName.setForeground(Color.LIGHT_GRAY);
-		txtAuthorName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtAuthorName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAuthorName.setBounds(373, 99, 120, 35);
-		layeredPane_BR.add(txtAuthorName);
-		txtAuthorName.setColumns(10);
-		
-		JLabel lblTitle = new JLabel("TITLE");
-		lblTitle.setBounds(29, 156, 61, 16);
-		layeredPane_BR.add(lblTitle);
-		
-		txtTitle = new JTextField();
-		txtTitle.setForeground(Color.LIGHT_GRAY);
-		txtTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		txtTitle.setBounds(115, 146, 100, 35);
-		layeredPane_BR.add(txtTitle);
-		txtTitle.setColumns(10);
-		
-		JLabel lblDescriptor = new JLabel("DESCRIPTOR");
-		lblDescriptor.setBounds(265, 156, 85, 16);
-		layeredPane_BR.add(lblDescriptor);
-		
-		txtDescriptor = new JTextField();
-		txtDescriptor.setForeground(Color.LIGHT_GRAY);
-		txtDescriptor.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDescriptor.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtDescriptor.setBounds(373, 146, 117, 35);
-		layeredPane_BR.add(txtDescriptor);
-		txtDescriptor.setColumns(10);
-		
-		JButton btnSearch = new JButton("search");
-		btnSearch.setForeground(Color.BLUE);
-		btnSearch.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnSearch.setBounds(579, 120, 141, 41);
-		layeredPane_BR.add(btnSearch);
-		
-		table = new JTable();
-		table.setBounds(20, 186, 737, 341);
-		layeredPane_BR.add(table);
-		
-		JButton btnNewButton_5 = new JButton("BORROW");
-		btnNewButton_5.setForeground(Color.BLUE);
-		btnNewButton_5.setBounds(463, 539, 117, 35);
-		layeredPane_BR.add(btnNewButton_5);
-		
-		JButton btnNewButton_6 = new JButton("RESERVE");
-		btnNewButton_6.setForeground(Color.BLUE);
-		btnNewButton_6.setBounds(603, 539, 117, 35);
-		layeredPane_BR.add(btnNewButton_6);
-		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setBackground(SystemColor.window);
-		textField_1.setBounds(6, 90, 762, 484);
-		layeredPane_BR.add(textField_1);
-		textField_1.setColumns(10);
-		
+	
 		JLayeredPane layeredPane_New = new JLayeredPane();
 		layeredPane_New.setBounds(148, 6, 774, 580);
 		layeredPane.add(layeredPane_New);
@@ -266,404 +146,584 @@ public class LibraryManagement extends JFrame {
 		
 		JPanel panel_N_Reader = new JPanel();
 		tabbedPane_New.addTab("Reader", null, panel_N_Reader, null);
-		
-		JLabel lblTab = new JLabel("READERID");
-		
-		textField_R_ReaderId = new JTextField();
-		textField_R_ReaderId.setColumns(10);
-		
-		JLabel lblType = new JLabel("TYPE");
-		lblType.setHorizontalAlignment(SwingConstants.CENTER);
-		
+				
 		textField_R_Type = new JTextField();
+		textField_R_Type.setBounds(48, 88, 93, 39);
 		textField_R_Type.setColumns(10);
 		
-		JLabel lblReadername_ReaderName = new JLabel("READERNAME");
 		
-		JLabel lblNumborbooks = new JLabel("NUMBORBOOKS");
 		
 		textField_R_ReaderName = new JTextField();
+		textField_R_ReaderName.setBounds(189, 88, 93, 39);
 		textField_R_ReaderName.setColumns(10);
 		
-		JLabel lblNumresbooks = new JLabel("NUMRESBOOKS");
-		
-		textField_R_NumBorBooks = new JTextField();
-		textField_R_NumBorBooks.setColumns(10);
-		
-		textField_R_NumResBooks = new JTextField();
-		textField_R_NumResBooks.setColumns(10);
-		
-		JLabel lblAdress = new JLabel("ADRESS");
-		
-		textField_R_Address = new JTextField();
-		textField_R_Address.setColumns(10);
-		
-		JLabel lblPhonenum = new JLabel("PHONENUM");
-		
-		textField_R_PhoneNum = new JTextField();
-		textField_R_PhoneNum.setColumns(10);
+		//---------------
 		
 		JButton R_add = new JButton("ADD");
-		GroupLayout gl_panel_N_Reader = new GroupLayout(panel_N_Reader);
-		gl_panel_N_Reader.setHorizontalGroup(
-			gl_panel_N_Reader.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_Reader.createSequentialGroup()
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_N_Reader.createSequentialGroup()
-							.addGap(16)
-							.addComponent(lblTab))
-						.addGroup(Alignment.TRAILING, gl_panel_N_Reader.createSequentialGroup()
-							.addGap(16)
-							.addComponent(textField_R_ReaderId, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_N_Reader.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_R_Type, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_N_Reader.createSequentialGroup()
-							.addGap(31)
-							.addComponent(lblType)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_R_ReaderName, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblReadername_ReaderName, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblNumborbooks, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(textField_R_NumBorBooks, 0, 0, Short.MAX_VALUE))
-					.addGap(12)
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(textField_R_NumResBooks, 0, 0, Short.MAX_VALUE)
-						.addComponent(lblNumresbooks, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(11)
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panel_N_Reader.createSequentialGroup()
-							.addGap(29)
-							.addComponent(lblAdress)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblPhonenum)
-							.addGap(43))
-						.addGroup(gl_panel_N_Reader.createSequentialGroup()
-							.addComponent(textField_R_Address, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.LEADING)
-								.addComponent(R_add, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
-								.addComponent(textField_R_PhoneNum, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE))
-							.addGap(29))))
-		);
-		gl_panel_N_Reader.setVerticalGroup(
-			gl_panel_N_Reader.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_Reader.createSequentialGroup()
-					.addGap(63)
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTab)
-						.addComponent(lblType)
-						.addComponent(lblNumresbooks)
-						.addComponent(lblAdress)
-						.addComponent(lblReadername_ReaderName)
-						.addComponent(lblNumborbooks)
-						.addComponent(lblPhonenum))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_N_Reader.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_R_ReaderId, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addComponent(textField_R_Type, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addComponent(textField_R_ReaderName, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addComponent(textField_R_NumBorBooks, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addComponent(textField_R_NumResBooks, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addComponent(textField_R_Address, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addComponent(textField_R_PhoneNum, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
-					.addGap(36)
-					.addComponent(R_add, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addGap(305))
-		);
-		panel_N_Reader.setLayout(gl_panel_N_Reader);
+		R_add.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Reader reader = new Reader();
+				reader.setPhoneNum(textField_R_Type.getText());
+				reader.setName(textField_R_ReaderName.getText());
+				reader.setAddress(textField_R_Address.getText());
+				reader.setPhoneNum(textField_R_PhoneNum.getText());
+				
+			}
+		});
+		R_add.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		R_add.setBounds(612, 89, 93, 38);
+		panel_N_Reader.setLayout(null);
+		
+		JLabel lblType = new JLabel("TYPE");
+		lblType.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblType.setBounds(77, 63, 36, 15);
+		lblType.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_N_Reader.add(lblType);
+
+		JLabel lblReadername_ReaderName = new JLabel("READERNAME");
+		lblReadername_ReaderName.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReadername_ReaderName.setBounds(199, 63, 83, 15);
+		panel_N_Reader.add(lblReadername_ReaderName);
+
+		JLabel lblAdress = new JLabel("ADRESS");
+		lblAdress.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblAdress.setBounds(350, 63, 54, 15);
+		panel_N_Reader.add(lblAdress);
+		
+		JLabel lblPhonenum = new JLabel("PHONENUM");
+		lblPhonenum.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPhonenum.setBounds(481, 63, 66, 15);
+		panel_N_Reader.add(lblPhonenum);
+		panel_N_Reader.add(textField_R_Type);
+		panel_N_Reader.add(textField_R_ReaderName);
+		
+		textField_R_Address = new JTextField();
+		textField_R_Address.setBounds(330, 88, 93, 39);
+		textField_R_Address.setColumns(10);
+		
+		panel_N_Reader.add(textField_R_Address);
+		
+		
+		textField_R_PhoneNum = new JTextField();
+		textField_R_PhoneNum.setBounds(471, 88, 93, 39);
+		textField_R_PhoneNum.setColumns(10);
+
+		panel_N_Reader.add(textField_R_PhoneNum);
+		panel_N_Reader.add(R_add);
 		
 		JPanel panel_N_Document = new JPanel();
 		tabbedPane_New.addTab("Document", null, panel_N_Document, null);
 		
-		JLabel lblTab_DocId = new JLabel("DOCID");
-		
-		textField_D_DocId = new JTextField();
-		textField_D_DocId.setColumns(10);
-		
-		JLabel lblPublisherid = new JLabel("PUBLISHERID");
-		
-		textField_D_PublisherId = new JTextField();
-		textField_D_PublisherId.setColumns(10);
-		
-		textField_D_Title = new JTextField();
-		textField_D_Title.setColumns(10);
-		
-		JLabel lblTitle_Title = new JLabel("TITLE");
-		
-		JLabel lblBdate = new JLabel("PDATE");
-		
-		textField_D_PDate = new JTextField();
-		textField_D_PDate.setColumns(10);
-		
-		JLabel lblBfg = new JLabel("B_FG");
-		
-		textField_D_BFg = new JTextField();
-		textField_D_BFg.setColumns(10);
-		
 		JLabel lblIsbn = new JLabel("ISBN");
+		lblIsbn.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblIsbn.setBounds(55, 139, 23, 14);
 		
 		textField_D_ISBN = new JTextField();
+		textField_D_ISBN.setBounds(29, 161, 90, 35);
 		textField_D_ISBN.setColumns(10);
-		
-		JLabel lblJfg = new JLabel("J_FG");
-		
-		textField_D_JFg = new JTextField();
-		textField_D_JFg.setColumns(10);
-		
-		JLabel lblVolumeno = new JLabel("VOLUMENO");
+
+		JLabel lblVolumeno = new JLabel("Volume Number");
+		lblVolumeno.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblVolumeno.setBounds(29, 139, 76, 14);
 		
 		textField_D_VolumeNo = new JTextField();
+		textField_D_VolumeNo.setBounds(29, 161, 90, 35);
 		textField_D_VolumeNo.setColumns(10);
 		
-		JLabel lblEditorid = new JLabel("EDITORID");
+		JLabel lblChiefEditor = new JLabel("Chief Editor");
+		lblChiefEditor.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblChiefEditor.setBounds(149, 139, 62, 14);
 		
-		textField_D_EditorId = new JTextField();
-		textField_D_EditorId.setColumns(10);
+		textField_D_ChiefEditor = new JTextField();
+		textField_D_ChiefEditor.setBounds(149, 163, 90, 35);
+		textField_D_ChiefEditor.setColumns(10);
 		
-		JLabel lblPfg = new JLabel("P_FG");
+		//---------------------
 		
-		textField_D_PFg = new JTextField();
-		textField_D_PFg.setColumns(10);
+		Publisher publisher = new Publisher();
+		Book book = new Book();
+		ChiefEditor chiefEditor = new ChiefEditor();
+		JournalVolume journalVolume = new JournalVolume();
+		ConferenceProceeding cp = new ConferenceProceeding();
+		
+		//---------------------
 		
 		JButton D_add = new JButton("ADD");
-		GroupLayout gl_panel_N_Document = new GroupLayout(panel_N_Document);
-		gl_panel_N_Document.setHorizontalGroup(
-			gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_Document.createSequentialGroup()
-					.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_N_Document.createSequentialGroup()
-							.addGap(40)
-							.addComponent(lblIsbn)
-							.addGap(66)
-							.addComponent(lblJfg)
-							.addGap(79)
-							.addComponent(lblVolumeno)
-							.addGap(48)
-							.addComponent(lblEditorid)
-							.addGap(72)
-							.addComponent(lblPfg))
-						.addGroup(gl_panel_N_Document.createSequentialGroup()
-							.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_N_Document.createSequentialGroup()
-									.addGap(37)
-									.addComponent(lblTab_DocId))
-								.addGroup(gl_panel_N_Document.createSequentialGroup()
-									.addGap(15)
-									.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField_D_ISBN, 0, 0, Short.MAX_VALUE)
-										.addComponent(textField_D_DocId, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))))
-							.addGap(18)
-							.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textField_D_JFg, 0, 0, Short.MAX_VALUE)
-								.addComponent(lblPublisherid)
-								.addComponent(textField_D_PublisherId, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
-							.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_N_Document.createSequentialGroup()
-									.addGap(48)
-									.addComponent(lblTitle_Title)
-									.addGap(80)
-									.addComponent(lblBdate))
-								.addGroup(gl_panel_N_Document.createSequentialGroup()
-									.addGap(18)
-									.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(textField_D_VolumeNo, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-										.addComponent(textField_D_Title, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
-									.addGap(18)
-									.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField_D_EditorId, 0, 0, Short.MAX_VALUE)
-										.addComponent(textField_D_PDate, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))))
-							.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_N_Document.createSequentialGroup()
-									.addGap(46)
-									.addComponent(lblBfg))
-								.addGroup(gl_panel_N_Document.createSequentialGroup()
-									.addGap(18)
-									.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField_D_PFg, 0, 0, Short.MAX_VALUE)
-										.addComponent(textField_D_BFg, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
-									.addGap(38)
-									.addComponent(D_add, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(47, Short.MAX_VALUE))
-		);
-		gl_panel_N_Document.setVerticalGroup(
-			gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_Document.createSequentialGroup()
-					.addGap(61)
-					.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTab_DocId)
-						.addComponent(lblPublisherid)
-						.addComponent(lblTitle_Title)
-						.addComponent(lblBdate)
-						.addComponent(lblBfg))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_D_DocId, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-						.addComponent(textField_D_PublisherId, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_D_Title, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-						.addComponent(textField_D_PDate, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-						.addComponent(textField_D_BFg, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIsbn)
-						.addComponent(lblJfg)
-						.addComponent(lblVolumeno)
-						.addComponent(lblEditorid)
-						.addComponent(lblPfg))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_D_PFg, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-							.addComponent(D_add, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-						.addComponent(textField_D_EditorId, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-						.addComponent(textField_D_VolumeNo, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-						.addGroup(gl_panel_N_Document.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(textField_D_ISBN, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-							.addComponent(textField_D_JFg, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)))
-					.addGap(307))
-		);
-		panel_N_Document.setLayout(gl_panel_N_Document);
+		D_add.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(docType == 0){
+					String[] authorArray = textField_AuthorName.getText().split(",");
+					for(int i=0; i<authorArray.length; i++){
+						Author author = new Author();
+						author.setAuName(authorArray[i]);
+						book.addAuthor(author);
+					}
+					String[] descriptorArray = textField_Descriptor.getText().split(",");
+					for(int i=0; i<descriptorArray.length; i++){
+						book.addDescriptor(descriptorArray[i]);
+					}
+					publisher.setPubName(textField_D_PublisherName.getText());
+					book.setPublisher(publisher);
+					book.setTitle(textField_D_Title.getText());
+					book.setPubDate(textField_D_PDate.getText());
+					book.setIsbn(textField_D_ISBN.getText());
+				}
+				if(docType == 1){
+					String[] authorArray = textField_AuthorName.getText().split(",");
+					for(int i=0; i<authorArray.length; i++){
+						Author author = new Author();
+						author.setAuName(authorArray[i]);
+						journalVolume.addAuthor(author);
+					}
+					String[] descriptorArray = textField_Descriptor.getText().split(",");
+					for(int i=0; i<descriptorArray.length; i++){
+						journalVolume.addDescriptor(descriptorArray[i]);
+					}
+					publisher.setPubName(textField_D_PublisherName.getText());
+					journalVolume.setPublisher(publisher);
+					journalVolume.setTitle(textField_D_Title.getText());
+					journalVolume.setPubDate(textField_D_PDate.getText());
+					journalVolume.setVolNum(textField_D_VolumeNo.getText());
+					chiefEditor.setCeName(lblChiefEditor.getText());
+					journalVolume.setEditor(chiefEditor);
+				}
+				if(docType == 2){
+					String[] authorArray = textField_AuthorName.getText().split(",");
+					for(int i=0; i<authorArray.length; i++){
+						Author author = new Author();
+						author.setAuName(authorArray[i]);
+						book.addAuthor(author);
+					}
+					String[] descriptorArray = textField_Descriptor.getText().split(",");
+					for(int i=0; i<descriptorArray.length; i++){
+						book.addDescriptor(descriptorArray[i]);
+					}
+					publisher.setPubName(textField_D_PublisherName.getText());
+					cp.setPublisher(publisher);
+					cp.setTitle(textField_D_Title.getText());
+					cp.setPubDate(textField_D_PDate.getText());
+					cp.setConDate(textField_CDate.getText());
+					cp.setConLocation(textField_CLocation.getText());
+					cp.setConEditor(textField_CEditor.getText());
+
+				}
+				
+			}
+		});
 		
-		JPanel panel_N_Copy = new JPanel();
-		tabbedPane_New.addTab("Copy", null, panel_N_Copy, null);
+		D_add.setBounds(624, 160, 90, 36);
+		panel_N_Document.setLayout(null);
 		
-		JLabel lblDocid = new JLabel("DOCID");
+		JLabel lblAddPublisherName = new JLabel("Publisher Name");
+		lblAddPublisherName.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblAddPublisherName.setBounds(29, 61, 84, 14);
+		panel_N_Document.add(lblAddPublisherName);
 		
-		textField_C_DocId = new JTextField();
-		textField_C_DocId.setColumns(10);
+		JLabel lblTitle_Title = new JLabel("Title");
+		lblTitle_Title.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblTitle_Title.setBounds(157, 61, 26, 14);
+		panel_N_Document.add(lblTitle_Title);
 		
-		JLabel lblLibid = new JLabel("LIBID");
+		JLabel lblBdate = new JLabel("Publish Date");
+		lblBdate.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblBdate.setBounds(267, 61, 59, 14);
+		panel_N_Document.add(lblBdate);
+		panel_N_Document.add(lblIsbn);
+		panel_N_Document.add(lblVolumeno);
+		panel_N_Document.add(lblChiefEditor);
 		
-		textField_C_LibId = new JTextField();
-		textField_C_LibId.setColumns(10);
+		textField_D_PublisherName = new JTextField();
+		textField_D_PublisherName.setBounds(29, 86, 90, 35);
+		textField_D_PublisherName.setColumns(10);
+		panel_N_Document.add(textField_D_PublisherName);
 		
-		JLabel lblCopyno = new JLabel("COPYNO");
+		textField_D_Title = new JTextField();
+		textField_D_Title.setBounds(149, 85, 90, 35);
+		textField_D_Title.setColumns(10);
+		panel_N_Document.add(textField_D_Title);
 		
-		JLabel lblPosition = new JLabel("POSITION");
+		textField_D_PDate = new JTextField();
+		textField_D_PDate.setBounds(267, 86, 90, 35);
+		textField_D_PDate.setColumns(10);
+		panel_N_Document.add(textField_D_PDate);
+		panel_N_Document.add(textField_D_ISBN);
+		panel_N_Document.add(textField_D_VolumeNo);
+		panel_N_Document.add(textField_D_ChiefEditor);
+		panel_N_Document.add(D_add);
 		
-		textField_C_CopyNo = new JTextField();
-		textField_C_CopyNo.setColumns(10);
+		JLabel lblNewDescriptor = new JLabel("Descriptor");
+		lblNewDescriptor.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewDescriptor.setBounds(386, 61, 60, 15);
+		panel_N_Document.add(lblNewDescriptor);
 		
-		textField_C_Position = new JTextField();
-		textField_C_Position.setColumns(10);
+		textField_Descriptor = new JTextField();
+		textField_Descriptor.setBounds(386, 86, 90, 35);
+		panel_N_Document.add(textField_Descriptor);
+		textField_Descriptor.setColumns(10);
 		
-		JButton C_add = new JButton("ADD");
-		GroupLayout gl_panel_N_Copy = new GroupLayout(panel_N_Copy);
-		gl_panel_N_Copy.setHorizontalGroup(
-			gl_panel_N_Copy.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_Copy.createSequentialGroup()
-					.addGap(25)
-					.addComponent(lblDocid)
-					.addPreferredGap(ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-					.addComponent(lblLibid)
-					.addGap(55)
-					.addComponent(lblCopyno)
-					.addGap(50)
-					.addComponent(lblPosition)
-					.addGap(355))
-				.addGroup(gl_panel_N_Copy.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(textField_C_DocId, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(textField_C_LibId, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(textField_C_CopyNo, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(textField_C_Position, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-					.addGap(155)
-					.addComponent(C_add, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-					.addGap(75))
-		);
-		gl_panel_N_Copy.setVerticalGroup(
-			gl_panel_N_Copy.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_Copy.createSequentialGroup()
-					.addGap(66)
-					.addGroup(gl_panel_N_Copy.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblDocid)
-						.addComponent(lblCopyno)
-						.addComponent(lblLibid)
-						.addComponent(lblPosition))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_N_Copy.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(C_add, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(textField_C_Position, Alignment.LEADING)
-						.addGroup(Alignment.LEADING, gl_panel_N_Copy.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_C_LibId, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-							.addComponent(textField_C_CopyNo, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addComponent(textField_C_DocId, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-					.addContainerGap(385, Short.MAX_VALUE))
-		);
-		panel_N_Copy.setLayout(gl_panel_N_Copy);
+		JLabel lblNewAuthorName = new JLabel("Author Name");
+		lblNewAuthorName.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewAuthorName.setBounds(502, 61, 63, 14);
+		panel_N_Document.add(lblNewAuthorName);
+		
+		textField_AuthorName = new JTextField();
+		textField_AuthorName.setBounds(502, 85, 90, 36);
+		panel_N_Document.add(textField_AuthorName);
+		textField_AuthorName.setColumns(10);
+		
+		JLabel lblCDate = new JLabel("Conference Date");
+		lblCDate.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblCDate.setBounds(29, 139, 84, 15);
+		panel_N_Document.add(lblCDate);
+		
+		textField_CDate = new JTextField();
+		textField_CDate.setBounds(29, 161, 88, 35);
+		panel_N_Document.add(textField_CDate);
+		textField_CDate.setColumns(10);
+		
+		JLabel lblCLocation = new JLabel("Conference Location");
+		lblCLocation.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblCLocation.setBounds(149, 139, 106, 15);
+		panel_N_Document.add(lblCLocation);
+		
+		textField_CLocation = new JTextField();
+		textField_CLocation.setBounds(149, 163, 90, 35);
+		panel_N_Document.add(textField_CLocation);
+		textField_CLocation.setColumns(10);
+		
+		rdbtnBook = new JRadioButton("Book");
+		rdbtnBook.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				docType = Constant.TYPE_BOOK;
+				rdbtnBook.setSelected(true);
+				rdbtnJournal.setSelected(false);
+				rdbtnCP.setSelected(false);
+				lblIsbn.setVisible(true);
+				lblVolumeno.setVisible(false);
+				lblChiefEditor.setVisible(false);
+				lblCDate.setVisible(false);
+				lblCEditor.setVisible(false);
+				lblCLocation.setVisible(false);
+				textField_D_ISBN.setVisible(true);
+				textField_D_VolumeNo.setVisible(false);
+				textField_D_ChiefEditor.setVisible(false);
+				textField_CDate.setVisible(false);
+				textField_CLocation.setVisible(false);
+				textField_CEditor.setVisible(false);
+				
+				
+			}
+		});
+		
+		lblCEditor = new JLabel("Conference Editor");
+		lblCEditor.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblCEditor.setBounds(267, 138, 102, 15);
+		panel_N_Document.add(lblCEditor);
+		
+		textField_CEditor = new JTextField();
+		textField_CEditor.setBounds(267, 161, 90, 35);
+		panel_N_Document.add(textField_CEditor);
+		textField_CEditor.setColumns(10);
+		textField_CEditor.setVisible(false);
+		rdbtnBook.setBounds(29, 20, 84, 23);
+		panel_N_Document.add(rdbtnBook);
+		
+		rdbtnJournal = new JRadioButton("Journal");
+		rdbtnJournal.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				docType = Constant.TYPE_JOURNAL_VOLUME;
+				rdbtnBook.setSelected(false);
+				rdbtnJournal.setSelected(true);
+				rdbtnCP.setSelected(false);
+				lblIsbn.setVisible(false);
+				lblVolumeno.setVisible(true);
+				lblChiefEditor.setVisible(true);
+				lblCDate.setVisible(false);
+				lblCLocation.setVisible(false);
+				lblCEditor.setVisible(false);
+				textField_D_ISBN.setVisible(false);
+				textField_D_VolumeNo.setVisible(true);
+				textField_D_ChiefEditor.setVisible(true);
+				textField_CDate.setVisible(false);
+				textField_CLocation.setVisible(false);
+				textField_CEditor.setVisible(false);
+				
+			}
+		});
+		rdbtnJournal.setBounds(149, 20, 90, 23);
+		panel_N_Document.add(rdbtnJournal);
+		
+		rdbtnCP = new JRadioButton("Conference Proceeding");
+		rdbtnCP.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				docType = Constant.TYPE_CONFERENCE_PROCEEDING;
+				rdbtnBook.setSelected(false);
+				rdbtnJournal.setSelected(false);
+				rdbtnCP.setSelected(true);
+				lblIsbn.setVisible(false);
+				lblVolumeno.setVisible(false);
+				lblChiefEditor.setVisible(false);
+				lblCDate.setVisible(true);
+				lblCLocation.setVisible(true);
+				lblCEditor.setVisible(true);
+				textField_D_ISBN.setVisible(false);
+				textField_D_VolumeNo.setVisible(false);
+				textField_D_ChiefEditor.setVisible(false);
+				textField_CDate.setVisible(true);
+				textField_CLocation.setVisible(true);
+				textField_CEditor.setVisible(true);
+				
+			}
+		});
+		rdbtnCP.setBounds(267, 20, 179, 23);
+		panel_N_Document.add(rdbtnCP);
+		
+		lblIsbn.setVisible(true);
+		lblVolumeno.setVisible(false);
+		lblChiefEditor.setVisible(false);
+		lblCDate.setVisible(false);
+		lblCLocation.setVisible(false);
+		lblCEditor.setVisible(false);
+		textField_D_ISBN.setVisible(true);
+		textField_D_VolumeNo.setVisible(false);
+		textField_D_ChiefEditor.setVisible(false);
+		textField_CDate.setVisible(false);
+		textField_CLocation.setVisible(false);
+		textField_CEditor.setVisible(false);
 		
 		JPanel panel_N_LibraryBranch = new JPanel();
 		tabbedPane_New.addTab("Library Branch", null, panel_N_LibraryBranch, null);
 		
-		JLabel lblLibid_1 = new JLabel("LIBID");
-		
-		textField_LibId = new JTextField();
-		textField_LibId.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("NAME");
-		
 		textField_Name = new JTextField();
+		textField_Name.setBounds(49, 89, 97, 36);
 		textField_Name.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("LOCATION");
-		
 		textField_Location = new JTextField();
+		textField_Location.setBounds(200, 89, 97, 36);
 		textField_Location.setColumns(10);
 		
 		JButton L_add = new JButton("ADD");
-		L_add.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		L_add.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Branch branch = new Branch();
+				branch.setName(textField_Name.getText());
+				branch.setLocation(textField_Location.getText());
 			}
 		});
-		GroupLayout gl_panel_N_LibraryBranch = new GroupLayout(panel_N_LibraryBranch);
-		gl_panel_N_LibraryBranch.setHorizontalGroup(
-			gl_panel_N_LibraryBranch.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_LibraryBranch.createSequentialGroup()
-					.addGroup(gl_panel_N_LibraryBranch.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_N_LibraryBranch.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(textField_LibId, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField_Name, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField_Location, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-							.addGap(235)
-							.addComponent(L_add, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_N_LibraryBranch.createSequentialGroup()
-							.addGap(30)
-							.addComponent(lblLibid_1)
-							.addGap(81)
-							.addComponent(lblNewLabel_1)
-							.addGap(69)
-							.addComponent(lblNewLabel_2)))
-					.addContainerGap(70, Short.MAX_VALUE))
-		);
-		gl_panel_N_LibraryBranch.setVerticalGroup(
-			gl_panel_N_LibraryBranch.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_N_LibraryBranch.createSequentialGroup()
-					.addGap(64)
-					.addGroup(gl_panel_N_LibraryBranch.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLibid_1)
-						.addComponent(lblNewLabel_1)
-						.addComponent(lblNewLabel_2))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_N_LibraryBranch.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(Alignment.LEADING, gl_panel_N_LibraryBranch.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_Location, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-							.addComponent(L_add, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
-						.addComponent(textField_LibId, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-						.addComponent(textField_Name, Alignment.LEADING))
-					.addContainerGap(381, Short.MAX_VALUE))
-		);
-		panel_N_LibraryBranch.setLayout(gl_panel_N_LibraryBranch);
+		L_add.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		L_add.setBounds(596, 89, 97, 36);
+		L_add.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		panel_N_LibraryBranch.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("NAME");
+		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewLabel_1.setBounds(83, 65, 29, 14);
+		panel_N_LibraryBranch.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("LOCATION");
+		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewLabel_2.setBounds(222, 65, 52, 14);
+		panel_N_LibraryBranch.add(lblNewLabel_2);
+		panel_N_LibraryBranch.add(textField_Name);
+		panel_N_LibraryBranch.add(textField_Location);
+		panel_N_LibraryBranch.add(L_add);
+		
+		JPanel panel_N_Copy = new JPanel();
+		tabbedPane_New.addTab("Copy", null, panel_N_Copy, null);
+		
+		JLabel lblDocid = new JLabel("DOCNAME");
+		lblDocid.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblDocid.setBounds(69, 66, 51, 14);
+		
+		textField_C_DocId = new JTextField();
+		textField_C_DocId.setBounds(53, 87, 87, 36);
+		textField_C_DocId.setColumns(10);
+		
+		JLabel lblLibid = new JLabel("LIBNAME");
+		lblLibid.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblLibid.setBounds(209, 66, 44, 14);
+		
+		textField_C_LibId = new JTextField();
+		textField_C_LibId.setBounds(193, 87, 87, 36);
+		textField_C_LibId.setColumns(10);
+		
+		JLabel lblCopyno = new JLabel("COPYNO");
+		lblCopyno.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblCopyno.setBounds(69, 162, 44, 14);
+		
+		JLabel lblPosition = new JLabel("POSITION");
+		lblPosition.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPosition.setBounds(209, 162, 46, 14);
+		
+		textField_C_CopyNo = new JTextField();
+		textField_C_CopyNo.setBounds(53, 186, 87, 35);
+		textField_C_CopyNo.setColumns(10);
+		
+		textField_C_Position = new JTextField();
+		textField_C_Position.setBounds(193, 186, 87, 36);
+		textField_C_Position.setColumns(10);
+		
+		JButton C_add = new JButton("ADD");
+		C_add.setBounds(608, 185, 87, 36);
+		panel_N_Copy.setLayout(null);
+		panel_N_Copy.add(lblDocid);
+		panel_N_Copy.add(lblLibid);
+		panel_N_Copy.add(lblCopyno);
+		panel_N_Copy.add(lblPosition);
+		panel_N_Copy.add(textField_C_DocId);
+		panel_N_Copy.add(textField_C_LibId);
+		panel_N_Copy.add(textField_C_CopyNo);
+		panel_N_Copy.add(textField_C_Position);
+		panel_N_Copy.add(C_add);
 		layeredPane_New.setVisible(false);
+		
+		JLayeredPane layeredPane_Welcome = new JLayeredPane();
+		layeredPane_Welcome.setBounds(148, 0, 780, 586);
+		layeredPane.add(layeredPane_Welcome);
+		
+		txtWelcomeToThe = new JTextField();
+		txtWelcomeToThe.setBackground(SystemColor.menu);
+		txtWelcomeToThe.setForeground(new Color(0, 0, 128));
+		txtWelcomeToThe.setEditable(false);
+		txtWelcomeToThe.setHorizontalAlignment(SwingConstants.CENTER);
+		txtWelcomeToThe.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		txtWelcomeToThe.setText("Welcome to the library management system!");
+		txtWelcomeToThe.setBounds(49, 115, 665, 216);
+		layeredPane_Welcome.add(txtWelcomeToThe);
+		txtWelcomeToThe.setColumns(10);
+		
+		JLayeredPane layeredPane_BR = new JLayeredPane();
+		layeredPane_BR.setBounds(148, 6, 767, 580);
+		layeredPane.add(layeredPane_BR);
+		layeredPane_BR.setVisible(false);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(Color.GRAY));
+		panel.setBounds(10, 2, 741, 75);
+		layeredPane_BR.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblReaderid = new JLabel("READERID");
+		lblReaderid.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblReaderid.setBounds(21, 26, 74, 35);
+		panel.add(lblReaderid);
+		
+		txtReaderid = new JTextField();
+		txtReaderid.setBounds(105, 25, 120, 35);
+		panel.add(txtReaderid);
+		txtReaderid.setForeground(SystemColor.desktop);
+		txtReaderid.setHorizontalAlignment(SwingConstants.CENTER);
+		txtReaderid.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtReaderid.setColumns(10);
+		
+		//-----------------------
+		
+		JLabel lblReadername = new JLabel("READERNAME");
+		lblReadername.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblReadername.setBounds(247, 26, 93, 35);
+		panel.add(lblReadername);
+		
+		txtReadername = new JTextField();
+		txtReadername.setBounds(350, 25, 120, 35);
+		panel.add(txtReadername);
+		txtReadername.setForeground(SystemColor.desktop);
+		txtReadername.setHorizontalAlignment(SwingConstants.CENTER);
+		txtReadername.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtReadername.setColumns(10);
+		
+		//-----------------------
+		
+		JButton btnNewButton_4 = new JButton("SEARCH");
+		btnNewButton_4.setBounds(595, 26, 120, 35);
+		panel.add(btnNewButton_4);
+		btnNewButton_4.setForeground(Color.BLUE);
+		btnNewButton_4.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		
+		//-----------------------
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(Color.GRAY));
+		panel_1.setBounds(10, 83, 741, 487);
+		layeredPane_BR.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblPublisherName = new JLabel("<html>PUBLISHER<br>NAME<html>");
+		lblPublisherName.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblPublisherName.setBounds(21, 11, 74, 35);
+		panel_1.add(lblPublisherName);
+		
+		txtPublisherName = new JTextField();
+		txtPublisherName.setBounds(105, 11, 120, 35);
+		panel_1.add(txtPublisherName);
+		txtPublisherName.setForeground(SystemColor.desktop);
+		txtPublisherName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtPublisherName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPublisherName.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("<html>AUTHOR<br>NAME<html>");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel.setBounds(247, 11, 74, 35);
+		panel_1.add(lblNewLabel);
+		
+		txtAuthorName = new JTextField();
+		txtAuthorName.setBounds(350, 11, 120, 35);
+		panel_1.add(txtAuthorName);
+		txtAuthorName.setForeground(SystemColor.desktop);
+		txtAuthorName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtAuthorName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAuthorName.setColumns(10);
+		
+		JLabel lblTitle = new JLabel("TITLE");
+		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblTitle.setBounds(21, 57, 74, 35);
+		panel_1.add(lblTitle);
+		
+		txtTitle = new JTextField();
+		txtTitle.setBounds(105, 55, 120, 35);
+		panel_1.add(txtTitle);
+		txtTitle.setForeground(SystemColor.desktop);
+		txtTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		txtTitle.setColumns(10);
+		
+		JLabel lblDescriptor = new JLabel("DESCRIPTOR");
+		lblDescriptor.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblDescriptor.setBounds(247, 57, 74, 35);
+		panel_1.add(lblDescriptor);
+		
+		txtDescriptor = new JTextField();
+		txtDescriptor.setBounds(350, 55, 120, 35);
+		panel_1.add(txtDescriptor);
+		txtDescriptor.setForeground(SystemColor.desktop);
+		txtDescriptor.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDescriptor.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtDescriptor.setColumns(10);
+		
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.setBounds(595, 57, 117, 35);
+		panel_1.add(btnSearch);
+		btnSearch.setForeground(Color.BLUE);
+		btnSearch.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		
+		table = new JTable();
+		table.setBounds(9, 102, 722, 330);
+		panel_1.add(table);
+		
+		JButton btnNewButton_5 = new JButton("BORROW");
+		btnNewButton_5.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnNewButton_5.setBounds(458, 442, 117, 35);
+		panel_1.add(btnNewButton_5);
+		btnNewButton_5.setForeground(Color.BLUE);
+		
+		JButton btnNewButton_6 = new JButton("RESERVE");
+		btnNewButton_6.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnNewButton_6.setBounds(597, 442, 117, 35);
+		panel_1.add(btnNewButton_6);
+		btnNewButton_6.setForeground(Color.BLUE);
 		
 		JLayeredPane layeredPane_Update = new JLayeredPane();
 		layeredPane_Update.setBounds(148, 6, 774, 580);
@@ -678,336 +738,228 @@ public class LibraryManagement extends JFrame {
 		tabbedPane_Update.addTab("Reader", null, panel_U_Reader, null);
 		
 		JLabel lblReaderid_1 = new JLabel("READERID");
+		lblReaderid_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReaderid_1.setBounds(23, 62, 70, 15);
 		
 		JLabel lblType_1 = new JLabel("TYPE");
+		lblType_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblType_1.setBounds(143, 62, 53, 15);
 		
 		JLabel lblReadname = new JLabel("READNAME");
+		lblReadname.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReadname.setBounds(238, 62, 70, 15);
 		
 		JLabel lblNumborbooks_1 = new JLabel("NUMBORBOOKS");
+		lblNumborbooks_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNumborbooks_1.setBounds(342, 62, 89, 15);
 		
 		JLabel lblNumresbooks_1 = new JLabel("NUMRESBOOKS");
+		lblNumresbooks_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNumresbooks_1.setBounds(441, 62, 80, 15);
 		
 		JLabel lblAddress = new JLabel("ADDRESS");
+		lblAddress.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblAddress.setBounds(552, 62, 63, 15);
 		
 		JLabel lblPhonenum_1 = new JLabel("PHONENUM");
+		lblPhonenum_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPhonenum_1.setBounds(656, 62, 70, 15);
 		
 		textField_2 = new JTextField();
+		textField_2.setBounds(13, 87, 93, 43);
 		textField_2.setColumns(10);
 		
 		textField_3 = new JTextField();
+		textField_3.setBounds(119, 87, 97, 43);
 		textField_3.setColumns(10);
 		
 		textField_4 = new JTextField();
+		textField_4.setBounds(229, 87, 93, 43);
 		textField_4.setColumns(10);
 		
 		textField_5 = new JTextField();
+		textField_5.setBounds(335, 87, 93, 43);
 		textField_5.setColumns(10);
 		
 		textField_6 = new JTextField();
+		textField_6.setBounds(441, 87, 93, 43);
 		textField_6.setColumns(10);
 		
 		textField_7 = new JTextField();
+		textField_7.setBounds(547, 87, 89, 43);
 		textField_7.setColumns(10);
 		
 		textField_8 = new JTextField();
+		textField_8.setBounds(649, 87, 93, 43);
 		textField_8.setColumns(10);
 		
 		JButton btnUpdate_2 = new JButton("UPDATE");
-		GroupLayout gl_panel_U_Reader = new GroupLayout(panel_U_Reader);
-		gl_panel_U_Reader.setHorizontalGroup(
-			gl_panel_U_Reader.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_U_Reader.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnUpdate_2)
-						.addGroup(gl_panel_U_Reader.createSequentialGroup()
-							.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_2, 0, 0, Short.MAX_VALUE)
-								.addComponent(lblReaderid_1))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_U_Reader.createSequentialGroup()
-									.addGap(28)
-									.addComponent(lblType_1)
-									.addGap(47)
-									.addComponent(lblReadname))
-								.addGroup(gl_panel_U_Reader.createSequentialGroup()
-									.addGap(6)
-									.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)))
-							.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_U_Reader.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblNumborbooks_1))
-								.addGroup(gl_panel_U_Reader.createSequentialGroup()
-									.addGap(6)
-									.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_U_Reader.createSequentialGroup()
-									.addComponent(lblNumresbooks_1)
-									.addGap(36)
-									.addComponent(lblAddress)
-									.addGap(44)
-									.addComponent(lblPhonenum_1))
-								.addGroup(gl_panel_U_Reader.createSequentialGroup()
-									.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_8, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)))))
-					.addContainerGap(51, Short.MAX_VALUE))
-		);
-		gl_panel_U_Reader.setVerticalGroup(
-			gl_panel_U_Reader.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_U_Reader.createSequentialGroup()
-					.addGap(62)
-					.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblReaderid_1)
-							.addComponent(lblType_1)
-							.addComponent(lblAddress)
-							.addComponent(lblPhonenum_1)
-							.addComponent(lblNumresbooks_1))
-						.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblReadname)
-							.addComponent(lblNumborbooks_1)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel_U_Reader.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-							.addComponent(textField_7, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-							.addComponent(textField_8, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-							.addComponent(textField_6, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)))
-					.addGap(31)
-					.addComponent(btnUpdate_2, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addGap(308))
-		);
-		panel_U_Reader.setLayout(gl_panel_U_Reader);
-		
-		JPanel panel_U_Document = new JPanel();
-		tabbedPane_Update.addTab("Document", null, panel_U_Document, null);
-		
-		JLabel lblDocid_1 = new JLabel("DOCID");
-		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		
-		JLabel lblPublisherid_1 = new JLabel("PUBLISHERID");
-		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("TITLE");
-		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		
-		JLabel lblPdate = new JLabel("PDATE");
-		
-		textField_12 = new JTextField();
-		textField_12.setColumns(10);
-		
-		JLabel lblBfg_1 = new JLabel("B_FG");
-		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		
-		JLabel lblIsbn_1 = new JLabel("ISBN");
-		
-		textField_14 = new JTextField();
-		textField_14.setColumns(10);
-		
-		JLabel lblNewLabel_4 = new JLabel("J_FG");
-		
-		textField_15 = new JTextField();
-		textField_15.setColumns(10);
-		
-		JLabel lblVolumeno_1 = new JLabel("VOLUMENO");
-		
-		textField_16 = new JTextField();
-		textField_16.setColumns(10);
-		
-		JLabel lblEditorid_1 = new JLabel("EDITORID");
-		
-		textField_17 = new JTextField();
-		textField_17.setColumns(10);
-		
-		JLabel lblPfg_1 = new JLabel("P_FG");
-		
-		textField_18 = new JTextField();
-		textField_18.setColumns(10);
-		
-		JButton btnUpdate = new JButton("UPDATE");
-		GroupLayout gl_panel_U_Document = new GroupLayout(panel_U_Document);
-		gl_panel_U_Document.setHorizontalGroup(
-			gl_panel_U_Document.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_U_Document.createSequentialGroup()
-					.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_U_Document.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(textField_14, 0, 0, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(textField_15, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField_16, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField_17, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField_18, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_U_Document.createSequentialGroup()
-							.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_U_Document.createSequentialGroup()
-									.addGap(21)
-									.addComponent(lblDocid_1))
-								.addGroup(gl_panel_U_Document.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_U_Document.createSequentialGroup()
-									.addComponent(textField_10, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(textField_11, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(textField_12, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(textField_13, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel_U_Document.createSequentialGroup()
-									.addComponent(lblPublisherid_1)
-									.addGap(59)
-									.addComponent(lblNewLabel_3)
-									.addGap(75)
-									.addComponent(lblPdate)
-									.addGap(72)
-									.addComponent(lblBfg_1))))
-						.addGroup(gl_panel_U_Document.createSequentialGroup()
-							.addGap(30)
-							.addComponent(lblIsbn_1)
-							.addGap(74)
-							.addComponent(lblNewLabel_4)
-							.addGap(68)
-							.addComponent(lblVolumeno_1)
-							.addGap(41)
-							.addComponent(lblEditorid_1)
-							.addGap(51)
-							.addComponent(lblPfg_1)))
-					.addGap(41)
-					.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-					.addGap(62))
-		);
-		gl_panel_U_Document.setVerticalGroup(
-			gl_panel_U_Document.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_U_Document.createSequentialGroup()
-					.addGap(67)
-					.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPublisherid_1)
-						.addComponent(lblDocid_1)
-						.addComponent(lblBfg_1)
-						.addComponent(lblNewLabel_3)
-						.addComponent(lblPdate))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_11, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-						.addComponent(textField_9, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-						.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_12, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-							.addComponent(textField_13, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-						.addComponent(textField_10, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIsbn_1)
-						.addComponent(lblNewLabel_4)
-						.addComponent(lblVolumeno_1)
-						.addComponent(lblEditorid_1)
-						.addComponent(lblPfg_1))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panel_U_Document.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_18, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnUpdate, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-						.addComponent(textField_14, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-						.addComponent(textField_15)
-						.addComponent(textField_16)
-						.addComponent(textField_17))
-					.addGap(302))
-		);
-		panel_U_Document.setLayout(gl_panel_U_Document);
+		btnUpdate_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnUpdate_2.setBounds(649, 181, 93, 39);
+		panel_U_Reader.setLayout(null);
+		panel_U_Reader.add(lblReaderid_1);
+		panel_U_Reader.add(textField_2);
+		panel_U_Reader.add(lblType_1);
+		panel_U_Reader.add(lblReadname);
+		panel_U_Reader.add(textField_3);
+		panel_U_Reader.add(textField_4);
+		panel_U_Reader.add(lblNumborbooks_1);
+		panel_U_Reader.add(textField_5);
+		panel_U_Reader.add(lblNumresbooks_1);
+		panel_U_Reader.add(textField_6);
+		panel_U_Reader.add(textField_7);
+		panel_U_Reader.add(lblAddress);
+		panel_U_Reader.add(btnUpdate_2);
+		panel_U_Reader.add(textField_8);
+		panel_U_Reader.add(lblPhonenum_1);
 		
 		JPanel panel_U_Branch = new JPanel();
 		tabbedPane_Update.addTab("Library Branch", null, panel_U_Branch, null);
 		
 		JLabel lblLibid_2 = new JLabel("LIBID");
+		lblLibid_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblLibid_2.setBounds(94, 64, 30, 15);
 		
 		textField_19 = new JTextField();
+		textField_19.setBounds(62, 89, 111, 39);
 		textField_19.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("NAME");
+		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblNewLabel_5.setBounds(266, 64, 48, 15);
 		
 		textField_20 = new JTextField();
+		textField_20.setBounds(235, 89, 111, 39);
 		textField_20.setColumns(10);
 		
 		JLabel lblLocation = new JLabel("LOCATION");
+		lblLocation.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblLocation.setBounds(423, 64, 69, 15);
 		
 		textField_21 = new JTextField();
+		textField_21.setBounds(408, 89, 111, 39);
 		textField_21.setColumns(10);
 		
 		JButton btnUpdate_1 = new JButton("UPDATE");
-		GroupLayout gl_panel_U_Branch = new GroupLayout(panel_U_Branch);
-		gl_panel_U_Branch.setHorizontalGroup(
-			gl_panel_U_Branch.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_U_Branch.createSequentialGroup()
-					.addGap(15)
-					.addComponent(textField_19, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(textField_20, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(textField_21, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
-					.addComponent(btnUpdate_1)
-					.addGap(82))
-				.addGroup(gl_panel_U_Branch.createSequentialGroup()
-					.addGap(42)
-					.addComponent(lblLibid_2)
-					.addGap(78)
-					.addComponent(lblNewLabel_5)
-					.addGap(73)
-					.addComponent(lblLocation)
-					.addContainerGap(412, Short.MAX_VALUE))
-		);
-		gl_panel_U_Branch.setVerticalGroup(
-			gl_panel_U_Branch.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_U_Branch.createSequentialGroup()
-					.addGap(64)
-					.addGroup(gl_panel_U_Branch.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLocation)
-						.addComponent(lblNewLabel_5)
-						.addComponent(lblLibid_2))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_U_Branch.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_19, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-						.addGroup(gl_panel_U_Branch.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_20, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-							.addComponent(textField_21, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnUpdate_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(380, Short.MAX_VALUE))
-		);
-		panel_U_Branch.setLayout(gl_panel_U_Branch);
+		btnUpdate_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnUpdate_1.setBounds(581, 90, 111, 37);
+		panel_U_Branch.setLayout(null);
+		panel_U_Branch.add(textField_19);
+		panel_U_Branch.add(textField_20);
+		panel_U_Branch.add(textField_21);
+		panel_U_Branch.add(btnUpdate_1);
+		panel_U_Branch.add(lblLibid_2);
+		panel_U_Branch.add(lblNewLabel_5);
+		panel_U_Branch.add(lblLocation);
 		
-		JButton btnNewButton_update = new JButton("Update");
-		btnNewButton_update.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		btnNewButton_update.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layeredPane_Welcome.setVisible(false);
-				layeredPane_BR.setVisible(false);
-				layeredPane_New.setVisible(false);
-				layeredPane_Update.setVisible(true);
-			}
-		});
+		JPanel panel_U_Document = new JPanel();
+		tabbedPane_Update.addTab("Document", null, panel_U_Document, null);
+		
+		JLabel lblDocid_1 = new JLabel("DOCID");
+		lblDocid_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblDocid_1.setBounds(45, 68, 31, 14);
+		
+		textField_9 = new JTextField();
+		textField_9.setBounds(14, 92, 109, 40);
+		textField_9.setColumns(10);
+		
+		JLabel lblPublisherid_1 = new JLabel("PUBLISHERID");
+		lblPublisherid_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPublisherid_1.setBounds(160, 68, 64, 14);
+		
+		textField_10 = new JTextField();
+		textField_10.setBounds(137, 92, 109, 40);
+		textField_10.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("TITLE");
+		lblNewLabel_3.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewLabel_3.setBounds(293, 68, 26, 14);
+		
+		textField_11 = new JTextField();
+		textField_11.setBounds(260, 92, 109, 40);
+		textField_11.setColumns(10);
+		
+		JLabel lblPdate = new JLabel("PDATE");
+		lblPdate.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPdate.setBounds(422, 68, 33, 14);
+		
+		textField_12 = new JTextField();
+		textField_12.setBounds(383, 91, 109, 41);
+		textField_12.setColumns(10);
+		
+		JLabel lblBfg_1 = new JLabel("B_FG");
+		lblBfg_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblBfg_1.setBounds(542, 68, 27, 14);
+		
+		textField_13 = new JTextField();
+		textField_13.setBounds(506, 91, 109, 41);
+		textField_13.setColumns(10);
+		
+		JLabel lblIsbn_1 = new JLabel("ISBN");
+		lblIsbn_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblIsbn_1.setBounds(45, 148, 23, 14);
+		
+		textField_14 = new JTextField();
+		textField_14.setBounds(14, 172, 109, 41);
+		textField_14.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("J_FG");
+		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNewLabel_4.setBounds(174, 148, 25, 14);
+		
+		textField_15 = new JTextField();
+		textField_15.setBounds(137, 172, 109, 41);
+		textField_15.setColumns(10);
+		
+		JLabel lblVolumeno_1 = new JLabel("VOLUMENO");
+		lblVolumeno_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblVolumeno_1.setBounds(286, 148, 58, 14);
+		
+		textField_16 = new JTextField();
+		textField_16.setBounds(260, 172, 109, 41);
+		textField_16.setColumns(10);
+		
+		JLabel lblEditorid_1 = new JLabel("EDITORID");
+		lblEditorid_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblEditorid_1.setBounds(410, 148, 45, 14);
+		
+		textField_17 = new JTextField();
+		textField_17.setBounds(383, 172, 109, 41);
+		textField_17.setColumns(10);
+		
+		JLabel lblPfg_1 = new JLabel("P_FG");
+		lblPfg_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPfg_1.setBounds(543, 149, 26, 14);
+		
+		textField_18 = new JTextField();
+		textField_18.setBounds(506, 173, 109, 41);
+		textField_18.setColumns(10);
+		
+		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnUpdate.setBounds(629, 171, 109, 42);
+		panel_U_Document.setLayout(null);
+		panel_U_Document.add(textField_14);
+		panel_U_Document.add(textField_15);
+		panel_U_Document.add(textField_16);
+		panel_U_Document.add(textField_17);
+		panel_U_Document.add(textField_18);
+		panel_U_Document.add(lblDocid_1);
+		panel_U_Document.add(textField_9);
+		panel_U_Document.add(textField_10);
+		panel_U_Document.add(textField_11);
+		panel_U_Document.add(textField_12);
+		panel_U_Document.add(textField_13);
+		panel_U_Document.add(lblPublisherid_1);
+		panel_U_Document.add(lblNewLabel_3);
+		panel_U_Document.add(lblPdate);
+		panel_U_Document.add(lblBfg_1);
+		panel_U_Document.add(lblIsbn_1);
+		panel_U_Document.add(lblNewLabel_4);
+		panel_U_Document.add(lblVolumeno_1);
+		panel_U_Document.add(lblEditorid_1);
+		panel_U_Document.add(lblPfg_1);
+		panel_U_Document.add(btnUpdate);
 		
 		JButton btnNewButton_new = new JButton("New");
 		btnNewButton_new.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
@@ -1034,8 +986,6 @@ public class LibraryManagement extends JFrame {
 		layeredPane.add(btnNewButton_br);
 		btnNewButton_new.setBounds(6, 133, 134, 39);
 		layeredPane.add(btnNewButton_new);
-		btnNewButton_update.setBounds(9, 200, 134, 39);
-		layeredPane.add(btnNewButton_update);
 		
 		JButton btnNewButton_quit = new JButton("Quit");
 		btnNewButton_quit.addActionListener(new ActionListener() {
@@ -1043,6 +993,19 @@ public class LibraryManagement extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		JButton btnNewButton_update = new JButton("Update");
+		btnNewButton_update.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnNewButton_update.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layeredPane_Welcome.setVisible(false);
+				layeredPane_BR.setVisible(false);
+				layeredPane_New.setVisible(false);
+				layeredPane_Update.setVisible(true);
+			}
+		});
+		btnNewButton_update.setBounds(9, 200, 134, 39);
+		layeredPane.add(btnNewButton_update);
 		btnNewButton_quit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnNewButton_quit.setBounds(9, 267, 131, 40);
 		layeredPane.add(btnNewButton_quit);
