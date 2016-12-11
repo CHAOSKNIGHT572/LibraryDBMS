@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
 import control.Constant;
+import jdbc.UpdateDocument;
 import vo.Author;
 import vo.Book;
 import vo.Branch;
@@ -267,6 +268,7 @@ public class LibraryManagement extends JFrame {
 					book.setTitle(textField_D_Title.getText());
 					book.setPubDate(textField_D_PDate.getText());
 					book.setIsbn(textField_D_ISBN.getText());
+					UpdateDocument.newBook(book);
 				}
 				if(docType == 1){
 					String[] authorArray = textField_AuthorName.getText().split(",");
@@ -286,6 +288,7 @@ public class LibraryManagement extends JFrame {
 					journalVolume.setVolNum(textField_D_VolumeNo.getText());
 					chiefEditor.setCeName(lblChiefEditor.getText());
 					journalVolume.setEditor(chiefEditor);
+					UpdateDocument.newJournalVolume(journalVolume);
 				}
 				if(docType == 2){
 					String[] authorArray = textField_AuthorName.getText().split(",");
@@ -305,9 +308,8 @@ public class LibraryManagement extends JFrame {
 					cp.setConDate(textField_CDate.getText());
 					cp.setConLocation(textField_CLocation.getText());
 					cp.setConEditor(textField_CEditor.getText());
-
+					UpdateDocument.newConferenceProceeding(cp);
 				}
-				
 			}
 		});
 		
@@ -392,6 +394,7 @@ public class LibraryManagement extends JFrame {
 		textField_CLocation.setColumns(10);
 		
 		rdbtnBook = new JRadioButton("Book");
+		rdbtnBook.setSelected(true);
 		rdbtnBook.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				docType = Constant.TYPE_BOOK;
