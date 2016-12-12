@@ -18,23 +18,23 @@ public class DocumentControl {
 			return Constant.REPEATED_ISBN;
 		}
 		if (UpdateDocument.newBook(book) == false) {
-			return Constant.UPDATE_FAILED;
+			return Constant.EXCEPTION;
 		}
-		return Constant.UPDATE_SUCCESSFUL;
+		return Constant.SUCCESSFUL;
 	}
 
 	public static int newJournalVolume(JournalVolume volume) {
 		if (UpdateDocument.newJournalVolume(volume) == false) {
-			return Constant.UPDATE_FAILED;
+			return Constant.EXCEPTION;
 		}
-		return Constant.UPDATE_SUCCESSFUL;
+		return Constant.SUCCESSFUL;
 	}
 
 	public static int newConferenceProceeding(ConferenceProceeding proceeding) {
 		if (UpdateDocument.newConferenceProceeding(proceeding) == false) {
-			return Constant.UPDATE_FAILED;
+			return Constant.EXCEPTION;
 		}
-		return Constant.UPDATE_SUCCESSFUL;
+		return Constant.SUCCESSFUL;
 	}
 
 	public static List<Document> getDocumentListByConditions(Document document) {

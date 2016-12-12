@@ -15,7 +15,7 @@ public class ReaderControl {
 		return UpdateBorrow.borrow(doc.getId(), lib.getId(), reader.getId());
 	}
 
-	public static boolean reserve() {
-		return true;
+	public static int reserve(Document doc, Branch lib, Reader reader) {
+		return UpdateBorrow.reserve(doc.getId(), lib.getId(), reader.getId());
 	}
 }
