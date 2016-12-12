@@ -10,4 +10,14 @@ public class Book extends Document {
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
+
+	@Override
+	public String toString() {
+		String toStr = super.toString();
+		if (isbn != null) {
+			toStr += ", " + isbn;
+		}
+		toStr += " - Book";
+		return toStr;
+	}
 }

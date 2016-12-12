@@ -27,7 +27,7 @@ public class UpdateCopy {
 			ps.setString(2, docId);
 			ps.setString(3, libId);
 			ps.setString(4, position);
-			if (ps.executeUpdate() != -1) {
+			if (ps.executeUpdate() != 1) {
 				result = false;
 			}
 		} catch (SQLException e) {

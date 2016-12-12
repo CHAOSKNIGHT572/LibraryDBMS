@@ -19,4 +19,11 @@ public class JournalVolume extends Document {
 	public void setEditor(ChiefEditor editor) {
 		this.editor = editor;
 	}
+
+	@Override
+	public String toString() {
+		String toStr = super.toString();
+		toStr += " - Journal";
+		return toStr;
+	}
 }

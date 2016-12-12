@@ -15,7 +15,8 @@ import vo.Document;
 public class QueryDocument {
 	private static final String GET_BOOK_BY_ISBN = "SELECT document.DocId, Title FROM document, book WHERE book.DocId = document.DocId AND ISBN = ?";
 	private static final String GET_ISBN = "SELECT isbn FROM book WHERE isbn = ?";
-	
+	private static final String GET_DOCUMENT_BY_PARTIAL_TITLE = "SELECT doc_id, title, type FROM document WHERE title LIKE ?";
+
 	// get docid by type in isbn
 	public static ResultSet getBookByISBN(String isbn) {
 		Connection conn;
@@ -33,7 +34,7 @@ public class QueryDocument {
 		}
 		return rs;
 	}
-	
+
 	public static ResultSet getISBN(String isbn) {
 		Connection conn;
 		if ((conn = ConnectionOperation.getConnection()) == null) {
@@ -108,5 +109,24 @@ public class QueryDocument {
 			return null;
 		}
 		return rs;
+	}
+
+	public static ResultSet getDocumentByPartialTitle(String partTitle) {
+		Connection conn;
+		if ((conn = ConnectionOperation.getConnection()) == null) {
+			return null;
+		}
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(GET_DOCUMENT_BY_PARTIAL_TITLE);
+			ps.setString(1, "%" + partTitle + "%");
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ConnectionOperation.close(ps);
+			return null;
+		}
 	}
 }

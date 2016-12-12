@@ -28,4 +28,11 @@ public class ConferenceProceeding extends Document {
 	public void setConLocation(String conLocation) {
 		this.conLocation = conLocation;
 	}
+
+	@Override
+	public String toString() {
+		String toStr = super.toString();
+		toStr += " - Proceeding";
+		return toStr;
+	}
 }

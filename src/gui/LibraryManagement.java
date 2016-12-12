@@ -22,19 +22,25 @@ import java.awt.SystemColor;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
+import control.BranchControl;
 import control.Constant;
+import control.DocumentControl;
+import jdbc.UpdateCopy;
 import jdbc.UpdateDocument;
 import vo.Author;
 import vo.Book;
 import vo.Branch;
 import vo.ChiefEditor;
 import vo.ConferenceProceeding;
+import vo.Document;
 import vo.JournalVolume;
 import vo.Publisher;
 import vo.Reader;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+
 import javax.swing.JRadioButton;
 
 public class LibraryManagement extends JFrame {
@@ -83,6 +89,11 @@ public class LibraryManagement extends JFrame {
 	private JTextField textField_CEditor;
 	private JLabel lblCEditor;
 
+	private static LibraryManagement selfObj;
+
+	String addCopyDocId = null;
+	String addCopyLibId = null;
+
 	/**
 	 * Launch the application.
 	 */
@@ -91,6 +102,7 @@ public class LibraryManagement extends JFrame {
 			public void run() {
 				try {
 					LibraryManagement frame = new LibraryManagement();
+					selfObj = frame;
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -543,7 +555,18 @@ public class LibraryManagement extends JFrame {
 		JButton C_add = new JButton("ADD");
 		C_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//TODO: if doc name and library name match, add library position
+				String position = textField_C_Position.getText();
+				if (addCopyDocId == null || addCopyLibId == null || position == null) {
+					return;
+				}
+				if (UpdateCopy.newCopy(addCopyDocId, addCopyLibId, position)) {
+					textField_C_DocId.setText("");
+					textField_C_LibId.setText("");
+					textField_C_Position.setText("");
+					addCopyDocId = addCopyLibId = null;
+					JOptionPane.showMessageDialog(selfObj, "Successful!", "Successful",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		C_add.setForeground(Color.BLUE);
@@ -563,16 +586,58 @@ public class LibraryManagement extends JFrame {
 		btnSearchDocName.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		btnSearchDocName.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
-				//TODO: fuzzy search for doc name and select one
+				String documentTitle = textField_C_DocId.getText();
+				if ("".equals(documentTitle)) {
+					return;
+				}
+				List<Document> list = DocumentControl.getDocumentListByName(documentTitle);
+				Document doc;
+				if (list.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Do not find document with title:" + documentTitle, "Not Found",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				} else if (list.size() == 1) {
+					doc = list.get(0);
+				} else {
+					doc = (Document) JOptionPane.showInputDialog(selfObj,
+							"Find several documents with the title:" + documentTitle, "Select One",
+							JOptionPane.QUESTION_MESSAGE, null, list.toArray(), null);
+					if (doc == null) {
+						return;
+					}
+				}
+				addCopyDocId = doc.getId();
+				textField_C_DocId.setText(doc.getTitle());
 			}
 		});
 		btnSearchDocName.setBounds(547, 89, 87, 36);
 		panel_N_Copy.add(btnSearchDocName);
-		
+
 		JButton btnSearchLibName = new JButton("SEARCH");
 		btnSearchLibName.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//TODO: search for library name
+				String branchName = textField_C_LibId.getText();
+				if ("".equals(branchName)) {
+					return;
+				}
+				List<Branch> list = BranchControl.getBranchByName(branchName);
+				Branch lib;
+				if (list.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Do not find branch with name:" + branchName, "Not Found",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				} else if (list.size() == 1) {
+					lib = list.get(0);
+				} else {
+					lib = (Branch) JOptionPane.showInputDialog(selfObj,
+							"Find several branch with the name:" + branchName, "Select One",
+							JOptionPane.QUESTION_MESSAGE, null, list.toArray(), null);
+					if (lib == null) {
+						return;
+					}
+				}
+				addCopyLibId = lib.getId();
+				textField_C_LibId.setText(lib.getName());
 			}
 		});
 		btnSearchLibName.setForeground(Color.BLUE);
@@ -632,10 +697,10 @@ public class LibraryManagement extends JFrame {
 		textFieldPhoneNum = new JTextField();
 		textFieldPhoneNum.setBounds(512, 87, 93, 39);
 		textFieldPhoneNum.setColumns(10);
-		
+
 		// ------------
 		Reader rd = new Reader(); // wrong
-		
+
 		// TODO: update reader
 		JButton btnUpdate_2 = new JButton("UPDATE");
 		btnUpdate_2.setForeground(Color.BLUE);
@@ -697,7 +762,7 @@ public class LibraryManagement extends JFrame {
 		textFieldLibLocation = new JTextField();
 		textFieldLibLocation.setBounds(408, 89, 111, 39);
 		textFieldLibLocation.setColumns(10);
-		
+
 		// ------------
 		Branch br = new Branch(); // wrong
 		// TODO: update library branch
@@ -840,7 +905,7 @@ public class LibraryManagement extends JFrame {
 		txtDescriptor.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDescriptor.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		txtDescriptor.setColumns(10);
-   
+
 		JButton btnSearch = new JButton("SEARCH");
 		btnSearch.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -853,7 +918,6 @@ public class LibraryManagement extends JFrame {
 		btnSearch.setForeground(Color.BLUE);
 		btnSearch.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 
-		
 		table = new JTable();
 		table.setBounds(9, 102, 722, 330);
 		panel_1.add(table);
