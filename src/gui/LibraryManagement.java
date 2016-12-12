@@ -899,7 +899,7 @@ public class LibraryManagement extends JFrame {
 		txtWelcomeToThe.setColumns(10);
 
 		JButton btnNewButton_new = new JButton("New");
-		btnNewButton_new.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnNewButton_new.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_new.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane_Welcome.setVisible(false);
@@ -910,7 +910,7 @@ public class LibraryManagement extends JFrame {
 		});
 
 		JButton btnNewButton_br = new JButton("Borrow/reserve");
-		btnNewButton_br.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnNewButton_br.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_br.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane_Welcome.setVisible(false);
@@ -936,7 +936,7 @@ public class LibraryManagement extends JFrame {
 		});
 
 		JButton btnNewButton_update = new JButton("Update");
-		btnNewButton_update.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnNewButton_update.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane_Welcome.setVisible(false);
@@ -947,7 +947,7 @@ public class LibraryManagement extends JFrame {
 		});
 		btnNewButton_update.setBounds(9, 200, 134, 39);
 		layeredPane.add(btnNewButton_update);
-		btnNewButton_quit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnNewButton_quit.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_quit.setBounds(9, 267, 131, 40);
 		layeredPane.add(btnNewButton_quit);
 		contentPane.setLayout(groupLayout);
