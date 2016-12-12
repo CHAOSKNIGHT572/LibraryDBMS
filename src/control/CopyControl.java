@@ -6,8 +6,8 @@ import vo.Copy;
 public class CopyControl {
 	public static int newCopy(Copy copy) {
 		if (!UpdateCopy.newCopy(copy.getDocument().getId(), copy.getBranch().getId(), copy.getPosition())) {
-			return Constant.UPDATE_FAILED;
+			return Constant.EXCEPTION;
 		}
-		return Constant.UPDATE_SUCCESSFUL;
+		return Constant.SUCCESSFUL;
 	}
 }

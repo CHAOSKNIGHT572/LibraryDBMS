@@ -49,7 +49,7 @@ public class UpdateCopy {
 			ps = conn.prepareStatement(SET_BORROW_MARK);
 			ps.setString(1, copyNo);
 			ps.setString(2, docId);
-			ps.setString(3, docId);
+			ps.setString(3, libId);
 			if (ps.executeUpdate() == 1) {
 
 			} else {
