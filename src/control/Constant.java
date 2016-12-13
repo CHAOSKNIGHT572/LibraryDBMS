@@ -10,6 +10,6 @@ public class Constant {
 	public static final int REPEATED_ISBN = 2;
 	public static final int NO_AVAILABLE_DOCUMENT_COPY = 3;
 
-	public static final int CHECK_COUNT_FAILED = 2;
-	public static final int CHECK_REPEAT_FAILED = 3;
+	public static final int CHECK_COUNT_FAILED = 4;
+	public static final int CHECK_REPEAT_FAILED = 5;
 }

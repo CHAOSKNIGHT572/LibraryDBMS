@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import jdbc.tool.ConnectionOperation;
-import vo.Author;
 import vo.Document;
 
 //[Query] regard to document
@@ -59,47 +56,31 @@ public class QueryDocument {
 			return null;
 		}
 		PreparedStatement ps = null;
-		String selfm = "SELECT document.DocId, Title, Type, publisher.pubName, author.AName, PDate FROM document, publisher, author, writes";
-		String where = " WHERE document.PublisherId = publisher.PublisherId AND document.DocId = writes.DocId AND writes.AuthorId = author.AuthorId";
+		String selfm = "SELECT DISTINCT document.`type`, document.doc_id, document.title, publisher.pub_name FROM publisher, document";
+		String where = " WHERE publisher.pub_id = document.pub_id";
 
 		// if there is a publisher name
 		if (doc.getPublisher() != null) {
-			where += " AND PubName LIKE '%" + doc.getPublisher().getPubName() + "%'";
+			where += " AND pub_name LIKE '%" + doc.getPublisher().getPubName() + "%'";
 		}
 		// if there is a list of authors
-		if (doc.getAuthorList().size() != 0) {
-			String authors = "";
-			List<Author> authorslist = doc.getAuthorList();
-			for (Author author : authorslist) {
-				authors += "'" + author.getAuName() + "',";
-			}
-			where += " AND author.AName IN (" + authors.substring(0, authors.length() - 1) + ")";
+		if (!doc.getAuthorList().isEmpty()) {
+			String authorName = doc.getAuthorList().get(0).getAuName();
+			selfm += ", `write`, author";
+			where += " AND document.doc_id=`write`.doc_id AND `write`.author_id=author.author_id AND author.author_name LIKE '%"
+					+ authorName + "%'";
 		}
 		// if there is a list of descriptor
-		if (doc.getDescriptorList().size() != 0) {
-			String descriptors = "";
-			List<String> descriptorslist = doc.getDescriptorList();
-			for (String descriptor : descriptorslist) {
-				descriptors += "'" + descriptor + "',";
-			}
+		if (!doc.getDescriptorList().isEmpty()) {
+			String descriptor = doc.getDescriptorList().get(0);
 			selfm += ", descriptor";
-			where += " AND D_value IN (" + descriptors.substring(0, descriptors.length() - 1)
-					+ ") AND document.DocId = descriptor.DocId";
-		}
-		// if there is a docid
-		if (doc.getId() != null) {
-			where += " AND DocId = " + doc.getId();
+			where += " AND document.doc_id = descriptor.doc_id AND descriptor_value LIKE '%" + descriptor + "%'";
 		}
 		// if there is a title
 		if (doc.getTitle() != null) {
-			where += " AND Title = " + doc.getTitle();
-		}
-		// if there is a publisher date
-		if (doc.getPubDate() != null) {
-			where += " AND PDate = " + doc.getPubDate();
+			where += " AND title LIKE '%" + doc.getTitle() + "%'";
 		}
 		String sqlString = selfm + where;
-		System.out.println(sqlString);
 		ResultSet rs = null;
 		try {
 			ps = conn.prepareStatement(sqlString);

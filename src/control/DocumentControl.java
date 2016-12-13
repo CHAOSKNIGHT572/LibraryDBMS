@@ -10,6 +10,7 @@ import jdbc.UpdateDocument;
 import vo.Document;
 import vo.Book;
 import vo.JournalVolume;
+import vo.Publisher;
 import vo.ConferenceProceeding;
 import vo.JournalIssue;
 
@@ -39,9 +40,36 @@ public class DocumentControl {
 	}
 
 	public static List<Document> getDocumentListByConditions(Document document) {
-		List<Document> documentList = new ArrayList<>();
-
-		return documentList;
+		List<Document> list = new LinkedList<>();
+		ResultSet rs = QueryDocument.getDocumentByMultiCondition(document);
+		if (rs != null) {
+			try {
+				int type;
+				Document doc;
+				Publisher pub;
+				while (rs.next()) {
+					type = rs.getInt(1);
+					if (type == Constant.TYPE_BOOK) {
+						doc = new Book();
+					} else if (type == Constant.TYPE_JOURNAL_VOLUME) {
+						doc = new JournalVolume();
+					} else if (type == Constant.TYPE_CONFERENCE_PROCEEDING) {
+						doc = new ConferenceProceeding();
+					} else {
+						continue;
+					}
+					doc.setId(rs.getString(2));
+					doc.setTitle(rs.getString(3));
+					pub = new Publisher();
+					pub.setPubName(rs.getString(4));
+					doc.setPublisher(pub);
+					list.add(doc);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 	public static List<Document> getDocumentListByName(String partTitle) {

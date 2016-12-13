@@ -56,4 +56,9 @@ public class Reader {
 	public int getResNum() {
 		return resNum;
 	}
+
+	@Override
+	public String toString() {
+		return name + "," + phoneNum;
+	}
 }

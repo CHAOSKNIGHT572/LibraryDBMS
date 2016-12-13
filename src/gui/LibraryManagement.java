@@ -21,10 +21,12 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 import control.BranchControl;
 import control.Constant;
 import control.DocumentControl;
+import control.ReaderControl;
 import jdbc.UpdateCopy;
 import jdbc.UpdateDocument;
 import vo.Author;
@@ -42,6 +44,9 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JRadioButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import javax.swing.table.TableModel;
 
 public class LibraryManagement extends JFrame {
 
@@ -93,6 +98,8 @@ public class LibraryManagement extends JFrame {
 
 	String addCopyDocId = null;
 	String addCopyLibId = null;
+	String borResReaderId = null;
+	List<Document> borResDocList = null;
 
 	/**
 	 * Launch the application.
@@ -109,6 +116,32 @@ public class LibraryManagement extends JFrame {
 				}
 			}
 		});
+	}
+
+	public void setValueForTable(List<Document> docList) {
+		borResDocList = docList;
+		DefaultTableModel model = (DefaultTableModel) getTableModel();
+		model.setRowCount(0);
+		for (Document doc : docList) {
+			String type;
+			if (doc instanceof Book) {
+				type = "Book";
+			} else if (doc instanceof JournalVolume) {
+				type = "Journal Volume";
+			} else if (doc instanceof ConferenceProceeding) {
+				type = "Conference Proceeding";
+			} else {
+				continue;
+			}
+			model.addRow(new Object[] { doc.getTitle(), doc.getPublisher().getPubName(), type });
+		}
+		setTableModel(model);
+	}
+
+	private void setEmptyTable() {
+		DefaultTableModel model = (DefaultTableModel) getTableModel();
+		model.setRowCount(0);
+		setTableModel(model);
 	}
 
 	/**
@@ -134,6 +167,286 @@ public class LibraryManagement extends JFrame {
 		ChiefEditor chiefEditor = new ChiefEditor();
 		JournalVolume journalVolume = new JournalVolume();
 		ConferenceProceeding cp = new ConferenceProceeding();
+
+		JLayeredPane layeredPane_BR = new JLayeredPane();
+		layeredPane_BR.setBounds(148, 6, 767, 580);
+		layeredPane.add(layeredPane_BR);
+		layeredPane_BR.setVisible(false);
+
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(Color.GRAY));
+		panel.setBounds(10, 2, 741, 75);
+		layeredPane_BR.add(panel);
+		panel.setLayout(null);
+
+		JLabel lblReaderid = new JLabel("Reader Id");
+		lblReaderid.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblReaderid.setBounds(21, 26, 74, 35);
+		panel.add(lblReaderid);
+
+		txtReaderid = new JTextField();
+		txtReaderid.setBounds(105, 25, 120, 35);
+		panel.add(txtReaderid);
+		txtReaderid.setForeground(SystemColor.desktop);
+		txtReaderid.setHorizontalAlignment(SwingConstants.CENTER);
+		txtReaderid.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtReaderid.setColumns(10);
+
+		// -----------------------
+
+		JLabel lblReadername = new JLabel("Reader Name");
+		lblReadername.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblReadername.setBounds(247, 26, 93, 35);
+		panel.add(lblReadername);
+
+		txtReadername = new JTextField();
+		txtReadername.setBounds(350, 25, 120, 35);
+		panel.add(txtReadername);
+		txtReadername.setForeground(SystemColor.desktop);
+		txtReadername.setHorizontalAlignment(SwingConstants.CENTER);
+		txtReadername.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtReadername.setColumns(10);
+
+		// -----------------------
+
+		JButton btnNewButton_4 = new JButton("SEARCH");
+		btnNewButton_4.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				String id = txtReaderid.getText();
+				String name = txtReadername.getText();
+				if (!"".equals(id)) {
+					borResReaderId = ReaderControl.getReaderById(id).getId();
+					if (borResReaderId == null) {
+						System.out.println("Not Found");
+					} else {
+						System.out.println("Find Reader");
+					}
+				} else if (!"".equals(name)) {
+					List<Reader> list = ReaderControl.getReaderByName(name);
+					if (list.isEmpty()) {
+
+					} else if (list.size() == 1) {
+						borResReaderId = list.get(0).getId();
+						System.out.println("Find Reader");
+					} else {
+						Reader reader = (Reader) JOptionPane.showInputDialog(selfObj,
+								"Choose one from the following list", "Select One", JOptionPane.QUESTION_MESSAGE, null,
+								list.toArray(), null);
+						if (reader != null) {
+							borResReaderId = reader.getId();
+						}
+					}
+				} else {
+					System.out.println("Enter id or name");
+					return;
+				}
+
+			}
+		});
+		btnNewButton_4.setBounds(595, 26, 120, 35);
+		panel.add(btnNewButton_4);
+		btnNewButton_4.setForeground(Color.BLUE);
+		btnNewButton_4.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+
+		// -----------------------
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(Color.GRAY));
+		panel_1.setBounds(10, 83, 741, 487);
+		layeredPane_BR.add(panel_1);
+		panel_1.setLayout(null);
+
+		JLabel lblPublisherName = new JLabel("<html>Publisher<br>Name<html>");
+		lblPublisherName.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblPublisherName.setBounds(21, 11, 74, 35);
+		panel_1.add(lblPublisherName);
+
+		txtPublisherName = new JTextField();
+		txtPublisherName.setBounds(105, 11, 120, 35);
+		panel_1.add(txtPublisherName);
+		txtPublisherName.setForeground(SystemColor.desktop);
+		txtPublisherName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtPublisherName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPublisherName.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel("<html>Author<br>Name<html>");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblNewLabel.setBounds(247, 11, 74, 35);
+		panel_1.add(lblNewLabel);
+
+		txtAuthorName = new JTextField();
+		txtAuthorName.setBounds(350, 11, 120, 35);
+		panel_1.add(txtAuthorName);
+		txtAuthorName.setForeground(SystemColor.desktop);
+		txtAuthorName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtAuthorName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAuthorName.setColumns(10);
+
+		JLabel lblTitle = new JLabel("Title");
+		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblTitle.setBounds(21, 57, 74, 35);
+		panel_1.add(lblTitle);
+
+		txtTitle = new JTextField();
+		txtTitle.setBounds(105, 55, 120, 35);
+		panel_1.add(txtTitle);
+		txtTitle.setForeground(SystemColor.desktop);
+		txtTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		txtTitle.setColumns(10);
+
+		JLabel lblDescriptor = new JLabel("Descriptor");
+		lblDescriptor.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblDescriptor.setBounds(247, 57, 74, 35);
+		panel_1.add(lblDescriptor);
+
+		txtDescriptor = new JTextField();
+		txtDescriptor.setBounds(350, 55, 120, 35);
+		panel_1.add(txtDescriptor);
+		txtDescriptor.setForeground(SystemColor.desktop);
+		txtDescriptor.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDescriptor.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		txtDescriptor.setColumns(10);
+
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				String publisherName = txtPublisherName.getText();
+				String authorName = txtAuthorName.getText();
+				String title = txtTitle.getText();
+				String descriptor = txtDescriptor.getText();
+				Document doc = new Document();
+				if (!"".equals(publisher)) {
+					Publisher publisher = new Publisher();
+					publisher.setPubName(publisherName);
+					doc.setPublisher(publisher);
+				}
+				if (!"".equals(authorName)) {
+					Author author = new Author();
+					author.setAuName(authorName);
+					doc.addAuthor(author);
+				}
+				if (!"".equals(title)) {
+					doc.setTitle(title);
+				}
+				if (!"".equals(descriptor)) {
+					doc.addDescriptor(descriptor);
+				}
+				List<Document> list = DocumentControl.getDocumentListByConditions(doc);
+				if (!list.isEmpty()) {
+					setValueForTable(list);
+				} else {
+					JOptionPane.showMessageDialog(selfObj, "Do not find documents with the conditions.", "Not Found",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnSearch.setBounds(595, 57, 117, 35);
+		panel_1.add(btnSearch);
+		btnSearch.setForeground(Color.BLUE);
+		btnSearch.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(9, 102, 722, 330);
+		panel_1.add(scrollPane);
+
+		table = new JTable(new DefaultTableModel(new Object[][] { { null, null, null }, },
+				new String[] { "Name", "Publisher", "Type" }) {
+			private static final long serialVersionUID = 1209687639246047000L;
+			boolean[] columnEditables = new boolean[] { false, false, false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.setRowHeight(24);
+		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JButton btnNewButton_5 = new JButton("BORROW");
+		btnNewButton_5.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (borResReaderId == null) {
+					System.out.println("Check reader first");
+					return;
+				}
+				int selectIndex = table.getSelectedRow();
+				if (selectIndex == -1) {
+					System.out.println("Select a document");
+					return;
+				}
+				String docId = borResDocList.get(selectIndex).getId();
+				int result = ReaderControl.borrow(docId, "1", borResReaderId);
+				if (result == Constant.SUCCESSFUL) {
+					System.out.println("Successful");
+				} else if (result == Constant.CHECK_REPEAT_FAILED) {
+					System.out.println("You have already borrow the document");
+				} else if (result == Constant.CHECK_COUNT_FAILED) {
+					System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+				} else if (result == Constant.NO_AVAILABLE_DOCUMENT_COPY) {
+					System.out.println("No available copy for the document");
+				} else {
+					System.out.println("Failed");
+				}
+			}
+		});
+		btnNewButton_5.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnNewButton_5.setBounds(458, 442, 117, 35);
+		panel_1.add(btnNewButton_5);
+		btnNewButton_5.setForeground(Color.BLUE);
+
+		JButton btnNewButton_6 = new JButton("RESERVE");
+		btnNewButton_6.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (borResReaderId == null) {
+					System.out.println("Check reader first");
+					return;
+				}
+				int selectIndex = table.getSelectedRow();
+				if (selectIndex == -1) {
+					System.out.println("Select a document");
+					return;
+				}
+				String docId = borResDocList.get(selectIndex).getId();
+				int result = ReaderControl.reserve(docId, "1", borResReaderId);
+				if (result == Constant.SUCCESSFUL) {
+					System.out.println("Successful");
+				} else if (result == Constant.CHECK_REPEAT_FAILED) {
+					System.out.println("You have already borrow the document");
+				} else if (result == Constant.CHECK_COUNT_FAILED) {
+					System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+				} else if (result == Constant.NO_AVAILABLE_DOCUMENT_COPY) {
+					System.out.println("No available copy for the document");
+				} else {
+					System.out.println("Failed");
+				}
+			}
+		});
+		btnNewButton_6.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		btnNewButton_6.setBounds(597, 442, 117, 35);
+		panel_1.add(btnNewButton_6);
+		btnNewButton_6.setForeground(Color.BLUE);
+
+		JButton btnReturn = new JButton("Return");
+		btnReturn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DLReturnDocument dialog = new DLReturnDocument(selfObj, true);
+				dialog.setVisible(true);
+			}
+		});
+		btnReturn.setBounds(350, 445, 97, 25);
+		panel_1.add(btnReturn);
+
+		JButton btnGetReserve = new JButton("Get Reserve");
+		btnGetReserve.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DLReturnDocument dialog = new DLReturnDocument(selfObj, true);
+				dialog.setVisible(true);
+			}
+		});
+		btnGetReserve.setBounds(247, 446, 101, 25);
+		panel_1.add(btnGetReserve);
 
 		JLayeredPane layeredPane_New = new JLayeredPane();
 		layeredPane_New.setBounds(148, 6, 774, 580);
@@ -162,11 +475,19 @@ public class LibraryManagement extends JFrame {
 		R_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				Reader reader = new Reader();
-				reader.setPhoneNum(textField_R_Type.getText());
-				reader.setName(textField_R_ReaderName.getText());
+				String name = textField_R_ReaderName.getText();
+				String phone = textField_R_PhoneNum.getText();
+				if ("".equals(name) || "".equals(phone)) {
+					return;
+				}
+				reader.setType(textField_R_Type.getText());
+				reader.setName(name);
 				reader.setAddress(textField_R_Address.getText());
-				reader.setPhoneNum(textField_R_PhoneNum.getText());
-
+				reader.setPhoneNum(phone);
+				if (ReaderControl.newReader(reader)) {
+					JOptionPane.showMessageDialog(selfObj, "Successful!", "Successful",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		R_add.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -259,7 +580,11 @@ public class LibraryManagement extends JFrame {
 					book.setTitle(textField_D_Title.getText());
 					book.setPubDate(textField_D_PDate.getText());
 					book.setIsbn(textField_D_ISBN.getText());
-					UpdateDocument.newBook(book);
+					if (UpdateDocument.newBook(book)) {
+						System.out.println("Successful!");
+					} else {
+						System.out.println("Failed!");
+					}
 				}
 				if (docType == 1) {
 					String[] authorArray = textField_AuthorName.getText().split(",");
@@ -277,9 +602,13 @@ public class LibraryManagement extends JFrame {
 					journalVolume.setTitle(textField_D_Title.getText());
 					journalVolume.setPubDate(textField_D_PDate.getText());
 					journalVolume.setVolNum(textField_D_VolumeNo.getText());
-					chiefEditor.setCeName(lblChiefEditor.getText());
+					chiefEditor.setCeName(textField_D_ChiefEditor.getText());
 					journalVolume.setEditor(chiefEditor);
-					UpdateDocument.newJournalVolume(journalVolume);
+					if (UpdateDocument.newJournalVolume(journalVolume)) {
+						System.out.println("Successful!");
+					} else {
+						System.out.println("Failed!");
+					}
 				}
 				if (docType == 2) {
 					String[] authorArray = textField_AuthorName.getText().split(",");
@@ -299,7 +628,11 @@ public class LibraryManagement extends JFrame {
 					cp.setConDate(textField_CDate.getText());
 					cp.setConLocation(textField_CLocation.getText());
 					cp.setConEditor(textField_CEditor.getText());
-					UpdateDocument.newConferenceProceeding(cp);
+					if (UpdateDocument.newConferenceProceeding(cp)) {
+						System.out.println("Successful!");
+					} else {
+						System.out.println("Failed!");
+					}
 				}
 			}
 		});
@@ -499,17 +832,20 @@ public class LibraryManagement extends JFrame {
 		L_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				Branch branch = new Branch();
-				branch.setName(textField_Name.getText());
+				String name = textField_Name.getText();
+				if ("".equals(name)) {
+					return;
+				}
+				branch.setName(name);
 				branch.setLocation(textField_Location.getText());
+				if (BranchControl.newBranch(branch)) {
+					JOptionPane.showMessageDialog(selfObj, "Successful!", "Successful",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		L_add.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		L_add.setBounds(596, 89, 97, 36);
-		L_add.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
 		panel_N_LibraryBranch.setLayout(null);
 
 		JLabel lblNewLabel_1 = new JLabel("NAME");
@@ -645,6 +981,7 @@ public class LibraryManagement extends JFrame {
 		btnSearchLibName.setBounds(547, 180, 87, 36);
 		panel_N_Copy.add(btnSearchLibName);
 		layeredPane_New.setVisible(false);
+		setEmptyTable();
 
 		JLayeredPane layeredPane_Update = new JLayeredPane();
 		layeredPane_Update.setBounds(148, 6, 774, 580);
@@ -793,158 +1130,6 @@ public class LibraryManagement extends JFrame {
 		panel_U_Branch.add(lblNewLabel_5);
 		panel_U_Branch.add(lblLocation);
 
-		JLayeredPane layeredPane_BR = new JLayeredPane();
-		layeredPane_BR.setBounds(148, 6, 767, 580);
-		layeredPane.add(layeredPane_BR);
-		layeredPane_BR.setVisible(false);
-
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(Color.GRAY));
-		panel.setBounds(10, 2, 741, 75);
-		layeredPane_BR.add(panel);
-		panel.setLayout(null);
-
-		JLabel lblReaderid = new JLabel("Reader Id");
-		lblReaderid.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		lblReaderid.setBounds(21, 26, 74, 35);
-		panel.add(lblReaderid);
-
-		txtReaderid = new JTextField();
-		txtReaderid.setBounds(105, 25, 120, 35);
-		panel.add(txtReaderid);
-		txtReaderid.setForeground(SystemColor.desktop);
-		txtReaderid.setHorizontalAlignment(SwingConstants.CENTER);
-		txtReaderid.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtReaderid.setColumns(10);
-
-		// -----------------------
-
-		JLabel lblReadername = new JLabel("Reader Name");
-		lblReadername.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		lblReadername.setBounds(247, 26, 93, 35);
-		panel.add(lblReadername);
-
-		txtReadername = new JTextField();
-		txtReadername.setBounds(350, 25, 120, 35);
-		panel.add(txtReadername);
-		txtReadername.setForeground(SystemColor.desktop);
-		txtReadername.setHorizontalAlignment(SwingConstants.CENTER);
-		txtReadername.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtReadername.setColumns(10);
-
-		// -----------------------
-
-		JButton btnNewButton_4 = new JButton("SEARCH");
-		btnNewButton_4.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// TODO: search for readerId or ReaderName and get result
-
-			}
-		});
-		btnNewButton_4.setBounds(595, 26, 120, 35);
-		panel.add(btnNewButton_4);
-		btnNewButton_4.setForeground(Color.BLUE);
-		btnNewButton_4.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-
-		// -----------------------
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(Color.GRAY));
-		panel_1.setBounds(10, 83, 741, 487);
-		layeredPane_BR.add(panel_1);
-		panel_1.setLayout(null);
-
-		JLabel lblPublisherName = new JLabel("<html>Publisher<br>Name<html>");
-		lblPublisherName.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		lblPublisherName.setBounds(21, 11, 74, 35);
-		panel_1.add(lblPublisherName);
-
-		txtPublisherName = new JTextField();
-		txtPublisherName.setBounds(105, 11, 120, 35);
-		panel_1.add(txtPublisherName);
-		txtPublisherName.setForeground(SystemColor.desktop);
-		txtPublisherName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtPublisherName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPublisherName.setColumns(10);
-
-		JLabel lblNewLabel = new JLabel("<html>Author<br>Name<html>");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		lblNewLabel.setBounds(247, 11, 74, 35);
-		panel_1.add(lblNewLabel);
-
-		txtAuthorName = new JTextField();
-		txtAuthorName.setBounds(350, 11, 120, 35);
-		panel_1.add(txtAuthorName);
-		txtAuthorName.setForeground(SystemColor.desktop);
-		txtAuthorName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtAuthorName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAuthorName.setColumns(10);
-
-		JLabel lblTitle = new JLabel("Title");
-		lblTitle.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		lblTitle.setBounds(21, 57, 74, 35);
-		panel_1.add(lblTitle);
-
-		txtTitle = new JTextField();
-		txtTitle.setBounds(105, 55, 120, 35);
-		panel_1.add(txtTitle);
-		txtTitle.setForeground(SystemColor.desktop);
-		txtTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		txtTitle.setColumns(10);
-
-		JLabel lblDescriptor = new JLabel("Descriptor");
-		lblDescriptor.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		lblDescriptor.setBounds(247, 57, 74, 35);
-		panel_1.add(lblDescriptor);
-
-		txtDescriptor = new JTextField();
-		txtDescriptor.setBounds(350, 55, 120, 35);
-		panel_1.add(txtDescriptor);
-		txtDescriptor.setForeground(SystemColor.desktop);
-		txtDescriptor.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDescriptor.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		txtDescriptor.setColumns(10);
-
-		JButton btnSearch = new JButton("SEARCH");
-		btnSearch.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// TODO: search for publisher name, author name, title or
-				// descriptor and get result
-			}
-		});
-		btnSearch.setBounds(595, 57, 117, 35);
-		panel_1.add(btnSearch);
-		btnSearch.setForeground(Color.BLUE);
-		btnSearch.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-
-		table = new JTable();
-		table.setBounds(9, 102, 722, 330);
-		panel_1.add(table);
-		// TODO: table first column is able to select
-
-		JButton btnNewButton_5 = new JButton("BORROW");
-		btnNewButton_5.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// TODO: borrow event
-			}
-		});
-		btnNewButton_5.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnNewButton_5.setBounds(458, 442, 117, 35);
-		panel_1.add(btnNewButton_5);
-		btnNewButton_5.setForeground(Color.BLUE);
-
-		JButton btnNewButton_6 = new JButton("RESERVE");
-		btnNewButton_6.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// TODO: reserve event
-			}
-		});
-		btnNewButton_6.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnNewButton_6.setBounds(597, 442, 117, 35);
-		panel_1.add(btnNewButton_6);
-		btnNewButton_6.setForeground(Color.BLUE);
-
 		// ConferenceProceeding cpd = new ConferenceProceeding();
 
 		JLayeredPane layeredPane_Welcome = new JLayeredPane();
@@ -1015,5 +1200,13 @@ public class LibraryManagement extends JFrame {
 		btnNewButton_quit.setBounds(9, 267, 131, 40);
 		layeredPane.add(btnNewButton_quit);
 		contentPane.setLayout(groupLayout);
+	}
+
+	public TableModel getTableModel() {
+		return table.getModel();
+	}
+
+	public void setTableModel(TableModel model) {
+		table.setModel(model);
 	}
 }

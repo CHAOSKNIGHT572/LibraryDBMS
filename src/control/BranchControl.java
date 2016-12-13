@@ -10,8 +10,8 @@ import jdbc.UpdateBranch;
 import vo.Branch;
 
 public class BranchControl {
-	public static void newBranch(Branch branch) {
-		UpdateBranch.newBranch(branch);
+	public static boolean newBranch(Branch branch) {
+		return UpdateBranch.newBranch(branch);
 	}
 
 	public static List<Branch> getBranchByName(String name) {

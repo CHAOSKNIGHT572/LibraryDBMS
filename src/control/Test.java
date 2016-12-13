@@ -48,10 +48,13 @@ public class Test {
 		reader.setPhoneNum("8328360699");
 		ReaderControl.newReader(reader);
 
-		System.out.println(ReaderControl.borrow(volume, branch, reader) == Constant.SUCCESSFUL);
-		System.out.println(ReaderControl.reserve(proceeding, branch, reader) == Constant.SUCCESSFUL);
-		System.out.println(ReaderControl.borrow(proceeding, branch, reader) == Constant.SUCCESSFUL);
-		System.out.println(ReaderControl.reserve(volume, branch, reader) == Constant.SUCCESSFUL);
+		System.out.println(ReaderControl.borrow(volume.getId(), branch.getId(), reader.getId()) == Constant.SUCCESSFUL);
+		System.out.println(
+				ReaderControl.reserve(proceeding.getId(), branch.getId(), reader.getId()) == Constant.SUCCESSFUL);
+		System.out.println(
+				ReaderControl.borrow(proceeding.getId(), branch.getId(), reader.getId()) == Constant.SUCCESSFUL);
+		System.out
+				.println(ReaderControl.reserve(volume.getId(), branch.getId(), reader.getId()) == Constant.SUCCESSFUL);
 	}
 
 	private static Book addBook(int index) {
