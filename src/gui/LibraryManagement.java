@@ -1115,16 +1115,20 @@ public class LibraryManagement extends JFrame {
 		C_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				String position = textField_C_Position.getText();
-				if (addCopyDocId == null || addCopyLibId == null || position == null) {
-					return;
-				}
-				if (UpdateCopy.newCopy(addCopyDocId, addCopyLibId, position)) {
-					textField_C_DocId.setText("");
-					textField_C_LibId.setText("");
-					textField_C_Position.setText("");
-					addCopyDocId = addCopyLibId = null;
-					JOptionPane.showMessageDialog(selfObj, "Successful!", "Successful",
-							JOptionPane.INFORMATION_MESSAGE);
+				if(position.isEmpty() == false){
+					if (addCopyDocId == null || addCopyLibId == null || position == null) {
+						return;
+					}
+					if (UpdateCopy.newCopy(addCopyDocId, addCopyLibId, position)) {
+						textField_C_DocId.setText("");
+						textField_C_LibId.setText("");
+						textField_C_Position.setText("");
+						addCopyDocId = addCopyLibId = null;
+						JOptionPane.showMessageDialog(selfObj, "Successful!", "Successful",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "Please enter library position!");
 				}
 			}
 		});
