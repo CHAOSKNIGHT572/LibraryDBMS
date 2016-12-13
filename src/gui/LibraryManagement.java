@@ -425,8 +425,7 @@ public class LibraryManagement extends JFrame {
 				int result = ReaderControl.reserve(docId, "1", borResReaderId);
 				if (result == Constant.SUCCESSFUL) {
 					// System.out.println("Successful");
-					// JOptionPane.showMessageDialog(null, "Successfully reserve
-					// the document!");
+					JOptionPane.showMessageDialog(null, "Successfully reserve the document!");
 				} else if (result == Constant.CHECK_REPEAT_FAILED) {
 					// System.out.println("You have already borrow the
 					// document");
