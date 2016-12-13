@@ -214,35 +214,37 @@ public class LibraryManagement extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				String id = txtReaderid.getText();
 				String name = txtReadername.getText();
+				Reader reader = null;
 				if (!"".equals(id)) {
-					borResReaderId = ReaderControl.getReaderById(id).getId();
-					if (borResReaderId == null) {
-						// System.out.println("Not Found");
-						JOptionPane.showMessageDialog(null, "Reader not found!");
-					} else {
-						// System.out.println("Find Reader");
-						JOptionPane.showMessageDialog(null, "Reader found!");
-					}
+					reader = ReaderControl.getReaderById(id);
 				} else if (!"".equals(name)) {
 					List<Reader> list = ReaderControl.getReaderByName(name);
 					if (list.isEmpty()) {
-
+						JOptionPane.showMessageDialog(null, "Reader not found!");
+						return;
 					} else if (list.size() == 1) {
-						borResReaderId = list.get(0).getId();
-						// System.out.println("Find Reader");
-						JOptionPane.showMessageDialog(null, "Reader Found!");
+						reader = list.get(0);
 					} else {
-						Reader reader = (Reader) JOptionPane.showInputDialog(selfObj,
+						reader = (Reader) JOptionPane.showInputDialog(selfObj,
 								"Choose one from the following list", "Select One", JOptionPane.QUESTION_MESSAGE, null,
 								list.toArray(), null);
-						if (reader != null) {
-							borResReaderId = reader.getId();
+						if(reader == null){
+							return;
 						}
 					}
 				} else {
 					// System.out.println("Enter id or name");
 					JOptionPane.showMessageDialog(null, "Please enter reader id or reader name!");
+					return;
 				}
+				if(reader == null){
+					JOptionPane.showMessageDialog(null, "Reader not found!");
+					return;
+				}
+				borResReaderId = reader.getId();
+				JOptionPane.showMessageDialog(null, "Reader found!");
+				txtReaderid.setText(reader.getId());
+				txtReadername.setText(reader.getName());
 			}
 		});
 		btnNewButton_4.setBounds(595, 26, 120, 35);
