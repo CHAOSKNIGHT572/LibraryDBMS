@@ -217,10 +217,10 @@ public class LibraryManagement extends JFrame {
 				if (!"".equals(id)) {
 					borResReaderId = ReaderControl.getReaderById(id).getId();
 					if (borResReaderId == null) {
-						//System.out.println("Not Found");
+						// System.out.println("Not Found");
 						JOptionPane.showMessageDialog(null, "Reader not found!");
 					} else {
-						//System.out.println("Find Reader");
+						// System.out.println("Find Reader");
 						JOptionPane.showMessageDialog(null, "Reader found!");
 					}
 				} else if (!"".equals(name)) {
@@ -229,7 +229,7 @@ public class LibraryManagement extends JFrame {
 
 					} else if (list.size() == 1) {
 						borResReaderId = list.get(0).getId();
-						//System.out.println("Find Reader");
+						// System.out.println("Find Reader");
 						JOptionPane.showMessageDialog(null, "Reader Found!");
 					} else {
 						Reader reader = (Reader) JOptionPane.showInputDialog(selfObj,
@@ -240,7 +240,7 @@ public class LibraryManagement extends JFrame {
 						}
 					}
 				} else {
-					//System.out.println("Enter id or name");
+					// System.out.println("Enter id or name");
 					JOptionPane.showMessageDialog(null, "Please enter reader id or reader name!");
 					return;
 				}
@@ -336,7 +336,7 @@ public class LibraryManagement extends JFrame {
 				if (!"".equals(descriptor)) {
 					doc.addDescriptor(descriptor);
 				}
-				List<Document> list = DocumentControl.getDocumentListByConditions(doc);
+				List<Document> list = DocumentControl.getDocumentListByConditions(doc, "1");
 				if (!list.isEmpty()) {
 					setValueForTable(list);
 				} else {
@@ -370,32 +370,34 @@ public class LibraryManagement extends JFrame {
 		btnNewButton_5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (borResReaderId == null) {
-					//System.out.println("Check reader first");
+					// System.out.println("Check reader first");
 					JOptionPane.showMessageDialog(null, "Please check reader first!");
 					return;
 				}
 				int selectIndex = table.getSelectedRow();
 				if (selectIndex == -1) {
-					//System.out.println("Select a document");
+					// System.out.println("Select a document");
 					JOptionPane.showMessageDialog(null, "Please select a document!");
 					return;
 				}
 				String docId = borResDocList.get(selectIndex).getId();
 				int result = ReaderControl.borrow(docId, "1", borResReaderId);
 				if (result == Constant.SUCCESSFUL) {
-					//System.out.println("Successful");
+					// System.out.println("Successful");
 					JOptionPane.showMessageDialog(null, "Successfully borrow the document!");
 				} else if (result == Constant.CHECK_REPEAT_FAILED) {
-					//System.out.println("You have already borrow the document");
+					// System.out.println("You have already borrow the
+					// document");
 					JOptionPane.showMessageDialog(null, "You have already borrowed the document! ");
 				} else if (result == Constant.CHECK_COUNT_FAILED) {
-					//System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+					// System.out.println("You have borrowed/reserved too much
+					// documents.(10 limit)");
 					JOptionPane.showMessageDialog(null, "You have borrowed/reserved too many documents. (Max is 10)");
 				} else if (result == Constant.NO_AVAILABLE_DOCUMENT_COPY) {
-					//System.out.println("No available copy for the document");
+					// System.out.println("No available copy for the document");
 					JOptionPane.showMessageDialog(null, "No more copies for the document.");
 				} else {
-					//System.out.println("Failed");
+					// System.out.println("Failed");
 					JOptionPane.showMessageDialog(null, "Fail to borrow!");
 				}
 			}
@@ -409,32 +411,35 @@ public class LibraryManagement extends JFrame {
 		btnNewButton_6.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (borResReaderId == null) {
-					//System.out.println("Check reader first");
+					// System.out.println("Check reader first");
 					JOptionPane.showMessageDialog(null, "Please check reader first!");
 					return;
 				}
 				int selectIndex = table.getSelectedRow();
 				if (selectIndex == -1) {
-					//System.out.println("Select a document");
+					// System.out.println("Select a document");
 					JOptionPane.showMessageDialog(null, "Please select a document!");
 					return;
 				}
 				String docId = borResDocList.get(selectIndex).getId();
 				int result = ReaderControl.reserve(docId, "1", borResReaderId);
 				if (result == Constant.SUCCESSFUL) {
-					//System.out.println("Successful");
-					//JOptionPane.showMessageDialog(null, "Successfully reserve the document!");
+					// System.out.println("Successful");
+					// JOptionPane.showMessageDialog(null, "Successfully reserve
+					// the document!");
 				} else if (result == Constant.CHECK_REPEAT_FAILED) {
-					//System.out.println("You have already borrow the document");
+					// System.out.println("You have already borrow the
+					// document");
 					JOptionPane.showMessageDialog(null, "You have already reserved the document!");
 				} else if (result == Constant.CHECK_COUNT_FAILED) {
-					//System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+					// System.out.println("You have borrowed/reserved too much
+					// documents.(10 limit)");
 					JOptionPane.showMessageDialog(null, "You have borrowed/reserved too much documents.(Max is 10)");
 				} else if (result == Constant.NO_AVAILABLE_DOCUMENT_COPY) {
-					//System.out.println("No available copy for the document");
+					// System.out.println("No available copy for the document");
 					JOptionPane.showMessageDialog(null, "No more copy for the document!");
 				} else {
-					//System.out.println("Failed");
+					// System.out.println("Failed");
 					JOptionPane.showMessageDialog(null, "Fail to reserve the document!");
 				}
 			}
@@ -529,19 +534,24 @@ public class LibraryManagement extends JFrame {
 				String id = textFieldRReaderId.getText();
 
 				if ("".equals(id)) {
-					//System.out.println("Enter Id");
+					// System.out.println("Enter Id");
 					JOptionPane.showMessageDialog(null, "Id cannot be empty, please enter again!");
 
 				}
 				Reader reader = ReaderControl.getReaderById(id);
 				if (reader == null) {
-					//System.out.println("Not Found");
+					// System.out.println("Not Found");
 					JOptionPane.showMessageDialog(null, "Id not found!");
 				}
 
 				String name = textFieldRReaderName.getText();
 				if (!"".equals(name)) {
 					reader.setName(name);
+				}
+
+				String type = textFieldRType.getText();
+				if (!"".equals(type)) {
+					reader.setType(type);
 				}
 
 				String address = textFieldAddress.getText();
@@ -554,10 +564,10 @@ public class LibraryManagement extends JFrame {
 					reader.setPhoneNum(phone);
 				}
 				if (ReaderControl.updateInfo(reader)) {
-					//System.out.println("Successful");
+					// System.out.println("Successful");
 					JOptionPane.showMessageDialog(null, "Update successfully!");
 				} else {
-					//System.out.println("Failed");
+					// System.out.println("Failed");
 					JOptionPane.showMessageDialog(null, "Update failed!");
 				}
 			}
@@ -610,13 +620,13 @@ public class LibraryManagement extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				String id = textFieldLibId.getText();
 				if ("".equals(id)) {
-					//System.out.println("Enter Id");
+					// System.out.println("Enter Id");
 					JOptionPane.showMessageDialog(null, "Id cannot be empty, please enter again!");
 					return;
 				}
 				Branch branch = BranchControl.getBranchById(id);
 				if (branch == null) {
-					//System.out.println("Not Found");
+					// System.out.println("Not Found");
 					JOptionPane.showMessageDialog(null, "Id not found!");
 					return;
 				}
@@ -630,10 +640,10 @@ public class LibraryManagement extends JFrame {
 					branch.setLocation(location);
 				}
 				if (BranchControl.updateInfo(branch)) {
-					//System.out.println("Successful");
+					// System.out.println("Successful");
 					JOptionPane.showMessageDialog(null, "Update successfully!");
 				} else {
-					//System.out.println("Failed");
+					// System.out.println("Failed");
 					JOptionPane.showMessageDialog(null, "Update failed!");
 				}
 			}
@@ -767,7 +777,8 @@ public class LibraryManagement extends JFrame {
 		D_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (docType == 0) {
-					if(textField_D_Title.getText().isEmpty() == false && textField_D_ISBN.getText().isEmpty() == false){
+					if (textField_D_Title.getText().isEmpty() == false
+							&& textField_D_ISBN.getText().isEmpty() == false) {
 						String[] authorArray = textField_AuthorName.getText().split(",");
 						for (int i = 0; i < authorArray.length; i++) {
 							Author author = new Author();
@@ -784,19 +795,20 @@ public class LibraryManagement extends JFrame {
 						book.setPubDate(textField_D_PDate.getText());
 						book.setIsbn(textField_D_ISBN.getText());
 						if (UpdateDocument.newBook(book)) {
-							//System.out.println("Successful!");
+							// System.out.println("Successful!");
 							JOptionPane.showMessageDialog(null, "Add book information successfully!");
 						} else {
-							//System.out.println("Failed!");
+							// System.out.println("Failed!");
 							JOptionPane.showMessageDialog(null, "Fail to add book information!");
 						}
-					}else{
+					} else {
 						JOptionPane.showMessageDialog(null, "Please enter both document title and ISBN!");
 					}
 				}
 				if (docType == 1) {
-					if(textField_D_Title.getText().isEmpty() == false && textField_D_VolumeNo.getText().isEmpty() == false
-							&& textField_D_ChiefEditor.getText().isEmpty() == false){
+					if (textField_D_Title.getText().isEmpty() == false
+							&& textField_D_VolumeNo.getText().isEmpty() == false
+							&& textField_D_ChiefEditor.getText().isEmpty() == false) {
 						String[] authorArray = textField_AuthorName.getText().split(",");
 						for (int i = 0; i < authorArray.length; i++) {
 							Author author = new Author();
@@ -815,19 +827,20 @@ public class LibraryManagement extends JFrame {
 						chiefEditor.setCeName(textField_D_ChiefEditor.getText());
 						journalVolume.setEditor(chiefEditor);
 						if (UpdateDocument.newJournalVolume(journalVolume)) {
-							//System.out.println("Successful!");
+							// System.out.println("Successful!");
 							JOptionPane.showMessageDialog(null, "Add journal information successfully!");
 						} else {
-							//System.out.println("Failed!");
+							// System.out.println("Failed!");
 							JOptionPane.showMessageDialog(null, "Fail to add journal information!");
 						}
-					}else{
-						JOptionPane.showMessageDialog(null, "Please enter document title, volume number and chief editor!");
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Please enter document title, volume number and chief editor!");
 					}
 				}
 				if (docType == 2) {
-					if(textField_D_Title.getText().isEmpty() == false && textField_CDate.getText().isEmpty() == false
-							&& textField_CLocation.getText().isEmpty() == false){
+					if (textField_D_Title.getText().isEmpty() == false && textField_CDate.getText().isEmpty() == false
+							&& textField_CLocation.getText().isEmpty() == false) {
 						String[] authorArray = textField_AuthorName.getText().split(",");
 						for (int i = 0; i < authorArray.length; i++) {
 							Author author = new Author();
@@ -846,14 +859,15 @@ public class LibraryManagement extends JFrame {
 						cp.setConLocation(textField_CLocation.getText());
 						cp.setConEditor(textField_CEditor.getText());
 						if (UpdateDocument.newConferenceProceeding(cp)) {
-							//System.out.println("Successful!");
+							// System.out.println("Successful!");
 							JOptionPane.showMessageDialog(null, "Add conference proceeding information successfully!");
 						} else {
-							//System.out.println("Failed!");
+							// System.out.println("Failed!");
 							JOptionPane.showMessageDialog(null, "Fail to add conference proceeding information!");
 						}
-					}else{
-						JOptionPane.showMessageDialog(null, "Please enter document title, conference date and conference location!");
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Please enter document title, conference date and conference location!");
 					}
 				}
 			}
@@ -1115,7 +1129,7 @@ public class LibraryManagement extends JFrame {
 		C_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				String position = textField_C_Position.getText();
-				if(position.isEmpty() == false){
+				if (position.isEmpty() == false) {
 					if (addCopyDocId == null || addCopyLibId == null || position == null) {
 						return;
 					}
@@ -1127,7 +1141,7 @@ public class LibraryManagement extends JFrame {
 						JOptionPane.showMessageDialog(selfObj, "Successful!", "Successful",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
-				}else{
+				} else {
 					JOptionPane.showMessageDialog(null, "Please enter library position!");
 				}
 			}

@@ -39,9 +39,9 @@ public class DocumentControl {
 		return Constant.SUCCESSFUL;
 	}
 
-	public static List<Document> getDocumentListByConditions(Document document) {
+	public static List<Document> getDocumentListByConditions(Document document, String libId) {
 		List<Document> list = new LinkedList<>();
-		ResultSet rs = QueryDocument.getDocumentByMultiCondition(document);
+		ResultSet rs = QueryDocument.getDocumentByMultiCondition(document, libId);
 		if (rs != null) {
 			try {
 				int type;

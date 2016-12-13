@@ -50,7 +50,7 @@ public class QueryDocument {
 	}
 
 	// Get detailed document info
-	public static ResultSet getDocumentByMultiCondition(Document doc) {
+	public static ResultSet getDocumentByMultiCondition(Document doc, String libId) {
 		Connection conn;
 		if ((conn = ConnectionOperation.getConnection()) == null) {
 			return null;
@@ -80,10 +80,15 @@ public class QueryDocument {
 		if (doc.getTitle() != null) {
 			where += " AND title LIKE '%" + doc.getTitle() + "%'";
 		}
-		String sqlString = selfm + where;
+		String nestSqlString = selfm + where;
+
+		String sqlString = "SELECT `type`, doc.doc_id, title, pub_name, COUNT(doc.doc_id) FROM (" + nestSqlString
+				+ ") doc, copy WHERE doc.doc_id=copy.doc_id AND copy.available=1 AND copy.lib_id=? GROUP BY doc.doc_id HAVING COUNT(doc.doc_id) != 0";
+
 		ResultSet rs = null;
 		try {
 			ps = conn.prepareStatement(sqlString);
+			ps.setString(1, libId);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

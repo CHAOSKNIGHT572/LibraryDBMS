@@ -62,7 +62,6 @@ public class ReaderControl {
 	}
 
 	public static boolean updateInfo(Reader reader) {
-		// TODO Auto-generated method stub
-		return false;
+		return UpdateReader.update(reader);
 	}
 }

@@ -33,10 +33,25 @@ public class BranchControl {
 	}
 
 	public static Branch getBranchById(String id) {
-		return null;
+		ResultSet rs = QueryBranch.getBranchById(id);
+		if (rs == null) {
+			return null;
+		}
+		Branch lib = null;
+		try {
+			if (rs.next()) {
+				lib = new Branch();
+				lib.setId(rs.getString(1));
+				lib.setName(rs.getString(2));
+				lib.setLocation(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lib;
 	}
 
-	public static boolean updateInfo(Branch branch) {
-		return false;
+	public static boolean updateInfo(Branch lib) {
+		return UpdateBranch.update(lib);
 	}
 }
