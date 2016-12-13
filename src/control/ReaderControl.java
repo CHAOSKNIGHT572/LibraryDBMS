@@ -98,4 +98,29 @@ public class ReaderControl {
 	public static boolean returnDocument(String copyNo, String libId, String docId, String readerId) {
 		return UpdateBorrow.returnDocument(copyNo, libId, docId, readerId);
 	}
+
+	public static List<String[]> getReservedDocuments(String libId, String readerId) {
+		ResultSet rs = QueryBorrow.getReserveForReader(libId, readerId);
+		List<String[]> list = new LinkedList<>();
+		if (rs == null) {
+			return null;
+		}
+		try {
+			String[] rowData;
+			while (rs.next()) {
+				rowData = new String[4];
+				for (int i = 0; i < 4; ++i) {
+					rowData[i] = rs.getString(i + 1);
+				}
+				list.add(rowData);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static boolean borrowReservedDocument(String copyNo, String libId, String docId, String readerId) {
+		return UpdateBorrow.borrowReservedDocument(copyNo, libId, docId, readerId);
+	}
 }

@@ -60,6 +60,10 @@ public class DLReturnDocument extends JDialog {
 			JOptionPane.showMessageDialog(this, "Please Enter Reader Id");
 			return;
 		}
+		if (ReaderControl.getReaderById(readerId) == null) {
+			JOptionPane.showMessageDialog(this, "Reader Not Found");
+			return;
+		}
 		this.readerId = readerId;
 		List<String[]> borrowData = ReaderControl.getBorrowedDocuments("1", readerId);
 		setTableData(borrowData);
