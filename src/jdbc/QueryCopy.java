@@ -51,7 +51,7 @@ public class QueryCopy {
 			if (rs != null && rs.next()) {
 				String copyNo = rs.getString(1);
 				if (copyNo != null) {
-					if (UpdateCopy.setBorrowMark(docId, libId, copyNo)) {
+					if (UpdateCopy.changeBorrowMark("0", docId, libId, copyNo)) {
 						result = copyNo;
 					}
 				}

@@ -46,7 +46,12 @@ public class DLReturnDocument extends JDialog {
 			JOptionPane.showMessageDialog(this, "Please Select a Document in the Table");
 			return;
 		}
-		
+		String[] selectData = data.get(selectIndex);
+		if (ReaderControl.returnDocument(selectData[0], "1", selectData[1], readerId)) {
+			JOptionPane.showMessageDialog(this, "Successful");
+		} else {
+			JOptionPane.showMessageDialog(this, "Failed");
+		}
 	}
 
 	private void clickBTNSearch() {

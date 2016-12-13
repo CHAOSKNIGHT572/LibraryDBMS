@@ -94,4 +94,8 @@ public class ReaderControl {
 		}
 		return list;
 	}
+
+	public static boolean returnDocument(String copyNo, String libId, String docId, String readerId) {
+		return UpdateBorrow.returnDocument(copyNo, libId, docId, readerId);
+	}
 }

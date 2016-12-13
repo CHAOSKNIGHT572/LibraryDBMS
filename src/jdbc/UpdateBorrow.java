@@ -14,6 +14,7 @@ import jdbc.tool.ConnectionOperation;
 public class UpdateBorrow {
 	private static final String BORROW = "INSERT INTO bor_transaction (copy_no, doc_id, lib_id, reader_id, borrow_date_time) VALUES (?,?,?,?,?)";
 	private static final String RESERVE = "INSERT INTO reservation (copy_no, doc_id, lib_id, reader_id, res_date_time) VALUES (?,?,?,?,?)";
+	private static final String RETURN_DOCUMENT = "UPDATE bor_transaction SET return_date_time = NOW(), old = '1' WHERE copy_no=? AND doc_id=? AND lib_id=? AND reader_id=?";
 
 	public static int borrow(String docId, String libId, String readerId) {
 		int checkResult;
@@ -120,5 +121,30 @@ public class UpdateBorrow {
 
 	public static void main(String[] args) {
 		System.out.println(basicCheck("1", "1"));
+	}
+
+	public static boolean returnDocument(String copyNo, String libId, String docId, String readerId) {
+		Connection conn;
+		if ((conn = ConnectionOperation.getConnection()) == null) {
+			return false;
+		}
+		PreparedStatement ps = null;
+		boolean result = false;
+		try {
+			ps = conn.prepareStatement(RETURN_DOCUMENT);
+			ps.setString(1, copyNo);
+			ps.setString(2, docId);
+			ps.setString(3, libId);
+			ps.setString(4, readerId);
+			if (ps.executeUpdate() == 1) {
+				if (UpdateCopy.changeBorrowMark("1", docId, libId, copyNo)) {
+					result = true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		ConnectionOperation.close(ps);
+		return result;
 	}
 }
