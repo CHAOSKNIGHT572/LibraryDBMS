@@ -141,8 +141,8 @@ public class UpdateBorrow {
 		boolean result = false;
 		try {
 			ps = conn.prepareStatement(REMOVE_RESERVE);
-			ps.setString(2, docId);
-			ps.setString(4, readerId);
+			ps.setString(1, docId);
+			ps.setString(2, readerId);
 			if (ps.executeUpdate() == 1) {
 				result = true;
 			}
