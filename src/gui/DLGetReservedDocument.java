@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class DLGetReservedDocument extends JDialog {
 	private static final long serialVersionUID = 721302519168599361L;
@@ -45,14 +47,16 @@ public class DLGetReservedDocument extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JButton btnClose = new JButton("Close");
+			JButton btnClose = new JButton("CLOSE");
+			btnClose.setForeground(Color.BLUE);
+			btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 			btnClose.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					clickBTNClose();
 				}
 			});
-			btnClose.setBounds(559, 344, 97, 25);
+			btnClose.setBounds(535, 344, 97, 34);
 			contentPanel.add(btnClose);
 		}
 
@@ -64,38 +68,43 @@ public class DLGetReservedDocument extends JDialog {
 		table.setModel(new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Name", "DueDate" }));
 		scrollPane.setViewportView(table);
 
-		JButton btnBorrow = new JButton("Borrow");
+		JButton btnBorrow = new JButton("BORROW");
+		btnBorrow.setForeground(Color.BLUE);
+		btnBorrow.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		btnBorrow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickBTNBorrow();
 			}
 		});
-		btnBorrow.setBounds(449, 344, 97, 25);
+		btnBorrow.setBounds(420, 344, 97, 34);
 		contentPanel.add(btnBorrow);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(94, 12, 480, 25);
+		panel.setBounds(36, 10, 596, 47);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 
 		txtReaderId = new JTextField();
-		txtReaderId.setBounds(78, 1, 116, 22);
+		txtReaderId.setBounds(76, 9, 120, 27);
 		panel.add(txtReaderId);
 		txtReaderId.setColumns(10);
 
 		JLabel lblReaderId = new JLabel("Reader Id");
-		lblReaderId.setBounds(0, 4, 56, 16);
+		lblReaderId.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReaderId.setBounds(10, 15, 56, 16);
 		panel.add(lblReaderId);
 
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.setForeground(Color.BLUE);
+		btnSearch.setFont(new Font("Arial", Font.PLAIN, 11));
 		btnSearch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickBTNSearch();
 			}
 		});
-		btnSearch.setBounds(383, 0, 97, 25);
+		btnSearch.setBounds(489, 8, 97, 29);
 		panel.add(btnSearch);
 	}
 }
