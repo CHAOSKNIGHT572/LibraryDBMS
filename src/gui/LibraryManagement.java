@@ -162,12 +162,6 @@ public class LibraryManagement extends JFrame {
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(layeredPane,
 				GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE));
 
-		Publisher publisher = new Publisher();
-		Book book = new Book();
-		ChiefEditor chiefEditor = new ChiefEditor();
-		JournalVolume journalVolume = new JournalVolume();
-		ConferenceProceeding cp = new ConferenceProceeding();
-
 		JLayeredPane layeredPane_BR = new JLayeredPane();
 		layeredPane_BR.setBounds(148, 6, 767, 580);
 		layeredPane.add(layeredPane_BR);
@@ -225,10 +219,9 @@ public class LibraryManagement extends JFrame {
 					} else if (list.size() == 1) {
 						reader = list.get(0);
 					} else {
-						reader = (Reader) JOptionPane.showInputDialog(selfObj,
-								"Choose one from the following list", "Select One", JOptionPane.QUESTION_MESSAGE, null,
-								list.toArray(), null);
-						if(reader == null){
+						reader = (Reader) JOptionPane.showInputDialog(selfObj, "Choose one from the following list",
+								"Select One", JOptionPane.QUESTION_MESSAGE, null, list.toArray(), null);
+						if (reader == null) {
 							return;
 						}
 					}
@@ -237,7 +230,7 @@ public class LibraryManagement extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please enter reader id or reader name!");
 					return;
 				}
-				if(reader == null){
+				if (reader == null) {
 					JOptionPane.showMessageDialog(null, "Reader not found!");
 					return;
 				}
@@ -320,7 +313,7 @@ public class LibraryManagement extends JFrame {
 				String title = txtTitle.getText();
 				String descriptor = txtDescriptor.getText();
 				Document doc = new Document();
-				if (!"".equals(publisher)) {
+				if (!"".equals(publisherName)) {
 					Publisher publisher = new Publisher();
 					publisher.setPubName(publisherName);
 					doc.setPublisher(publisher);
@@ -775,7 +768,9 @@ public class LibraryManagement extends JFrame {
 		D_add.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		D_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (docType == 0) {
+				Publisher publisher = new Publisher();
+				if (docType == Constant.TYPE_BOOK) {
+					Book book = new Book();
 					if (textField_D_Title.getText().isEmpty() == false
 							&& textField_D_ISBN.getText().isEmpty() == false) {
 						String[] authorArray = textField_AuthorName.getText().split(",");
@@ -804,7 +799,8 @@ public class LibraryManagement extends JFrame {
 						JOptionPane.showMessageDialog(null, "Please enter both document title and ISBN!");
 					}
 				}
-				if (docType == 1) {
+				if (docType == Constant.TYPE_JOURNAL_VOLUME) {
+					JournalVolume volume = new JournalVolume();
 					if (textField_D_Title.getText().isEmpty() == false
 							&& textField_D_VolumeNo.getText().isEmpty() == false
 							&& textField_D_ChiefEditor.getText().isEmpty() == false) {
@@ -812,20 +808,21 @@ public class LibraryManagement extends JFrame {
 						for (int i = 0; i < authorArray.length; i++) {
 							Author author = new Author();
 							author.setAuName(authorArray[i]);
-							journalVolume.addAuthor(author);
+							volume.addAuthor(author);
 						}
 						String[] descriptorArray = textField_Descriptor.getText().split(",");
 						for (int i = 0; i < descriptorArray.length; i++) {
-							journalVolume.addDescriptor(descriptorArray[i]);
+							volume.addDescriptor(descriptorArray[i]);
 						}
 						publisher.setPubName(textField_D_PublisherName.getText());
-						journalVolume.setPublisher(publisher);
-						journalVolume.setTitle(textField_D_Title.getText());
-						journalVolume.setPubDate(textField_D_PDate.getText());
-						journalVolume.setVolNum(textField_D_VolumeNo.getText());
-						chiefEditor.setCeName(textField_D_ChiefEditor.getText());
-						journalVolume.setEditor(chiefEditor);
-						if (UpdateDocument.newJournalVolume(journalVolume)) {
+						volume.setPublisher(publisher);
+						volume.setTitle(textField_D_Title.getText());
+						volume.setPubDate(textField_D_PDate.getText());
+						volume.setVolNum(textField_D_VolumeNo.getText());
+						ChiefEditor editor = new ChiefEditor();
+						editor.setCeName(textField_D_ChiefEditor.getText());
+						volume.setEditor(editor);
+						if (UpdateDocument.newJournalVolume(volume)) {
 							// System.out.println("Successful!");
 							JOptionPane.showMessageDialog(null, "Add journal information successfully!");
 						} else {
@@ -837,27 +834,28 @@ public class LibraryManagement extends JFrame {
 								"Please enter document title, volume number and chief editor!");
 					}
 				}
-				if (docType == 2) {
+				if (docType == Constant.TYPE_CONFERENCE_PROCEEDING) {
+					ConferenceProceeding proceeding = new ConferenceProceeding();
 					if (textField_D_Title.getText().isEmpty() == false && textField_CDate.getText().isEmpty() == false
 							&& textField_CLocation.getText().isEmpty() == false) {
 						String[] authorArray = textField_AuthorName.getText().split(",");
 						for (int i = 0; i < authorArray.length; i++) {
 							Author author = new Author();
 							author.setAuName(authorArray[i]);
-							cp.addAuthor(author);
+							proceeding.addAuthor(author);
 						}
 						String[] descriptorArray = textField_Descriptor.getText().split(",");
 						for (int i = 0; i < descriptorArray.length; i++) {
-							cp.addDescriptor(descriptorArray[i]);
+							proceeding.addDescriptor(descriptorArray[i]);
 						}
 						publisher.setPubName(textField_D_PublisherName.getText());
-						cp.setPublisher(publisher);
-						cp.setTitle(textField_D_Title.getText());
-						cp.setPubDate(textField_D_PDate.getText());
-						cp.setConDate(textField_CDate.getText());
-						cp.setConLocation(textField_CLocation.getText());
-						cp.setConEditor(textField_CEditor.getText());
-						if (UpdateDocument.newConferenceProceeding(cp)) {
+						proceeding.setPublisher(publisher);
+						proceeding.setTitle(textField_D_Title.getText());
+						proceeding.setPubDate(textField_D_PDate.getText());
+						proceeding.setConDate(textField_CDate.getText());
+						proceeding.setConLocation(textField_CLocation.getText());
+						proceeding.setConEditor(textField_CEditor.getText());
+						if (UpdateDocument.newConferenceProceeding(proceeding)) {
 							// System.out.println("Successful!");
 							JOptionPane.showMessageDialog(null, "Add conference proceeding information successfully!");
 						} else {
