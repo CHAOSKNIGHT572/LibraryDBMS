@@ -9,10 +9,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import control.ReaderControl;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
@@ -23,16 +29,45 @@ public class DLReturnDocument extends JDialog {
 	private JTable table;
 	private JTextField txtReaderId;
 
-	private void clickBTNClose() {
+	private List<String[]> data;
+	private String readerId;
 
+	private void clickBTNClose() {
+		dispose();
 	}
 
 	private void clickBTNReturn() {
-
+		if (readerId == null) {
+			JOptionPane.showMessageDialog(this, "Please Search by Reader Id");
+			return;
+		}
+		int selectIndex = table.getSelectedRow();
+		if (selectIndex == -1) {
+			JOptionPane.showMessageDialog(this, "Please Select a Document in the Table");
+			return;
+		}
+		
 	}
 
 	private void clickBTNSearch() {
+		String readerId = txtReaderId.getText();
+		if ("".equals(readerId)) {
+			JOptionPane.showMessageDialog(this, "Please Enter Reader Id");
+			return;
+		}
+		this.readerId = readerId;
+		List<String[]> borrowData = ReaderControl.getBorrowedDocuments("1", readerId);
+		setTableData(borrowData);
+	}
 
+	private void setTableData(List<String[]> data) {
+		this.data = data;
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		for (String[] rowData : data) {
+			model.addRow(new Object[] { rowData[2], rowData[3], rowData[4], rowData[5] });
+		}
+		table.setModel(model);
 	}
 
 	/**
@@ -66,7 +101,9 @@ public class DLReturnDocument extends JDialog {
 		contentPanel.add(scrollPane);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Name", "DueDate" }));
+		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
+				new String[] { "Name", "BorrowDateTime", "DueDateTime", "Fine" }));
+		((DefaultTableModel) table.getModel()).setRowCount(0);
 		scrollPane.setViewportView(table);
 
 		JButton btnReturn = new JButton("RETURN");

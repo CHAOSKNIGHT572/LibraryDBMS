@@ -4,9 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import jdbc.QueryBorrow;
 import jdbc.QueryReader;
 import jdbc.UpdateBorrow;
 import jdbc.UpdateReader;
+import jdbc.tool.ConnectionOperation;
 import vo.Reader;
 
 public class ReaderControl {
@@ -58,10 +60,38 @@ public class ReaderControl {
 				e.printStackTrace();
 			}
 		}
+		ConnectionOperation.close(rs);
 		return list;
 	}
 
 	public static boolean updateInfo(Reader reader) {
 		return UpdateReader.update(reader);
+	}
+
+	public static List<String[]> getBorrowedDocuments(String libId, String readerId) {
+		ResultSet rs = QueryBorrow.getBorrowForReader(libId, readerId);
+		List<String[]> list = new LinkedList<>();
+		if (rs == null) {
+			return null;
+		}
+		try {
+			String[] rowData;
+			while (rs.next()) {
+				rowData = new String[6];
+				for (int i = 0; i < 5; ++i) {
+					rowData[i] = rs.getString(i + 1);
+				}
+				int fine = rs.getInt(6);
+				if (fine <= 0) {
+					rowData[5] = "0";
+				} else {
+					rowData[5] = "$" + fine / 100 + "." + fine % 100;
+				}
+				list.add(rowData);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

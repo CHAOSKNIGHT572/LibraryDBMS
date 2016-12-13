@@ -242,9 +242,7 @@ public class LibraryManagement extends JFrame {
 				} else {
 					// System.out.println("Enter id or name");
 					JOptionPane.showMessageDialog(null, "Please enter reader id or reader name!");
-					return;
 				}
-
 			}
 		});
 		btnNewButton_4.setBounds(595, 26, 120, 35);
@@ -536,12 +534,13 @@ public class LibraryManagement extends JFrame {
 				if ("".equals(id)) {
 					// System.out.println("Enter Id");
 					JOptionPane.showMessageDialog(null, "Id cannot be empty, please enter again!");
-
+					return;
 				}
 				Reader reader = ReaderControl.getReaderById(id);
 				if (reader == null) {
 					// System.out.println("Not Found");
 					JOptionPane.showMessageDialog(null, "Id not found!");
+					return;
 				}
 
 				String name = textFieldRReaderName.getText();
@@ -613,7 +612,6 @@ public class LibraryManagement extends JFrame {
 		textFieldLibLocation = new JTextField();
 		textFieldLibLocation.setBounds(408, 89, 111, 39);
 		textFieldLibLocation.setColumns(10);
-		// TODO: update library branch
 		JButton btnUpdate_1 = new JButton("UPDATE");
 		btnUpdate_1.setForeground(Color.BLUE);
 		btnUpdate_1.addMouseListener(new MouseAdapter() {
