@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class DLGetReservedDocument extends JDialog {
 	private static final long serialVersionUID = 721302519168599361L;
@@ -51,7 +52,6 @@ public class DLGetReservedDocument extends JDialog {
 			btnClose.setForeground(Color.BLUE);
 			btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 			btnClose.addMouseListener(new MouseAdapter() {
-				@Override
 				public void mouseClicked(MouseEvent e) {
 					clickBTNClose();
 				}
@@ -72,7 +72,6 @@ public class DLGetReservedDocument extends JDialog {
 		btnBorrow.setForeground(Color.BLUE);
 		btnBorrow.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		btnBorrow.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickBTNBorrow();
 			}
@@ -81,6 +80,7 @@ public class DLGetReservedDocument extends JDialog {
 		contentPanel.add(btnBorrow);
 
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(Color.GRAY));
 		panel.setBounds(36, 10, 596, 47);
 		contentPanel.add(panel);
 		panel.setLayout(null);
@@ -97,14 +97,14 @@ public class DLGetReservedDocument extends JDialog {
 
 		JButton btnSearch = new JButton("SEARCH");
 		btnSearch.setForeground(Color.BLUE);
-		btnSearch.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnSearch.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		btnSearch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickBTNSearch();
 			}
 		});
-		btnSearch.setBounds(489, 8, 97, 29);
+		btnSearch.setBounds(495, 9, 91, 27);
 		panel.add(btnSearch);
 	}
 }

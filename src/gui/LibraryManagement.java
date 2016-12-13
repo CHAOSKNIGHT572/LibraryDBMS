@@ -217,9 +217,11 @@ public class LibraryManagement extends JFrame {
 				if (!"".equals(id)) {
 					borResReaderId = ReaderControl.getReaderById(id).getId();
 					if (borResReaderId == null) {
-						System.out.println("Not Found");
+						//System.out.println("Not Found");
+						JOptionPane.showMessageDialog(null, "Reader not found!");
 					} else {
-						System.out.println("Find Reader");
+						//System.out.println("Find Reader");
+						JOptionPane.showMessageDialog(null, "Reader found!");
 					}
 				} else if (!"".equals(name)) {
 					List<Reader> list = ReaderControl.getReaderByName(name);
@@ -227,7 +229,8 @@ public class LibraryManagement extends JFrame {
 
 					} else if (list.size() == 1) {
 						borResReaderId = list.get(0).getId();
-						System.out.println("Find Reader");
+						//System.out.println("Find Reader");
+						JOptionPane.showMessageDialog(null, "Reader Found!");
 					} else {
 						Reader reader = (Reader) JOptionPane.showInputDialog(selfObj,
 								"Choose one from the following list", "Select One", JOptionPane.QUESTION_MESSAGE, null,
@@ -237,7 +240,8 @@ public class LibraryManagement extends JFrame {
 						}
 					}
 				} else {
-					System.out.println("Enter id or name");
+					//System.out.println("Enter id or name");
+					JOptionPane.showMessageDialog(null, "Please enter reader id or reader name!");
 					return;
 				}
 
@@ -336,7 +340,7 @@ public class LibraryManagement extends JFrame {
 				if (!list.isEmpty()) {
 					setValueForTable(list);
 				} else {
-					JOptionPane.showMessageDialog(selfObj, "Do not find documents with the conditions.", "Not Found",
+					JOptionPane.showMessageDialog(selfObj, "Cannot find documents with the conditions.", "Not Found",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -366,31 +370,38 @@ public class LibraryManagement extends JFrame {
 		btnNewButton_5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (borResReaderId == null) {
-					System.out.println("Check reader first");
+					//System.out.println("Check reader first");
+					JOptionPane.showMessageDialog(null, "Please check reader first!");
 					return;
 				}
 				int selectIndex = table.getSelectedRow();
 				if (selectIndex == -1) {
-					System.out.println("Select a document");
+					//System.out.println("Select a document");
+					JOptionPane.showMessageDialog(null, "Please select a document!");
 					return;
 				}
 				String docId = borResDocList.get(selectIndex).getId();
 				int result = ReaderControl.borrow(docId, "1", borResReaderId);
 				if (result == Constant.SUCCESSFUL) {
-					System.out.println("Successful");
+					//System.out.println("Successful");
+					JOptionPane.showMessageDialog(null, "Successfully borrow the document!");
 				} else if (result == Constant.CHECK_REPEAT_FAILED) {
-					System.out.println("You have already borrow the document");
+					//System.out.println("You have already borrow the document");
+					JOptionPane.showMessageDialog(null, "You have already borrowed the document! ");
 				} else if (result == Constant.CHECK_COUNT_FAILED) {
-					System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+					//System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+					JOptionPane.showMessageDialog(null, "You have borrowed/reserved too many documents. (Max is 10)");
 				} else if (result == Constant.NO_AVAILABLE_DOCUMENT_COPY) {
-					System.out.println("No available copy for the document");
+					//System.out.println("No available copy for the document");
+					JOptionPane.showMessageDialog(null, "No more copies for the document.");
 				} else {
-					System.out.println("Failed");
+					//System.out.println("Failed");
+					JOptionPane.showMessageDialog(null, "Fail to borrow!");
 				}
 			}
 		});
 		btnNewButton_5.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnNewButton_5.setBounds(381, 442, 117, 35);
+		btnNewButton_5.setBounds(396, 442, 117, 35);
 		panel_1.add(btnNewButton_5);
 		btnNewButton_5.setForeground(Color.BLUE);
 
@@ -398,37 +409,44 @@ public class LibraryManagement extends JFrame {
 		btnNewButton_6.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (borResReaderId == null) {
-					System.out.println("Check reader first");
+					//System.out.println("Check reader first");
+					JOptionPane.showMessageDialog(null, "Please check reader first!");
 					return;
 				}
 				int selectIndex = table.getSelectedRow();
 				if (selectIndex == -1) {
-					System.out.println("Select a document");
+					//System.out.println("Select a document");
+					JOptionPane.showMessageDialog(null, "Please select a document!");
 					return;
 				}
 				String docId = borResDocList.get(selectIndex).getId();
 				int result = ReaderControl.reserve(docId, "1", borResReaderId);
 				if (result == Constant.SUCCESSFUL) {
-					System.out.println("Successful");
+					//System.out.println("Successful");
+					//JOptionPane.showMessageDialog(null, "Successfully reserve the document!");
 				} else if (result == Constant.CHECK_REPEAT_FAILED) {
-					System.out.println("You have already borrow the document");
+					//System.out.println("You have already borrow the document");
+					JOptionPane.showMessageDialog(null, "You have already reserved the document!");
 				} else if (result == Constant.CHECK_COUNT_FAILED) {
-					System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+					//System.out.println("You have borrowed/reserved too much documents.(10 limit)");
+					JOptionPane.showMessageDialog(null, "You have borrowed/reserved too much documents.(Max is 10)");
 				} else if (result == Constant.NO_AVAILABLE_DOCUMENT_COPY) {
-					System.out.println("No available copy for the document");
+					//System.out.println("No available copy for the document");
+					JOptionPane.showMessageDialog(null, "No more copy for the document!");
 				} else {
-					System.out.println("Failed");
+					//System.out.println("Failed");
+					JOptionPane.showMessageDialog(null, "Fail to reserve the document!");
 				}
 			}
 		});
 		btnNewButton_6.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		btnNewButton_6.setBounds(559, 442, 117, 35);
+		btnNewButton_6.setBounds(567, 442, 117, 35);
 		panel_1.add(btnNewButton_6);
 		btnNewButton_6.setForeground(Color.BLUE);
 
 		JButton btnReturn = new JButton("RETURN");
 		btnReturn.setForeground(Color.BLUE);
-		btnReturn.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnReturn.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnReturn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -436,12 +454,12 @@ public class LibraryManagement extends JFrame {
 				dialog.setVisible(true);
 			}
 		});
-		btnReturn.setBounds(223, 445, 117, 35);
+		btnReturn.setBounds(225, 442, 117, 35);
 		panel_1.add(btnReturn);
 
 		JButton btnGetReserve = new JButton("GET RESERVE");
 		btnGetReserve.setForeground(Color.BLUE);
-		btnGetReserve.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnGetReserve.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btnGetReserve.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -449,7 +467,7 @@ public class LibraryManagement extends JFrame {
 				dialog.setVisible(true);
 			}
 		});
-		btnGetReserve.setBounds(61, 446, 117, 35);
+		btnGetReserve.setBounds(54, 442, 117, 35);
 		panel_1.add(btnGetReserve);
 
 		JLayeredPane layeredPane_Update = new JLayeredPane();
@@ -511,11 +529,14 @@ public class LibraryManagement extends JFrame {
 				String id = textFieldRReaderId.getText();
 
 				if ("".equals(id)) {
-					System.out.println("Enter Id");
+					//System.out.println("Enter Id");
+					JOptionPane.showMessageDialog(null, "Id cannot be empty, please enter again!");
+
 				}
 				Reader reader = ReaderControl.getReaderById(id);
 				if (reader == null) {
-					System.out.println("Not Found");
+					//System.out.println("Not Found");
+					JOptionPane.showMessageDialog(null, "Id not found!");
 				}
 
 				String name = textFieldRReaderName.getText();
@@ -533,9 +554,11 @@ public class LibraryManagement extends JFrame {
 					reader.setPhoneNum(phone);
 				}
 				if (ReaderControl.updateInfo(reader)) {
-					System.out.println("Successful");
+					//System.out.println("Successful");
+					JOptionPane.showMessageDialog(null, "Update successfully!");
 				} else {
-					System.out.println("Failed");
+					//System.out.println("Failed");
+					JOptionPane.showMessageDialog(null, "Update failed!");
 				}
 			}
 		});
@@ -587,12 +610,14 @@ public class LibraryManagement extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				String id = textFieldLibId.getText();
 				if ("".equals(id)) {
-					System.out.println("Enter Id");
+					//System.out.println("Enter Id");
+					JOptionPane.showMessageDialog(null, "Id cannot be empty, please enter again!");
 					return;
 				}
 				Branch branch = BranchControl.getBranchById(id);
 				if (branch == null) {
-					System.out.println("Not Found");
+					//System.out.println("Not Found");
+					JOptionPane.showMessageDialog(null, "Id not found!");
 					return;
 				}
 				String name = textFieldLibName.getText();
@@ -605,9 +630,11 @@ public class LibraryManagement extends JFrame {
 					branch.setLocation(location);
 				}
 				if (BranchControl.updateInfo(branch)) {
-					System.out.println("Successful");
+					//System.out.println("Successful");
+					JOptionPane.showMessageDialog(null, "Update successfully!");
 				} else {
-					System.out.println("Failed");
+					//System.out.println("Failed");
+					JOptionPane.showMessageDialog(null, "Update failed!");
 				}
 			}
 		});
@@ -652,6 +679,7 @@ public class LibraryManagement extends JFrame {
 				String name = textField_R_ReaderName.getText();
 				String phone = textField_R_PhoneNum.getText();
 				if ("".equals(name) || "".equals(phone)) {
+					JOptionPane.showMessageDialog(null, "Please enter reader name and reader phone number!");
 					return;
 				}
 				reader.setType(textField_R_Type.getText());
@@ -739,73 +767,93 @@ public class LibraryManagement extends JFrame {
 		D_add.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (docType == 0) {
-					String[] authorArray = textField_AuthorName.getText().split(",");
-					for (int i = 0; i < authorArray.length; i++) {
-						Author author = new Author();
-						author.setAuName(authorArray[i]);
-						book.addAuthor(author);
-					}
-					String[] descriptorArray = textField_Descriptor.getText().split(",");
-					for (int i = 0; i < descriptorArray.length; i++) {
-						book.addDescriptor(descriptorArray[i]);
-					}
-					publisher.setPubName(textField_D_PublisherName.getText());
-					book.setPublisher(publisher);
-					book.setTitle(textField_D_Title.getText());
-					book.setPubDate(textField_D_PDate.getText());
-					book.setIsbn(textField_D_ISBN.getText());
-					if (UpdateDocument.newBook(book)) {
-						System.out.println("Successful!");
-					} else {
-						System.out.println("Failed!");
+					if(textField_D_Title.getText().isEmpty() == false && textField_D_ISBN.getText().isEmpty() == false){
+						String[] authorArray = textField_AuthorName.getText().split(",");
+						for (int i = 0; i < authorArray.length; i++) {
+							Author author = new Author();
+							author.setAuName(authorArray[i]);
+							book.addAuthor(author);
+						}
+						String[] descriptorArray = textField_Descriptor.getText().split(",");
+						for (int i = 0; i < descriptorArray.length; i++) {
+							book.addDescriptor(descriptorArray[i]);
+						}
+						publisher.setPubName(textField_D_PublisherName.getText());
+						book.setPublisher(publisher);
+						book.setTitle(textField_D_Title.getText());
+						book.setPubDate(textField_D_PDate.getText());
+						book.setIsbn(textField_D_ISBN.getText());
+						if (UpdateDocument.newBook(book)) {
+							//System.out.println("Successful!");
+							JOptionPane.showMessageDialog(null, "Add book information successfully!");
+						} else {
+							//System.out.println("Failed!");
+							JOptionPane.showMessageDialog(null, "Fail to add book information!");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null, "Please enter both document title and ISBN!");
 					}
 				}
 				if (docType == 1) {
-					String[] authorArray = textField_AuthorName.getText().split(",");
-					for (int i = 0; i < authorArray.length; i++) {
-						Author author = new Author();
-						author.setAuName(authorArray[i]);
-						journalVolume.addAuthor(author);
-					}
-					String[] descriptorArray = textField_Descriptor.getText().split(",");
-					for (int i = 0; i < descriptorArray.length; i++) {
-						journalVolume.addDescriptor(descriptorArray[i]);
-					}
-					publisher.setPubName(textField_D_PublisherName.getText());
-					journalVolume.setPublisher(publisher);
-					journalVolume.setTitle(textField_D_Title.getText());
-					journalVolume.setPubDate(textField_D_PDate.getText());
-					journalVolume.setVolNum(textField_D_VolumeNo.getText());
-					chiefEditor.setCeName(textField_D_ChiefEditor.getText());
-					journalVolume.setEditor(chiefEditor);
-					if (UpdateDocument.newJournalVolume(journalVolume)) {
-						System.out.println("Successful!");
-					} else {
-						System.out.println("Failed!");
+					if(textField_D_Title.getText().isEmpty() == false && textField_D_VolumeNo.getText().isEmpty() == false
+							&& textField_D_ChiefEditor.getText().isEmpty() == false){
+						String[] authorArray = textField_AuthorName.getText().split(",");
+						for (int i = 0; i < authorArray.length; i++) {
+							Author author = new Author();
+							author.setAuName(authorArray[i]);
+							journalVolume.addAuthor(author);
+						}
+						String[] descriptorArray = textField_Descriptor.getText().split(",");
+						for (int i = 0; i < descriptorArray.length; i++) {
+							journalVolume.addDescriptor(descriptorArray[i]);
+						}
+						publisher.setPubName(textField_D_PublisherName.getText());
+						journalVolume.setPublisher(publisher);
+						journalVolume.setTitle(textField_D_Title.getText());
+						journalVolume.setPubDate(textField_D_PDate.getText());
+						journalVolume.setVolNum(textField_D_VolumeNo.getText());
+						chiefEditor.setCeName(textField_D_ChiefEditor.getText());
+						journalVolume.setEditor(chiefEditor);
+						if (UpdateDocument.newJournalVolume(journalVolume)) {
+							//System.out.println("Successful!");
+							JOptionPane.showMessageDialog(null, "Add journal information successfully!");
+						} else {
+							//System.out.println("Failed!");
+							JOptionPane.showMessageDialog(null, "Fail to add journal information!");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null, "Please enter document title, volume number and chief editor!");
 					}
 				}
 				if (docType == 2) {
-					String[] authorArray = textField_AuthorName.getText().split(",");
-					for (int i = 0; i < authorArray.length; i++) {
-						Author author = new Author();
-						author.setAuName(authorArray[i]);
-						cp.addAuthor(author);
-					}
-					String[] descriptorArray = textField_Descriptor.getText().split(",");
-					for (int i = 0; i < descriptorArray.length; i++) {
-						cp.addDescriptor(descriptorArray[i]);
-					}
-					publisher.setPubName(textField_D_PublisherName.getText());
-					cp.setPublisher(publisher);
-					cp.setTitle(textField_D_Title.getText());
-					cp.setPubDate(textField_D_PDate.getText());
-					cp.setConDate(textField_CDate.getText());
-					cp.setConLocation(textField_CLocation.getText());
-					cp.setConEditor(textField_CEditor.getText());
-					if (UpdateDocument.newConferenceProceeding(cp)) {
-						System.out.println("Successful!");
-					} else {
-						System.out.println("Failed!");
+					if(textField_D_Title.getText().isEmpty() == false && textField_CDate.getText().isEmpty() == false
+							&& textField_CLocation.getText().isEmpty() == false){
+						String[] authorArray = textField_AuthorName.getText().split(",");
+						for (int i = 0; i < authorArray.length; i++) {
+							Author author = new Author();
+							author.setAuName(authorArray[i]);
+							cp.addAuthor(author);
+						}
+						String[] descriptorArray = textField_Descriptor.getText().split(",");
+						for (int i = 0; i < descriptorArray.length; i++) {
+							cp.addDescriptor(descriptorArray[i]);
+						}
+						publisher.setPubName(textField_D_PublisherName.getText());
+						cp.setPublisher(publisher);
+						cp.setTitle(textField_D_Title.getText());
+						cp.setPubDate(textField_D_PDate.getText());
+						cp.setConDate(textField_CDate.getText());
+						cp.setConLocation(textField_CLocation.getText());
+						cp.setConEditor(textField_CEditor.getText());
+						if (UpdateDocument.newConferenceProceeding(cp)) {
+							//System.out.println("Successful!");
+							JOptionPane.showMessageDialog(null, "Add conference proceeding information successfully!");
+						} else {
+							//System.out.println("Failed!");
+							JOptionPane.showMessageDialog(null, "Fail to add conference proceeding information!");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null, "Please enter document title, conference date and conference location!");
 					}
 				}
 			}
@@ -1008,6 +1056,7 @@ public class LibraryManagement extends JFrame {
 				Branch branch = new Branch();
 				String name = textField_Name.getText();
 				if ("".equals(name)) {
+					JOptionPane.showMessageDialog(null, "Please enter library name!");
 					return;
 				}
 				branch.setName(name);
@@ -1098,12 +1147,13 @@ public class LibraryManagement extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				String documentTitle = textField_C_DocId.getText();
 				if ("".equals(documentTitle)) {
+					JOptionPane.showMessageDialog(null, "Please enter document title!");
 					return;
 				}
 				List<Document> list = DocumentControl.getDocumentListByName(documentTitle);
 				Document doc;
 				if (list.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Do not find document with title:" + documentTitle, "Not Found",
+					JOptionPane.showMessageDialog(null, "Cannot find document with title:" + documentTitle, "Not Found",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				} else if (list.size() == 1) {
@@ -1128,12 +1178,13 @@ public class LibraryManagement extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				String branchName = textField_C_LibId.getText();
 				if ("".equals(branchName)) {
+					JOptionPane.showMessageDialog(null, "Please enter library branch name!");
 					return;
 				}
 				List<Branch> list = BranchControl.getBranchByName(branchName);
 				Branch lib;
 				if (list.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Do not find branch with name:" + branchName, "Not Found",
+					JOptionPane.showMessageDialog(null, "Cannot find branch with name:" + branchName, "Not Found",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				} else if (list.size() == 1) {
@@ -1161,7 +1212,7 @@ public class LibraryManagement extends JFrame {
 		layeredPane_Welcome.setBounds(148, 0, 780, 586);
 		layeredPane.add(layeredPane_Welcome);
 
-		JButton btnNewButton_new = new JButton("New");
+		JButton btnNewButton_new = new JButton("NEW");
 		btnNewButton_new.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_new.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1172,7 +1223,7 @@ public class LibraryManagement extends JFrame {
 			}
 		});
 
-		JButton btnNewButton_br = new JButton("Borrow/reserve");
+		JButton btnNewButton_br = new JButton("CIRCULATION");
 		btnNewButton_br.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_br.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1198,7 +1249,7 @@ public class LibraryManagement extends JFrame {
 		btnNewButton_new.setBounds(6, 133, 134, 39);
 		layeredPane.add(btnNewButton_new);
 
-		JButton btnNewButton_quit = new JButton("Quit");
+		JButton btnNewButton_quit = new JButton("QUIT");
 		btnNewButton_quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int choice = JOptionPane.showOptionDialog(null, "You really want to quit?", "Quit?",
@@ -1209,7 +1260,7 @@ public class LibraryManagement extends JFrame {
 			}
 		});
 
-		JButton btnNewButton_update = new JButton("Update");
+		JButton btnNewButton_update = new JButton("UPDATE");
 		btnNewButton_update.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnNewButton_update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

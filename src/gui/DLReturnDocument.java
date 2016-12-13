@@ -13,6 +13,9 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class DLReturnDocument extends JDialog {
 	private static final long serialVersionUID = 721302519168599361L;
@@ -45,14 +48,16 @@ public class DLReturnDocument extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JButton btnClose = new JButton("Close");
+			JButton btnClose = new JButton("CLOSE");
+			btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+			btnClose.setForeground(Color.BLUE);
 			btnClose.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					clickBTNClose();
 				}
 			});
-			btnClose.setBounds(559, 344, 97, 25);
+			btnClose.setBounds(535, 344, 97, 34);
 			contentPanel.add(btnClose);
 		}
 
@@ -64,38 +69,44 @@ public class DLReturnDocument extends JDialog {
 		table.setModel(new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Name", "DueDate" }));
 		scrollPane.setViewportView(table);
 
-		JButton btnReturn = new JButton("Return");
+		JButton btnReturn = new JButton("RETURN");
+		btnReturn.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnReturn.setForeground(Color.BLUE);
 		btnReturn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickBTNReturn();
 			}
 		});
-		btnReturn.setBounds(449, 344, 97, 25);
+		btnReturn.setBounds(421, 344, 97, 34);
 		contentPanel.add(btnReturn);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(94, 12, 480, 25);
+		panel.setBorder(new LineBorder(Color.GRAY));
+		panel.setBounds(36, 10, 596, 47);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 
 		txtReaderId = new JTextField();
-		txtReaderId.setBounds(78, 1, 116, 22);
+		txtReaderId.setBounds(78, 10, 118, 26);
 		panel.add(txtReaderId);
 		txtReaderId.setColumns(10);
 
 		JLabel lblReaderId = new JLabel("Reader Id");
-		lblReaderId.setBounds(0, 4, 56, 16);
+		lblReaderId.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReaderId.setBounds(10, 14, 54, 19);
 		panel.add(lblReaderId);
 
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnSearch.setForeground(Color.BLUE);
 		btnSearch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickBTNSearch();
 			}
 		});
-		btnSearch.setBounds(383, 0, 97, 25);
+		btnSearch.setBounds(494, 10, 92, 27);
 		panel.add(btnSearch);
 	}
 }
