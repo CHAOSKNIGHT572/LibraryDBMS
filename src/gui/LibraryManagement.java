@@ -41,6 +41,8 @@ import vo.Reader;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JRadioButton;
@@ -101,6 +103,17 @@ public class LibraryManagement extends JFrame {
 	String borResReaderId = null;
 	List<Document> borResDocList = null;
 
+	public static boolean isValidDate(String inDate) {
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    dateFormat.setLenient(false);
+	    try {
+	      dateFormat.parse(inDate.trim());
+	    } catch (ParseException pe) {
+	      return false;
+	    }
+	    return true;
+	  }
+	
 	/**
 	 * Launch the application.
 	 */
@@ -786,14 +799,29 @@ public class LibraryManagement extends JFrame {
 						publisher.setPubName(textField_D_PublisherName.getText());
 						book.setPublisher(publisher);
 						book.setTitle(textField_D_Title.getText());
-						book.setPubDate(textField_D_PDate.getText());
-						book.setIsbn(textField_D_ISBN.getText());
-						if (UpdateDocument.newBook(book)) {
-							// System.out.println("Successful!");
-							JOptionPane.showMessageDialog(null, "Add book information successfully!");
-						} else {
-							// System.out.println("Failed!");
-							JOptionPane.showMessageDialog(null, "Fail to add book information!");
+						if(textField_D_PDate.getText().isEmpty() == false){
+							if(isValidDate(textField_D_PDate.getText()) == true){
+								book.setPubDate(textField_D_PDate.getText());
+							}else{
+								JOptionPane.showMessageDialog(null, "Date format is wrong! (yyyy-mm-dd)");
+							}
+							book.setIsbn(textField_D_ISBN.getText());
+							if (UpdateDocument.newBook(book) && isValidDate(textField_D_PDate.getText()) == true) {
+								// System.out.println("Successful!");
+								JOptionPane.showMessageDialog(null, "Add book information successfully!");
+							} else {
+								// System.out.println("Failed!");
+								JOptionPane.showMessageDialog(null, "Fail to add book information!");
+							}
+						}else{
+							book.setIsbn(textField_D_ISBN.getText());
+							if (UpdateDocument.newBook(book)) {
+								// System.out.println("Successful!");
+								JOptionPane.showMessageDialog(null, "Add book information successfully!");
+							} else {
+								// System.out.println("Failed!");
+								JOptionPane.showMessageDialog(null, "Fail to add book information!");
+							}
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Please enter both document title and ISBN!");
@@ -817,17 +845,35 @@ public class LibraryManagement extends JFrame {
 						publisher.setPubName(textField_D_PublisherName.getText());
 						volume.setPublisher(publisher);
 						volume.setTitle(textField_D_Title.getText());
-						volume.setPubDate(textField_D_PDate.getText());
-						volume.setVolNum(textField_D_VolumeNo.getText());
-						ChiefEditor editor = new ChiefEditor();
-						editor.setCeName(textField_D_ChiefEditor.getText());
-						volume.setEditor(editor);
-						if (UpdateDocument.newJournalVolume(volume)) {
-							// System.out.println("Successful!");
-							JOptionPane.showMessageDialog(null, "Add journal information successfully!");
-						} else {
-							// System.out.println("Failed!");
-							JOptionPane.showMessageDialog(null, "Fail to add journal information!");
+						if(textField_D_PDate.getText().isEmpty() == false){
+							if(isValidDate(textField_D_PDate.getText()) == true){
+								volume.setPubDate(textField_D_PDate.getText());
+							}else{
+								JOptionPane.showMessageDialog(null, "Date format is wrong! (yyyy-mm-dd)");
+							}
+							volume.setVolNum(textField_D_VolumeNo.getText());
+							ChiefEditor editor = new ChiefEditor();
+							editor.setCeName(textField_D_ChiefEditor.getText());
+							volume.setEditor(editor);
+							if (UpdateDocument.newJournalVolume(volume) && isValidDate(textField_D_PDate.getText()) == true) {
+								// System.out.println("Successful!");
+								JOptionPane.showMessageDialog(null, "Add journal information successfully!");
+							} else {
+								// System.out.println("Failed!");
+								JOptionPane.showMessageDialog(null, "Fail to add journal information!");
+							}
+						}else{
+							volume.setVolNum(textField_D_VolumeNo.getText());
+							ChiefEditor editor = new ChiefEditor();
+							editor.setCeName(textField_D_ChiefEditor.getText());
+							volume.setEditor(editor);
+							if (UpdateDocument.newJournalVolume(volume)) {
+								// System.out.println("Successful!");
+								JOptionPane.showMessageDialog(null, "Add journal information successfully!");
+							} else {
+								// System.out.println("Failed!");
+								JOptionPane.showMessageDialog(null, "Fail to add journal information!");
+							}
 						}
 					} else {
 						JOptionPane.showMessageDialog(null,
@@ -851,16 +897,34 @@ public class LibraryManagement extends JFrame {
 						publisher.setPubName(textField_D_PublisherName.getText());
 						proceeding.setPublisher(publisher);
 						proceeding.setTitle(textField_D_Title.getText());
-						proceeding.setPubDate(textField_D_PDate.getText());
-						proceeding.setConDate(textField_CDate.getText());
-						proceeding.setConLocation(textField_CLocation.getText());
-						proceeding.setConEditor(textField_CEditor.getText());
-						if (UpdateDocument.newConferenceProceeding(proceeding)) {
-							// System.out.println("Successful!");
-							JOptionPane.showMessageDialog(null, "Add conference proceeding information successfully!");
-						} else {
-							// System.out.println("Failed!");
-							JOptionPane.showMessageDialog(null, "Fail to add conference proceeding information!");
+						if(textField_D_PDate.getText().isEmpty() == false){
+							if(isValidDate(textField_D_PDate.getText()) == true){
+								proceeding.setPubDate(textField_D_PDate.getText());
+							}else{
+								JOptionPane.showMessageDialog(null, "Date format is wrong! (yyyy-mm-dd)");
+							}	
+							proceeding.setConDate(textField_CDate.getText());
+							proceeding.setConLocation(textField_CLocation.getText());
+							proceeding.setConEditor(textField_CEditor.getText());
+							if (UpdateDocument.newConferenceProceeding(proceeding) && isValidDate(textField_D_PDate.getText()) == true) {
+								// System.out.println("Successful!");
+								JOptionPane.showMessageDialog(null, "Add conference proceeding information successfully!");
+							} else {
+								// System.out.println("Failed!");
+								JOptionPane.showMessageDialog(null, "Fail to add conference proceeding information!");
+							}
+						}else{
+							proceeding.setPubDate(textField_D_PDate.getText());
+							proceeding.setConDate(textField_CDate.getText());
+							proceeding.setConLocation(textField_CLocation.getText());
+							proceeding.setConEditor(textField_CEditor.getText());
+							if (UpdateDocument.newConferenceProceeding(proceeding)) {
+								// System.out.println("Successful!");
+								JOptionPane.showMessageDialog(null, "Add conference proceeding information successfully!");
+							} else {
+								// System.out.println("Failed!");
+								JOptionPane.showMessageDialog(null, "Fail to add conference proceeding information!");
+							}
 						}
 					} else {
 						JOptionPane.showMessageDialog(null,
