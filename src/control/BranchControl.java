@@ -31,4 +31,12 @@ public class BranchControl {
 		}
 		return list;
 	}
+
+	public static Branch getBranchById(String id) {
+		return null;
+	}
+
+	public static boolean updateInfo(Branch branch) {
+		return false;
+	}
 }

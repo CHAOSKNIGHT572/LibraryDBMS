@@ -168,6 +168,176 @@ public class LibraryManagement extends JFrame {
 		JournalVolume journalVolume = new JournalVolume();
 		ConferenceProceeding cp = new ConferenceProceeding();
 
+		JLayeredPane layeredPane_Update = new JLayeredPane();
+		layeredPane_Update.setBounds(148, 6, 774, 580);
+		layeredPane.add(layeredPane_Update);
+		layeredPane_Update.setVisible(false);
+
+		JTabbedPane tabbedPane_Update = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_Update.setBounds(6, 17, 762, 557);
+		layeredPane_Update.add(tabbedPane_Update);
+
+		JPanel panel_U_Reader = new JPanel();
+		tabbedPane_Update.addTab("Reader", null, panel_U_Reader, null);
+
+		JLabel lblReaderid_1 = new JLabel("Reader Id");
+		lblReaderid_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReaderid_1.setBounds(38, 62, 70, 15);
+
+		JLabel lblType_1 = new JLabel("Type");
+		lblType_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblType_1.setBounds(163, 62, 53, 15);
+
+		JLabel lblReadname = new JLabel("Reader Name");
+		lblReadname.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblReadname.setBounds(286, 62, 70, 15);
+
+		JLabel lblAddress = new JLabel("Address");
+		lblAddress.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblAddress.setBounds(407, 62, 63, 15);
+
+		JLabel lblPhonenum_1 = new JLabel("Phone No.");
+		lblPhonenum_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblPhonenum_1.setBounds(522, 62, 70, 15);
+
+		textFieldRReaderId = new JTextField();
+		textFieldRReaderId.setBounds(28, 87, 93, 39);
+		textFieldRReaderId.setColumns(10);
+
+		textFieldRType = new JTextField();
+		textFieldRType.setBounds(149, 87, 93, 39);
+		textFieldRType.setColumns(10);
+
+		textFieldRReaderName = new JTextField();
+		textFieldRReaderName.setBounds(274, 87, 93, 39);
+		textFieldRReaderName.setColumns(10);
+
+		textFieldAddress = new JTextField();
+		textFieldAddress.setBounds(395, 87, 93, 39);
+		textFieldAddress.setColumns(10);
+
+		textFieldPhoneNum = new JTextField();
+		textFieldPhoneNum.setBounds(512, 87, 93, 39);
+		textFieldPhoneNum.setColumns(10);
+
+		JButton btnUpdate_2 = new JButton("UPDATE");
+		btnUpdate_2.setForeground(Color.BLUE);
+		btnUpdate_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String id = textFieldRReaderId.getText();
+
+				if ("".equals(id)) {
+					System.out.println("Enter Id");
+				}
+				Reader reader = ReaderControl.getReaderById(id);
+				if (reader == null) {
+					System.out.println("Not Found");
+				}
+
+				String name = textFieldRReaderName.getText();
+				if (!"".equals(name)) {
+					reader.setName(name);
+				}
+
+				String address = textFieldAddress.getText();
+				if (!"".equals(address)) {
+					reader.setAddress(address);
+				}
+
+				String phone = textFieldPhoneNum.getText();
+				if (!"".equals(phone)) {
+					reader.setPhoneNum(phone);
+				}
+				if (ReaderControl.updateInfo(reader)) {
+					System.out.println("Successful");
+				} else {
+					System.out.println("Failed");
+				}
+			}
+		});
+		btnUpdate_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnUpdate_2.setBounds(633, 90, 93, 39);
+		panel_U_Reader.setLayout(null);
+		panel_U_Reader.add(lblReaderid_1);
+		panel_U_Reader.add(textFieldRReaderId);
+		panel_U_Reader.add(lblType_1);
+		panel_U_Reader.add(lblReadname);
+		panel_U_Reader.add(textFieldRType);
+		panel_U_Reader.add(textFieldRReaderName);
+		panel_U_Reader.add(textFieldAddress);
+		panel_U_Reader.add(lblAddress);
+		panel_U_Reader.add(btnUpdate_2);
+		panel_U_Reader.add(textFieldPhoneNum);
+		panel_U_Reader.add(lblPhonenum_1);
+
+		JPanel panel_U_Branch = new JPanel();
+		tabbedPane_Update.addTab("Library Branch", null, panel_U_Branch, null);
+
+		JLabel lblLibid_2 = new JLabel("Library Id");
+		lblLibid_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblLibid_2.setBounds(81, 64, 50, 15);
+
+		textFieldLibId = new JTextField();
+		textFieldLibId.setBounds(62, 89, 111, 39);
+		textFieldLibId.setColumns(10);
+
+		JLabel lblNewLabel_5 = new JLabel("Library Name");
+		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblNewLabel_5.setBounds(249, 64, 74, 15);
+
+		textFieldLibName = new JTextField();
+		textFieldLibName.setBounds(235, 89, 111, 39);
+		textFieldLibName.setColumns(10);
+
+		JLabel lblLocation = new JLabel("Library Location");
+		lblLocation.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblLocation.setBounds(418, 64, 87, 15);
+
+		textFieldLibLocation = new JTextField();
+		textFieldLibLocation.setBounds(408, 89, 111, 39);
+		textFieldLibLocation.setColumns(10);
+		// TODO: update library branch
+		JButton btnUpdate_1 = new JButton("UPDATE");
+		btnUpdate_1.setForeground(Color.BLUE);
+		btnUpdate_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				String id = textFieldLibId.getText();
+				if ("".equals(id)) {
+					System.out.println("Enter Id");
+					return;
+				}
+				Branch branch = BranchControl.getBranchById(id);
+				if (branch == null) {
+					System.out.println("Not Found");
+					return;
+				}
+				String name = textFieldLibName.getText();
+				if (!"".equals(name)) {
+					branch.setName(name);
+				}
+
+				String location = textFieldLibLocation.getText();
+				if (!"".equals(location)) {
+					branch.setLocation(location);
+				}
+				if (BranchControl.updateInfo(branch)) {
+					System.out.println("Successful");
+				} else {
+					System.out.println("Failed");
+				}
+			}
+		});
+		btnUpdate_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnUpdate_1.setBounds(581, 90, 111, 37);
+		panel_U_Branch.setLayout(null);
+		panel_U_Branch.add(textFieldLibId);
+		panel_U_Branch.add(textFieldLibName);
+		panel_U_Branch.add(textFieldLibLocation);
+		panel_U_Branch.add(btnUpdate_1);
+		panel_U_Branch.add(lblLibid_2);
+		panel_U_Branch.add(lblNewLabel_5);
+		panel_U_Branch.add(lblLocation);
+
 		JLayeredPane layeredPane_BR = new JLayeredPane();
 		layeredPane_BR.setBounds(148, 6, 767, 580);
 		layeredPane.add(layeredPane_BR);
@@ -982,155 +1152,6 @@ public class LibraryManagement extends JFrame {
 		panel_N_Copy.add(btnSearchLibName);
 		layeredPane_New.setVisible(false);
 		setEmptyTable();
-
-		JLayeredPane layeredPane_Update = new JLayeredPane();
-		layeredPane_Update.setBounds(148, 6, 774, 580);
-		layeredPane.add(layeredPane_Update);
-		layeredPane_Update.setVisible(false);
-
-		JTabbedPane tabbedPane_Update = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_Update.setBounds(6, 17, 762, 557);
-		layeredPane_Update.add(tabbedPane_Update);
-
-		JPanel panel_U_Reader = new JPanel();
-		tabbedPane_Update.addTab("Reader", null, panel_U_Reader, null);
-
-		JLabel lblReaderid_1 = new JLabel("Reader Id");
-		lblReaderid_1.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblReaderid_1.setBounds(38, 62, 70, 15);
-
-		JLabel lblType_1 = new JLabel("Type");
-		lblType_1.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblType_1.setBounds(163, 62, 53, 15);
-
-		JLabel lblReadname = new JLabel("Reader Name");
-		lblReadname.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblReadname.setBounds(286, 62, 70, 15);
-
-		JLabel lblAddress = new JLabel("Address");
-		lblAddress.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblAddress.setBounds(407, 62, 63, 15);
-
-		JLabel lblPhonenum_1 = new JLabel("Phone No.");
-		lblPhonenum_1.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblPhonenum_1.setBounds(522, 62, 70, 15);
-
-		textFieldRReaderId = new JTextField();
-		textFieldRReaderId.setBounds(28, 87, 93, 39);
-		textFieldRReaderId.setColumns(10);
-
-		textFieldRType = new JTextField();
-		textFieldRType.setBounds(149, 87, 93, 39);
-		textFieldRType.setColumns(10);
-
-		textFieldRReaderName = new JTextField();
-		textFieldRReaderName.setBounds(274, 87, 93, 39);
-		textFieldRReaderName.setColumns(10);
-
-		textFieldAddress = new JTextField();
-		textFieldAddress.setBounds(395, 87, 93, 39);
-		textFieldAddress.setColumns(10);
-
-		textFieldPhoneNum = new JTextField();
-		textFieldPhoneNum.setBounds(512, 87, 93, 39);
-		textFieldPhoneNum.setColumns(10);
-
-		// ------------
-		Reader rd = new Reader(); // wrong
-
-		// TODO: update reader
-		JButton btnUpdate_2 = new JButton("UPDATE");
-		btnUpdate_2.setForeground(Color.BLUE);
-		btnUpdate_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String readerId = textFieldRReaderId.getText();
-				if (readerId.isEmpty() == false) {
-					if (readerId == rd.getId()) {
-						rd.setType(textFieldRType.getText());
-						rd.setName(textFieldRReaderName.getText());
-						rd.setAddress(textFieldAddress.getText());
-						rd.setPhoneNum(textFieldPhoneNum.getText());
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Reader Id cannot be empty.", "Check Input",
-							JOptionPane.WARNING_MESSAGE);
-				}
-				// System.out.println(readerId);
-			}
-		});
-		btnUpdate_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		btnUpdate_2.setBounds(633, 90, 93, 39);
-		panel_U_Reader.setLayout(null);
-		panel_U_Reader.add(lblReaderid_1);
-		panel_U_Reader.add(textFieldRReaderId);
-		panel_U_Reader.add(lblType_1);
-		panel_U_Reader.add(lblReadname);
-		panel_U_Reader.add(textFieldRType);
-		panel_U_Reader.add(textFieldRReaderName);
-		panel_U_Reader.add(textFieldAddress);
-		panel_U_Reader.add(lblAddress);
-		panel_U_Reader.add(btnUpdate_2);
-		panel_U_Reader.add(textFieldPhoneNum);
-		panel_U_Reader.add(lblPhonenum_1);
-
-		JPanel panel_U_Branch = new JPanel();
-		tabbedPane_Update.addTab("Library Branch", null, panel_U_Branch, null);
-
-		JLabel lblLibid_2 = new JLabel("Library Id");
-		lblLibid_2.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblLibid_2.setBounds(81, 64, 50, 15);
-
-		textFieldLibId = new JTextField();
-		textFieldLibId.setBounds(62, 89, 111, 39);
-		textFieldLibId.setColumns(10);
-
-		JLabel lblNewLabel_5 = new JLabel("Library Name");
-		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNewLabel_5.setBounds(249, 64, 74, 15);
-
-		textFieldLibName = new JTextField();
-		textFieldLibName.setBounds(235, 89, 111, 39);
-		textFieldLibName.setColumns(10);
-
-		JLabel lblLocation = new JLabel("Library Location");
-		lblLocation.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblLocation.setBounds(418, 64, 87, 15);
-
-		textFieldLibLocation = new JTextField();
-		textFieldLibLocation.setBounds(408, 89, 111, 39);
-		textFieldLibLocation.setColumns(10);
-
-		// ------------
-		Branch br = new Branch(); // wrong
-		// TODO: update library branch
-		JButton btnUpdate_1 = new JButton("UPDATE");
-		btnUpdate_1.setForeground(Color.BLUE);
-		btnUpdate_1.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent arg0) {
-				String lb = textFieldLibId.getText();
-				if (lb.isEmpty() == false) {
-					if (lb == br.getId()) {
-						br.setName(textFieldLibName.getText());
-						br.setLocation(textFieldLibLocation.getText());
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Library Id cannot be empty.", "Check Input",
-							JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		btnUpdate_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		btnUpdate_1.setBounds(581, 90, 111, 37);
-		panel_U_Branch.setLayout(null);
-		panel_U_Branch.add(textFieldLibId);
-		panel_U_Branch.add(textFieldLibName);
-		panel_U_Branch.add(textFieldLibLocation);
-		panel_U_Branch.add(btnUpdate_1);
-		panel_U_Branch.add(lblLibid_2);
-		panel_U_Branch.add(lblNewLabel_5);
-		panel_U_Branch.add(lblLocation);
-
-		// ConferenceProceeding cpd = new ConferenceProceeding();
 
 		JLayeredPane layeredPane_Welcome = new JLayeredPane();
 		layeredPane_Welcome.setBounds(148, 0, 780, 586);

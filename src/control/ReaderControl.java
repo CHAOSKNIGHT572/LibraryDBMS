@@ -31,6 +31,9 @@ public class ReaderControl {
 			if (rs.next()) {
 				Reader reader = new Reader();
 				reader.setId(rs.getString(1));
+				reader.setName(rs.getString(2));
+				reader.setAddress(rs.getString(4));
+				reader.setPhoneNum(rs.getString(5));
 				return reader;
 			}
 		} catch (SQLException e) {
@@ -56,5 +59,10 @@ public class ReaderControl {
 			}
 		}
 		return list;
+	}
+
+	public static boolean updateInfo(Reader reader) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
